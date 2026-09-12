@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* stylelint-disable-next-line property-no-vendor-prefix -- needed for
+     older iOS Safari, which doesn't support the unprefixed property below */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}

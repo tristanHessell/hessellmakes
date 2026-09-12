@@ -1,0 +1,66 @@
+/*
+  Theme tokens derived from the HessellMakes colour guide:
+  Aussie Blue #1F305E, English Red #C93C47, Cream #CEB99F, Black #000000, White #FFFFFF.
+
+  Light mode: white/cream surfaces with Aussie Blue text and buttons.
+
+  Dark mode: near-black surfaces (matching the guide's black background
+  variant) with cream/white text, and Cream used for buttons so they stand
+  out against the dark background.
+
+  English Red is reserved for negative/destructive actions only (e.g. a
+  "delete" button) via `--color-danger` — it is not used for regular buttons
+  or interactive states.
+*/
+
+:root {
+  color-scheme: light dark;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 8px;
+  --brand-aussie-blue: #1f305e;
+  --brand-english-red: #c93c47;
+  --brand-cream: #ceb99f;
+  --brand-black: #000;
+  --brand-white: #fff;
+}
+
+[data-theme="light"] {
+  --color-bg: var(--brand-white);
+  --color-surface: #f7f2ec;
+  --color-surface-strong: var(--brand-cream);
+  --color-text: var(--brand-aussie-blue);
+  --color-text-muted: #5a6a8f;
+  --color-heading: var(--brand-aussie-blue);
+  --color-primary: var(--brand-aussie-blue);
+  --color-primary-text: var(--brand-white);
+  --color-danger: var(--brand-english-red);
+  --color-danger-text: var(--brand-white);
+  --color-border: var(--brand-cream);
+  --color-logo: var(--brand-aussie-blue);
+}
+
+[data-theme="dark"] {
+  --color-bg: #14171c;
+  --color-surface: var(--brand-aussie-blue);
+  --color-surface-strong: #24345f;
+  --color-text: #f2ece3;
+  --color-text-muted: var(--brand-cream);
+  --color-heading: var(--brand-white);
+  --color-primary: var(--brand-cream);
+  --color-primary-text: var(--brand-aussie-blue);
+  --color-danger: var(--brand-english-red);
+  --color-danger-text: var(--brand-white);
+  --color-border: #33406b;
+  --color-logo: var(--brand-cream);
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}

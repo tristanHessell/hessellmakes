@@ -1,0 +1,61 @@
+/* Shared layout chrome (header, brand, footer) used by AppLayout across all
+   routes. Page-specific styles live in src/pages/*.module.css. */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-logo);
+}
+
+.wordmark {
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-heading);
+}
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* Phone-sized screens: tighten up the header/footer chrome. */
+@media (width <= 640px) {
+  .header {
+    padding: 1rem 1.25rem;
+  }
+
+  .wordmark {
+    font-size: 1rem;
+  }
+
+  .footer {
+    padding: 1.25rem;
+  }
+}
+
+/* Very narrow phones: drop the wordmark text, keep the icon, so the header
+   actions (hamburger nav) always have room. */
+@media (width <= 380px) {
+  .wordmark {
+    display: none;
+  }
+}

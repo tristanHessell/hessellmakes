@@ -1,0 +1,152 @@
+.hero {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw + 1rem, 2.75rem);
+  line-height: 1.1;
+  color: var(--color-heading);
+  margin: 0 0 1rem;
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 2rem;
+}
+
+.ctaGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ctaPrimary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.ctaPrimary:hover {
+  opacity: 0.9;
+}
+
+.ctaSecondary {
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.ctaSecondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.featureCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.featureCard h2 {
+  color: var(--color-heading);
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.featureCard p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.palette {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 2rem 4rem;
+}
+
+.palette h2 {
+  color: var(--color-heading);
+  font-size: 1.125rem;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 110px;
+}
+
+.swatchChip {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+}
+
+.swatchName {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.swatchHex {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Phone-sized screens: tighten up section padding and CTA width. */
+@media (width <= 640px) {
+  .hero {
+    padding: 3rem 1.25rem 2rem;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta {
+    text-align: center;
+  }
+
+  .features {
+    padding: 1.25rem;
+  }
+
+  .palette {
+    padding: 1rem 1.25rem 2.5rem;
+  }
+}

@@ -1,0 +1,71 @@
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import type { ReactNode } from "react";
+import { AppLayout } from "./AppLayout";
+import { ThemeProvider } from "../theme/ThemeContext";
+
+function renderAppLayout(page: ReactNode = <p>Page content</p>) {
+  return render(
+    <ThemeProvider>
+      <MemoryRouter initialEntries={["/"]}>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={page} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </ThemeProvider>,
+  );
+}
+
+describe("AppLayout", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    document.documentElement.removeAttribute("data-theme");
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
+    document.documentElement.removeAttribute("data-theme");
+  });
+
+  it("renders the brand name and the routed page content", () => {
+    renderAppLayout();
+
+    expect(screen.getByText("HESSELL")).toBeInTheDocument();
+    expect(screen.getByText("Page content")).toBeInTheDocument();
+  });
+
+  it("renders the footer copyright notice", () => {
+    renderAppLayout();
+
+    expect(
+      screen.getByText(new RegExp(`${new Date().getFullYear()}.*HessellMakes`)),
+    ).toBeInTheDocument();
+  });
+
+  it("switches theme via the toggle inside the hamburger menu", () => {
+    renderAppLayout();
+
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+    fireEvent.click(
+      screen.getByRole("button", { name: /switch to dark mode/i }),
+    );
+
+    expect(
+      screen.getByRole("button", { name: /switch to light mode/i }),
+    ).toBeInTheDocument();
+    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+  });
+
+  it("opens the hamburger navigation menu and shows the nav links", () => {
+    renderAppLayout();
+
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+
+    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Gallery" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contact" })).toBeInTheDocument();
+  });
+});

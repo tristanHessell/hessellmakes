@@ -1,0 +1,96 @@
+.navMenu {
+  position: relative;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-text);
+  transition: background-color 0.15s ease;
+}
+
+.toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.toggle:hover .bar {
+  background-color: var(--color-primary);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 10;
+  min-width: 180px;
+  max-width: calc(100vw - 2.5rem);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 18%);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0.15s ease;
+}
+
+.listOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover,
+.linkActive {
+  background-color: var(--color-surface-strong);
+  color: var(--color-primary);
+}
+
+.divider {
+  height: 1px;
+  margin: 0.375rem 0.25rem;
+  background-color: var(--color-border);
+}
