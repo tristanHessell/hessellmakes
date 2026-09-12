@@ -35,7 +35,8 @@
     "unmounts",
     "combobox",
     "hessellmakes",
-    "wordmark"
+    "wordmark",
+    "reflow"
   ],
   "ignorePaths": [
     "node_modules/**",
