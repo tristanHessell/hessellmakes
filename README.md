@@ -93,17 +93,15 @@ npm run validate
 
 ## Continuous integration
 
-The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow. This workflow runs `npm run validate` — the full check above, with the tests — on each push to `main` and on each pull request against `main`. The workflow first installs Chromium through Playwright on the runner, since the tests need a real browser, not jsdom (see [Tests](#tests)).
+The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow. This workflow runs `npm run validate` — the full check above, with the tests — on each pull request against `main`. The workflow first installs Chromium through Playwright on the runner, since the tests need a real browser, not jsdom (see [Tests](#tests)).
 
-This workflow shows a pass or fail check on each commit and each pull request. There are 2 ways to use this check to stop bad code from going live:
+This workflow shows a pass or fail check on each pull request. To block a bad pull request from merging, require a pull request for each change to `main`, and set this workflow as a required status check:
 
-- **Block merges to `main`.** Require a pull request for each change to `main`, and set this workflow as a required status check. Go to **Settings → Branches → Add branch protection rule** for `main`. Turn on "Require a pull request before merging". Turn on "Require status checks to pass before merging". Select the `validate` check.
-- **Allow commits to `main`, but gate the deploy itself.** This repository uses this option. On a push to `main`, after every other step passes, including the full test suite, the workflow builds the site and uploads `dist/` straight to Netlify with the Netlify CLI. The workflow does **not** use a Netlify build hook — a build hook needs Netlify's own "Builds" feature active for the site, and that feature also auto-builds on every push on its own, which would deploy each commit twice. Uploading a pre-built `dist/` folder needs no build step on Netlify's side at all, so this repository's Netlify site can stay fully unlinked from Netlify's own continuous deployment:
-  1. In Netlify, go to **Site configuration → Build & deploy → Continuous deployment**, and disconnect the linked Git repository (or leave it unlinked, if the site was never linked to begin with).
-  2. Go to your Netlify user avatar → **User settings → Applications → New access token**. Copy the token.
-  3. In the GitHub repository, go to **Settings → Secrets and variables → Actions → New repository secret**. Name the secret `NETLIFY_AUTH_TOKEN`. Paste the token as the value.
+1. Go to **Settings → Branches → Add branch protection rule** for `main`.
+2. Turn on "Require a pull request before merging".
+3. Turn on "Require status checks to pass before merging". Select the `validate` check.
 
-  The site ID itself is not a secret — [.github/workflows/validate.yml](.github/workflows/validate.yml) uses the same ID that is already public in this README's Netlify badge URL above. With this setup, a commit can land on `main` at any time — nothing about a merge is blocked. A commit that fails `npm run validate` never reaches the deploy step, so it never reaches the live site.
+With this setup, each change to `main` goes through a pull request, and the `validate` check must pass before GitHub allows the merge. Netlify's own Git integration then deploys `main` as usual, so a broken change never reaches `main`, and never reaches the live site.
 
 ## Theming (light / dark mode)
 
