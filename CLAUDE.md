@@ -18,6 +18,17 @@ This project is a software project, not an aircraft maintenance manual. Do not r
 - Do not use idioms or slang.
 - Use a numbered or bulleted list for a sequence of steps.
 
+## Commit message format
+
+Write each commit message in the Conventional Commits format: `type(scope): description`.
+
+- Use one of these types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, or `chore`.
+- Add a scope in parentheses when it helps, for example `fix(workflow):` or `feat(gallery):`. Skip the scope when the change touches many areas.
+- Write the description in the imperative mood, in lower case, with no full stop at the end — for example `fix(workflow): remove invalid secrets reference from if condition`.
+- Add `!` after the type or scope for a breaking change, for example `feat!: drop support for Node 18`, and explain the break in a `BREAKING CHANGE:` footer.
+- Add a body when the summary line needs more context. Write the body in the ASD-STE100 style above, and explain why the change was made, not just what changed.
+- Keep the attribution footer from the system instructions, for example `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`, as the last line.
+
 ## Commands
 
 ```bash
