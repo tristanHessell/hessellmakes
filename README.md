@@ -39,7 +39,7 @@ npm run preview
 
 Upload the entire contents of `dist/` to your CDN/static host. No server-side runtime is required — it's plain HTML/CSS/JS.
 
-Because routing uses real URLs (see [Pages & navigation](#pages--navigation)), the host must be configured with an SPA fallback rewrite: any path that doesn't match a real file (e.g. `/gallery`, `/contact`) should serve `dist/index.html` instead of 404ing, so React Router can take over and render the right page. Most static hosts and CDNs support this (a "rewrite all to index.html" or "single-page app" rule).
+Because routing uses real URLs (see [Pages & navigation](#pages--navigation)), the host must be configured with an SPA fallback rewrite: any path that doesn't match a real file (e.g. `/gallery`, `/contact`) should serve `dist/index.html` instead of 404ing, so React Router can take over and render the right page. Most static hosts and CDNs support this (a "rewrite all to index.html" or "single-page app" rule). `public/_redirects` already provides this rule for Netlify (and Cloudflare Pages, which also honours it) — it's copied to `dist/_redirects` on build automatically.
 
 ## Tests
 
