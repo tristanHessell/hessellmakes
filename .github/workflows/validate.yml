@@ -40,10 +40,12 @@ jobs:
       # repo secret (Netlify: Site configuration → Build & deploy → Build
       # hooks → Add build hook).
       - name: Trigger Netlify deploy
-        if: |
-          github.ref == 'refs/heads/main' &&
-          github.event_name == 'push' &&
-          secrets.NETLIFY_BUILD_HOOK_URL != ''
-        run: curl -fsS -X POST "$NETLIFY_BUILD_HOOK_URL"
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          if [ -z "$NETLIFY_BUILD_HOOK_URL" ]; then
+            echo "NETLIFY_BUILD_HOOK_URL secret not set yet — skipping deploy trigger."
+            exit 0
+          fi
+          curl -fsS -X POST "$NETLIFY_BUILD_HOOK_URL"
         env:
           NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
