@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent } from "react";
+import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Gallery.module.css";
@@ -38,6 +38,16 @@ export function Gallery() {
     }
   }
 
+  function handleDialogKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPrevious();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showNext();
+    }
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.intro}>
@@ -69,6 +79,7 @@ export function Gallery() {
         aria-labelledby="ball-dialog-title"
         onClose={() => setSelectedIndex(null)}
         onClick={handleBackdropClick}
+        onKeyDown={handleDialogKeyDown}
       >
         {selectedBall && (
           <div className={styles.dialogContent}>

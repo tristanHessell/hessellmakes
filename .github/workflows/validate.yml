@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Tests run in a real headless Chromium via Playwright, not jsdom —
+      # see CLAUDE.md.
+      - run: npx playwright install --with-deps chromium
+
+      # Runs lint, lint:css, format:check, spellcheck, and the test suite —
+      # the same command used locally before considering work done.
+      - run: npm run validate
+
+      # Netlify's own auto-deploy-on-push is turned off for this site;
+      # deploys are triggered only from here, so a push to main that fails
+      # validate never reaches production. Requires a NETLIFY_BUILD_HOOK_URL
+      # repo secret (Netlify: Site configuration → Build & deploy → Build
+      # hooks → Add build hook).
+      - name: Trigger Netlify deploy
+        if: |
+          github.ref == 'refs/heads/main' &&
+          github.event_name == 'push' &&
+          secrets.NETLIFY_BUILD_HOOK_URL != ''
+        run: curl -fsS -X POST "$NETLIFY_BUILD_HOOK_URL"
+        env:
+          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}

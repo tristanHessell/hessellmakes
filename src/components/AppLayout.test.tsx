@@ -54,12 +54,15 @@ describe("AppLayout", () => {
     ).toBeInTheDocument();
   });
 
-  it("switches theme via the toggle inside the hamburger menu", () => {
+  it("switches theme via the toggle inside the hamburger menu", async () => {
     renderAppLayout();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+    // The dropdown fades/flips visibility in via a CSS transition, so the
+    // toggle isn't in the accessibility tree the instant the class changes —
+    // findByRole retries until the transition has actually applied.
     fireEvent.click(
-      screen.getByRole("button", { name: /switch to dark mode/i }),
+      await screen.findByRole("button", { name: /switch to dark mode/i }),
     );
 
     expect(
@@ -68,12 +71,14 @@ describe("AppLayout", () => {
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });
 
-  it("opens the hamburger navigation menu and shows the nav links", () => {
+  it("opens the hamburger navigation menu and shows the nav links", async () => {
     renderAppLayout();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
 
-    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole("link", { name: "Home" }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Gallery" })).toBeInTheDocument();
   });
 });

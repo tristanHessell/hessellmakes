@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { NavMenu } from "./NavMenu";
 import { ThemeProvider } from "../theme/ThemeContext";
+import { expectNoA11yViolations } from "../testUtils/a11y";
 import styles from "./NavMenu.module.css";
 
 function renderNavMenu() {
@@ -44,10 +45,14 @@ describe("NavMenu", () => {
     );
   });
 
-  it("renders links to each page", () => {
+  it("renders links to each page", async () => {
     renderNavMenu();
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
 
-    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+    // The dropdown fades/flips visibility in via a CSS transition, so it
+    // isn't in the accessibility tree the instant the class changes —
+    // findByRole retries until the transition has actually applied.
+    expect(await screen.findByRole("link", { name: "Home" })).toHaveAttribute(
       "href",
       "/",
     );
@@ -61,10 +66,11 @@ describe("NavMenu", () => {
     );
   });
 
-  it("marks the current page link as active", () => {
+  it("marks the current page link as active", async () => {
     renderNavMenu();
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
 
-    expect(screen.getByRole("link", { name: "Home" })).toHaveClass(
+    expect(await screen.findByRole("link", { name: "Home" })).toHaveClass(
       styles.linkActive,
     );
     expect(screen.getByRole("link", { name: "Gallery" })).not.toHaveClass(
@@ -72,11 +78,11 @@ describe("NavMenu", () => {
     );
   });
 
-  it("closes the menu after a link is clicked", () => {
+  it("closes the menu after a link is clicked", async () => {
     renderNavMenu();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
-    fireEvent.click(screen.getByRole("link", { name: "Gallery" }));
+    fireEvent.click(await screen.findByRole("link", { name: "Gallery" }));
 
     expect(screen.getByRole("button", { name: /open menu/i })).toHaveAttribute(
       "aria-expanded",
@@ -96,11 +102,20 @@ describe("NavMenu", () => {
     );
   });
 
-  it("includes the light/dark mode toggle inside the menu", () => {
+  it("includes the light/dark mode toggle inside the menu", async () => {
     renderNavMenu();
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
 
     expect(
-      screen.getByRole("button", { name: /switch to dark mode/i }),
+      await screen.findByRole("button", { name: /switch to dark mode/i }),
     ).toBeInTheDocument();
+  });
+
+  it("has no accessibility violations, collapsed or open", async () => {
+    const { container } = renderNavMenu();
+    await expectNoA11yViolations(container);
+
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+    await expectNoA11yViolations(container);
   });
 });

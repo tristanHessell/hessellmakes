@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Home } from "./Home";
+import { expectNoA11yViolations } from "../testUtils/a11y";
 
 function renderHome() {
   return render(
@@ -28,5 +29,10 @@ describe("Home", () => {
     expect(
       screen.getByRole("link", { name: "Explore the work" }),
     ).toHaveAttribute("href", "/gallery");
+  });
+
+  it("has no accessibility violations", async () => {
+    const { container } = renderHome();
+    await expectNoA11yViolations(container);
   });
 });

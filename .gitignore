@@ -7,3 +7,8 @@ dist-ssr
 *.log
 coverage
 *.tsbuildinfo
+
+# Vitest browser-mode debug output, captured automatically on a failing
+# test — not meant to be committed.
+.vitest-attachments
+**/__screenshots__

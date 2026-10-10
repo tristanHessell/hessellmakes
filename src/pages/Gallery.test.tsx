@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Gallery } from "./Gallery";
 import { soccerBalls } from "../data/soccerBalls";
+import { expectNoA11yViolations } from "../testUtils/a11y";
 
 describe("Gallery", () => {
   it("renders the page heading and a card for every ball", () => {
@@ -79,6 +80,30 @@ describe("Gallery", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the next ball when the right arrow key is pressed", () => {
+    render(<Gallery />);
+    const [firstBall, secondBall] = soccerBalls;
+
+    fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowRight" });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: secondBall.name }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the previous ball when the left arrow key is pressed", () => {
+    render(<Gallery />);
+    const [firstBall, secondBall] = soccerBalls;
+
+    fireEvent.click(screen.getByRole("button", { name: secondBall.name }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowLeft" });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: firstBall.name }),
+    ).toBeInTheDocument();
+  });
+
   it("wraps around at both ends of the list", () => {
     render(<Gallery />);
     const firstBall = soccerBalls[0];
@@ -96,5 +121,13 @@ describe("Gallery", () => {
     expect(
       screen.getByRole("heading", { level: 2, name: firstBall.name }),
     ).toBeInTheDocument();
+  });
+
+  it("has no accessibility violations, grid or with the dialog open", async () => {
+    const { container } = render(<Gallery />);
+    await expectNoA11yViolations(container);
+
+    fireEvent.click(screen.getByRole("button", { name: soccerBalls[0].name }));
+    await expectNoA11yViolations(container);
   });
 });

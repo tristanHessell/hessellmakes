@@ -1,13 +1,25 @@
 # HessellMakes Website
 
-A React + TypeScript site for HessellMakes, built with [Vite](https://vite.dev). It has three pages — Home, Gallery, and Contact — runs locally with hot reload, and builds to a static bundle you can upload to any CDN.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d24a906a-cdd5-4b4a-b9b7-899eef1d9451/deploy-status)](https://app.netlify.com/projects/statuesque-smakager-0729f9/deploys)
+
+This is a React and TypeScript site for the HessellMakes brand, built with [Vite](https://vite.dev). The site has 5 pages: Home, Gallery, About, Contact, and Design. The hamburger nav links to Home, Gallery, and About only — a visitor can reach Contact and Design only through the direct URL (see [Pages & navigation](#pages--navigation)). The site runs locally with hot reload, and the build produces a static bundle for upload to any CDN.
 
 ## Requirements
 
-- Node.js 18 or newer
+- Node.js, version 18 or a later version. The file `.nvmrc` pins the exact version used by CI and by local development — see Install below.
 - npm
 
 ## Install
+
+If you use [nvm](https://github.com/nvm-sh/nvm), switch to the pinned Node version first:
+
+```bash
+nvm use
+```
+
+If you do not have that version yet, run `nvm install` first. This command reads the file `.nvmrc`, so local development always matches the Node version GitHub Actions uses, set in [.github/workflows/validate.yml](.github/workflows/validate.yml).
+
+Then install the dependencies:
 
 ```bash
 npm install
@@ -19,7 +31,7 @@ npm install
 npm run dev
 ```
 
-Starts a dev server (default `http://localhost:5173`) with hot module reload.
+This command starts a dev server, at `http://localhost:5173` by default, with hot module reload.
 
 ## Build for production
 
@@ -27,9 +39,9 @@ Starts a dev server (default `http://localhost:5173`) with hot module reload.
 npm run build
 ```
 
-Type-checks the project and outputs a static bundle to `dist/`. Assets use absolute paths rooted at `/` (`base: '/'` in `vite.config.ts`), so the site is expected to be hosted at the domain root — change `base` if it's ever deployed under a subfolder instead.
+This command type-checks the project, then builds a static bundle into `dist/`. Each asset uses an absolute path, rooted at `/` — the setting `base: '/'` in `vite.config.ts`. Because of this, the site must sit at the domain root; change the `base` setting if the site ever moves to a subfolder.
 
-Preview the production build locally before deploying:
+Before you deploy, preview the production build locally:
 
 ```bash
 npm run preview
@@ -37,15 +49,15 @@ npm run preview
 
 ## Deploying to a CDN
 
-Upload the entire contents of `dist/` to your CDN/static host. No server-side runtime is required — it's plain HTML/CSS/JS.
+Upload all the contents of `dist/` to your CDN or static host. The site needs no server-side runtime — it is plain HTML, CSS, and JS.
 
-Because routing uses real URLs (see [Pages & navigation](#pages--navigation)), the host must be configured with an SPA fallback rewrite: any path that doesn't match a real file (e.g. `/gallery`, `/contact`) should serve `dist/index.html` instead of 404ing, so React Router can take over and render the right page. Most static hosts and CDNs support this (a "rewrite all to index.html" or "single-page app" rule). `public/_redirects` already provides this rule for Netlify (and Cloudflare Pages, which also honours it) — it's copied to `dist/_redirects` on build automatically.
+The routing uses real URLs (see [Pages & navigation](#pages--navigation)). Because of this, the host needs an SPA fallback rewrite rule: a rule that sends each path with no matching real file, for example `/gallery` or `/contact`, to `dist/index.html`, instead of a 404 error. React Router then reads the real path and renders the correct page. Most static hosts and CDNs support this kind of rule, often called a "rewrite all to index.html" rule or a "single-page app" rule. The file `public/_redirects` already gives this rule for Netlify, and for Cloudflare Pages, which also reads this file format. The build copies this file to `dist/_redirects` automatically.
 
 ## Tests
 
-Tests use [Vitest](https://vitest.dev) in **browser mode** with [React Testing Library](https://testing-library.com/react) (not Jest). Tests run inside a real headless Chromium instance via Playwright rather than a simulated DOM (jsdom), so the results reflect actual browser behaviour.
+The tests use [Vitest](https://vitest.dev), in browser mode, with [React Testing Library](https://testing-library.com/react) — not Jest. Each test runs inside a real headless Chromium instance, through Playwright, not inside a simulated DOM (jsdom). Because of this, the test results show real browser behaviour.
 
-The first time you run tests, install the Chromium browser Playwright needs:
+Before your first test run, install the Chromium browser that Playwright needs:
 
 ```bash
 npm run playwright:install
@@ -58,41 +70,55 @@ npm run test        # run once
 npm run test:watch  # watch mode
 ```
 
-Test files live alongside the code they test, using the `*.test.tsx` naming convention.
+Each test file sits next to the code it tests, with the name `*.test.tsx`.
 
 ## Linting, formatting & spellcheck
 
-The project uses default/standard configs for each tool — nothing heavily customised:
+This project uses the standard, default config for each tool below, with little customisation:
 
-| Tool                              | Config file         | Checks                                                                                                                                                       | Command                                     |
-| --------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
-| [ESLint](https://eslint.org)      | `eslint.config.js`  | TypeScript/React code (flat config: `@eslint/js` + `typescript-eslint` recommended + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh`)            | `npm run lint` / `npm run lint:fix`         |
-| [Prettier](https://prettier.io)   | `.prettierrc.json`  | Formatting, all defaults (no overrides)                                                                                                                      | `npm run format` / `npm run format:check`   |
-| [Stylelint](https://stylelint.io) | `.stylelintrc.json` | CSS (`stylelint-config-standard` + `stylelint-config-css-modules`, with `selector-class-pattern` relaxed to allow the camelCase class names CSS Modules use) | `npm run lint:css` / `npm run lint:css:fix` |
-| [cspell](https://cspell.org)      | `cspell.json`       | Spelling across code/docs (British English — `en-GB` — to match this repo's spelling)                                                                        | `npm run spellcheck`                        |
+| Tool                              | Config file         | Checks                                                                                                                                                                | Command                                     |
+| --------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| [ESLint](https://eslint.org)      | `eslint.config.js`  | TypeScript and React code. Flat config, with `@eslint/js`, the recommended `typescript-eslint` rules, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh`. | `npm run lint` / `npm run lint:fix`         |
+| [Prettier](https://prettier.io)   | `.prettierrc.json`  | Formatting. All settings use the default value.                                                                                                                       | `npm run format` / `npm run format:check`   |
+| [Stylelint](https://stylelint.io) | `.stylelintrc.json` | CSS. Uses `stylelint-config-standard` and `stylelint-config-css-modules`. The rule `selector-class-pattern` allows the camelCase class names from CSS Modules.        | `npm run lint:css` / `npm run lint:css:fix` |
+| [cspell](https://cspell.org)      | `cspell.json`       | Spelling, in code and in docs. Set to British English (`en-GB`), to match this repository.                                                                            | `npm run spellcheck`                        |
 
-`eslint-config-prettier` is included last in the ESLint config to turn off any formatting rules that would conflict with Prettier, so the two tools never fight each other.
+The ESLint config lists `eslint-config-prettier` last. This turns off every ESLint formatting rule that could conflict with Prettier, so the two tools never disagree.
 
-Run everything at once (lint, stylelint, format check, spellcheck, tests) with:
+Run every check above, plus the tests, together with this command:
 
 ```bash
 npm run validate
 ```
 
+## Continuous integration
+
+The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow. This workflow runs `npm run validate` — the full check above, with the tests — on each push to `main` and on each pull request against `main`. The workflow first installs Chromium through Playwright on the runner, since the tests need a real browser, not jsdom (see [Tests](#tests)).
+
+This workflow shows a pass or fail check on each commit and each pull request. There are 2 ways to use this check to stop bad code from going live:
+
+- **Block merges to `main`.** Require a pull request for each change to `main`, and set this workflow as a required status check. Go to **Settings → Branches → Add branch protection rule** for `main`. Turn on "Require a pull request before merging". Turn on "Require status checks to pass before merging". Select the `validate` check.
+- **Allow commits to `main`, but gate the deploy itself.** This repository uses this option. The workflow's last step runs only on a push to `main`, and only when the `NETLIFY_BUILD_HOOK_URL` repository secret exists. This step sends a `curl` request to that URL, to trigger a Netlify deploy, but only after every other step passes, including the full test suite. For this option to work, turn off Netlify's automatic "deploy on push" setting for the production branch — otherwise Netlify deploys on its own, with no regard to this workflow:
+  1. In Netlify, go to **Site configuration → Build & deploy → Continuous deployment**. Disconnect auto-publishing for the production branch, or set deploys to trigger only from a build hook.
+  2. Go to **Site configuration → Build & deploy → Build hooks → Add build hook**. Give it a name, for example "GitHub Actions". Copy the URL.
+  3. In the GitHub repository, go to **Settings → Secrets and variables → Actions → New repository secret**. Name the secret `NETLIFY_BUILD_HOOK_URL`. Paste the URL as the value.
+
+  With this option, a commit can land on `main` at any time — nothing about a merge is blocked. A commit that fails `npm run validate` never triggers a deploy, so it never reaches the live site.
+
 ## Theming (light / dark mode)
 
-Colours come from the HessellMakes colour guide (`ColourGuide.pdf`): Aussie Blue `#1F305E`, English Red `#C93C47`, Cream `#CEB99F`, Black, and White. These live in `src/theme/colors.ts`.
+The brand colours come from the HessellMakes colour guide, `ColourGuide.pdf`: Aussie Blue (`#1F305E`), English Red (`#C93C47`), Cream (`#CEB99F`), Black, and White. These colours live in `src/theme/colors.ts`.
 
-- `src/theme/theme.css` defines CSS variables (`--color-bg`, `--color-text`, `--color-primary`, `--color-danger`, etc.) for `[data-theme="light"]` and `[data-theme="dark"]`. Components should always use these variables rather than hardcoded colours.
-- `--color-primary`/`--color-primary-text` (Aussie Blue in light mode, Cream in dark mode) are used for all regular buttons and interactive states. `--color-danger`/`--color-danger-text` (English Red) are reserved for negative/destructive actions — there aren't any on this page yet.
-- `src/theme/ThemeContext.tsx` provides a `ThemeProvider` and `useTheme()` hook. It picks an initial theme from `localStorage`, falling back to the browser's `prefers-color-scheme`, and persists changes.
-- `src/components/ThemeToggle.tsx` is a button that flips between light and dark mode via `useTheme().toggleTheme()`.
+- `src/theme/theme.css` sets CSS variables — for example `--color-bg`, `--color-text`, `--color-primary`, and `--color-danger` — for `[data-theme="light"]` and for `[data-theme="dark"]`. Each component must use these variables, never a fixed colour value.
+- Use `--color-primary` and `--color-primary-text` for every regular button and interactive state — Aussie Blue in light mode, Cream in dark mode. Use `--color-danger` and `--color-danger-text` (English Red) only for a negative or destructive action; the site has no such action yet.
+- `src/theme/ThemeContext.tsx` exports `ThemeProvider` and the hook `useTheme()`. On start, the provider reads the theme from `localStorage`, or from the browser setting `prefers-color-scheme` when `localStorage` has no theme, and it saves each change.
+- `src/components/ThemeToggle.tsx` is a button. A click on this button switches between light mode and dark mode, through the function `useTheme().toggleTheme()`.
 
-To use the theme elsewhere, wrap the app in `<ThemeProvider>` (already done in `src/App.tsx`) and call `useTheme()` from any child component.
+To use the theme in a new part of the app, call `useTheme()` from any child component. The file `src/App.tsx` already wraps the app in `<ThemeProvider>`.
 
 ## Styling: CSS Modules
 
-Component and page styles use [CSS Modules](https://vite.dev/guide/features.html#css-modules) — every stylesheet is named `*.module.css` (e.g. `NavMenu.module.css`) and imported as a JS object:
+Component styles and page styles use [CSS Modules](https://vite.dev/guide/features.html#css-modules). Each style sheet has the name `*.module.css`, for example `NavMenu.module.css`, and each one is imported as a JS object:
 
 ```tsx
 import styles from './NavMenu.module.css'
@@ -100,30 +126,30 @@ import styles from './NavMenu.module.css'
 <div className={styles.navMenu}>
 ```
 
-Vite scopes each class to the component automatically, so class names can stay short (`.link`, `.toggle`, `.card`) without colliding across files. Combine multiple classes with a template string, e.g. `` `${styles.cta} ${styles.ctaPrimary}` ``. Tests that assert on a class name (e.g. an active nav link) import the same `styles` object rather than hardcoding the generated class string.
+Vite scopes each class name to its own component automatically, so a class name can stay short — for example `.link`, `.toggle`, or `.card` — with no collision across files. To combine multiple classes, use a template string, for example `` `${styles.cta} ${styles.ctaPrimary}` ``. A test that checks a class name, for example an active nav link, must import the same `styles` object; do not hardcode the generated class string in a test.
 
-The global design tokens and reset (`src/theme/theme.css`, `src/index.css`) are deliberately **not** modules — they set CSS variables on `:root`/`[data-theme]` and base element styles that need to apply page-wide, which CSS Modules' per-component scoping isn't meant for.
+The global design tokens and the style reset, in `src/theme/theme.css` and `src/index.css`, are not CSS Modules — this is correct by design. These 2 files set CSS variables on `:root` and on `[data-theme]`, and base element styles that must apply across the whole page. CSS Modules scope styles to one component, so CSS Modules do not fit this purpose.
 
 ## Responsive layout
 
-The site is designed to work from phone widths up through laptop/desktop:
+The site works from phone widths up to laptop and desktop widths:
 
-- `index.html` sets `<meta name="viewport" content="width=device-width, initial-scale=1.0">` and `src/index.css` applies a global `box-sizing: border-box` reset.
-- Grids (features, gallery) use `repeat(auto-fit, minmax(...))` so columns collapse naturally as the viewport narrows, without needing separate breakpoints.
-- A `@media (width <= 640px)` breakpoint (roughly phone-sized) tightens up padding, stacks the hero CTAs, makes the contact submit button full-width, and shrinks the header; an additional `@media (width <= 380px)` breakpoint hides the wordmark text on very narrow phones so the hamburger/theme toggle always have room.
-- The hero heading uses `clamp()` so its font size scales smoothly between phone and laptop widths instead of jumping at a fixed breakpoint.
+- `index.html` sets the tag `<meta name="viewport" content="width=device-width, initial-scale=1.0">`, and `src/index.css` sets a global `box-sizing: border-box` reset.
+- Each grid, for example the features grid and the gallery grid, uses `repeat(auto-fit, minmax(...))`. Because of this, the columns collapse as the viewport narrows, with no separate breakpoint needed.
+- The breakpoint `@media (width <= 640px)`, for a phone-sized screen, reduces the padding, stacks the hero call-to-action buttons, makes the contact submit button full width, and shrinks the header. The breakpoint `@media (width <= 380px)` hides the wordmark text, on a very narrow phone, to keep room for the hamburger icon and the theme toggle.
+- The hero heading uses `clamp()` for its font size, so the font size scales smoothly between phone width and laptop width, with no sudden jump at a fixed breakpoint.
 
 ## Pages & navigation
 
-Routing uses [React Router](https://reactrouter.com) in declarative mode via `BrowserRouter`, so URLs look like `/gallery` rather than `/#/gallery`. This needs the SPA fallback rewrite described in [Deploying to a CDN](#deploying-to-a-cdn) — every path resolves to the same `index.html`, and React Router reads the route from the real URL path.
+The routing uses [React Router](https://reactrouter.com), in declarative mode, through `BrowserRouter`. Because of this, a URL looks like `/gallery`, not `/#/gallery`. This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN](#deploying-to-a-cdn): each path resolves to the same `index.html` file, and React Router then reads the route from the real URL path.
 
-- `/` — Home (`src/pages/Home.tsx`): hero and features.
-- `/gallery` — Gallery (`src/pages/Gallery.tsx`): a grid of custom soccer balls; clicking a ball opens a dialog with its name and description.
-- `/about` — About (`src/pages/About.tsx`): a founder blurb with a portrait — currently a placeholder graphic (`src/components/FounderPortrait.tsx`) until a real photo is added.
-- `/contact` — Contact (`src/pages/Contact.tsx`): a simple contact form. Deliberately **not** linked from the nav or anywhere else in the UI — it's only reachable by visiting the URL directly.
-- `/design` — Design (`src/pages/Design.tsx`): the brand colour palette. Also deliberately unlinked, for the same reason.
+- `/` — Home, in `src/pages/Home.tsx`. This page has the hero section and the features section.
+- `/gallery` — Gallery, in `src/pages/Gallery.tsx`. This page shows a grid of custom soccer balls. A click on a ball opens a dialog with its name and its description.
+- `/about` — About, in `src/pages/About.tsx`. This page has a founder blurb and a portrait. The portrait is a placeholder graphic, `src/components/FounderPortrait.tsx`, until a real photo is ready.
+- `/contact` — Contact, in `src/pages/Contact.tsx`. This page has a simple contact form. By design, this page is not linked from the nav, and not linked from any other part of the UI — a visitor can reach this page only through the direct URL.
+- `/design` — Design, in `src/pages/Design.tsx`. This page shows the brand colour palette. This page is also unlinked, by design, for the same reason.
 
-All pages are rendered inside `AppLayout` (`src/components/AppLayout.tsx`), which renders the shared header (logo, hamburger nav, theme toggle) and footer around a React Router `<Outlet />`. The hamburger menu (`src/components/NavMenu.tsx`) links to Home, Gallery, and About, and highlights whichever one is active.
+Each page renders inside `AppLayout`, in `src/components/AppLayout.tsx`. `AppLayout` renders the shared header (the logo, the hamburger nav, and the theme toggle) and the footer, around a React Router `<Outlet />`. The hamburger menu, in `src/components/NavMenu.tsx`, links to Home, to Gallery, and to About, and highlights the active page.
 
 ## Project structure
 

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Contact } from "./Contact";
+import { expectNoA11yViolations } from "../testUtils/a11y";
 
 describe("Contact", () => {
   it("renders the page heading and form fields", () => {
@@ -29,5 +30,10 @@ describe("Contact", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send message" }));
 
     expect(screen.getByRole("status")).toHaveTextContent(/thanks/i);
+  });
+
+  it("has no accessibility violations", async () => {
+    const { container } = render(<Contact />);
+    await expectNoA11yViolations(container);
   });
 });
