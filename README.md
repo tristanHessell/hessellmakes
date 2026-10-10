@@ -98,12 +98,12 @@ The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow. Thi
 This workflow shows a pass or fail check on each commit and each pull request. There are 2 ways to use this check to stop bad code from going live:
 
 - **Block merges to `main`.** Require a pull request for each change to `main`, and set this workflow as a required status check. Go to **Settings → Branches → Add branch protection rule** for `main`. Turn on "Require a pull request before merging". Turn on "Require status checks to pass before merging". Select the `validate` check.
-- **Allow commits to `main`, but gate the deploy itself.** This repository uses this option. The workflow's last step runs only on a push to `main`, and only when the `NETLIFY_BUILD_HOOK_URL` repository secret exists. This step sends a `curl` request to that URL, to trigger a Netlify deploy, but only after every other step passes, including the full test suite. For this option to work, turn off Netlify's automatic "deploy on push" setting for the production branch — otherwise Netlify deploys on its own, with no regard to this workflow:
-  1. In Netlify, go to **Site configuration → Build & deploy → Continuous deployment**. Disconnect auto-publishing for the production branch, or set deploys to trigger only from a build hook.
-  2. Go to **Site configuration → Build & deploy → Build hooks → Add build hook**. Give it a name, for example "GitHub Actions". Copy the URL.
-  3. In the GitHub repository, go to **Settings → Secrets and variables → Actions → New repository secret**. Name the secret `NETLIFY_BUILD_HOOK_URL`. Paste the URL as the value.
+- **Allow commits to `main`, but gate the deploy itself.** This repository uses this option. On a push to `main`, after every other step passes, including the full test suite, the workflow builds the site and uploads `dist/` straight to Netlify with the Netlify CLI. The workflow does **not** use a Netlify build hook — a build hook needs Netlify's own "Builds" feature active for the site, and that feature also auto-builds on every push on its own, which would deploy each commit twice. Uploading a pre-built `dist/` folder needs no build step on Netlify's side at all, so this repository's Netlify site can stay fully unlinked from Netlify's own continuous deployment:
+  1. In Netlify, go to **Site configuration → Build & deploy → Continuous deployment**, and disconnect the linked Git repository (or leave it unlinked, if the site was never linked to begin with).
+  2. Go to your Netlify user avatar → **User settings → Applications → New access token**. Copy the token.
+  3. In the GitHub repository, go to **Settings → Secrets and variables → Actions → New repository secret**. Name the secret `NETLIFY_AUTH_TOKEN`. Paste the token as the value.
 
-  With this option, a commit can land on `main` at any time — nothing about a merge is blocked. A commit that fails `npm run validate` never triggers a deploy, so it never reaches the live site.
+  The site ID itself is not a secret — [.github/workflows/validate.yml](.github/workflows/validate.yml) uses the same ID that is already public in this README's Netlify badge URL above. With this setup, a commit can land on `main` at any time — nothing about a merge is blocked. A commit that fails `npm run validate` never reaches the deploy step, so it never reaches the live site.
 
 ## Theming (light / dark mode)
 

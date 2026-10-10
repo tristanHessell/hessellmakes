@@ -34,18 +34,31 @@ jobs:
       # the same command used locally before considering work done.
       - run: npm run validate
 
-      # Netlify's own auto-deploy-on-push is turned off for this site;
-      # deploys are triggered only from here, so a push to main that fails
-      # validate never reaches production. Requires a NETLIFY_BUILD_HOOK_URL
-      # repo secret (Netlify: Site configuration → Build & deploy → Build
-      # hooks → Add build hook).
-      - name: Trigger Netlify deploy
+      # Builds the static bundle into dist/, for the deploy step below. This
+      # repeats the build npm run validate's tsc step already checked, but
+      # npm run validate does not run vite build itself — see CLAUDE.md.
+      - name: Build
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: npm run build
+
+      # This job uploads dist/ straight to Netlify, through the Netlify CLI,
+      # instead of a Netlify build hook. A build hook needs Netlify's own
+      # "Builds" feature active, and that feature auto-builds on every push
+      # too, which deploys a commit twice and defeats the point of gating on
+      # this job. Pushing a pre-built dist/ needs no build on Netlify's side
+      # at all, so the repository's Netlify integration can stay fully
+      # unlinked from automatic deploys — see CLAUDE.md. The site ID below is
+      # not a secret — it is the same ID already public in this repo's
+      # README badge URL. Requires the repo secret NETLIFY_AUTH_TOKEN, a
+      # personal access token from Netlify's User settings → Applications.
+      - name: Deploy to Netlify
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          if [ -z "$NETLIFY_BUILD_HOOK_URL" ]; then
-            echo "NETLIFY_BUILD_HOOK_URL secret not set yet — skipping deploy trigger."
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo "NETLIFY_AUTH_TOKEN secret not set yet — skipping deploy."
             exit 0
           fi
-          curl -fsS -X POST "$NETLIFY_BUILD_HOOK_URL"
+          npx --yes netlify-cli@27.12.0 deploy --prod --dir=dist --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN"
         env:
-          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: d24a906a-cdd5-4b4a-b9b7-899eef1d9451
