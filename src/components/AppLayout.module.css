@@ -7,6 +7,25 @@
   flex-direction: column;
 }
 
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius);
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skipLink:focus-visible {
+  top: 1rem;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -21,6 +40,13 @@
   align-items: center;
   gap: 0.75rem;
   color: var(--color-logo);
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .wordmark {

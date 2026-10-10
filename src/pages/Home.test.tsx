@@ -22,29 +22,11 @@ describe("Home", () => {
     ).toBeInTheDocument();
   });
 
-  it("links the CTAs to the Gallery and Contact pages", () => {
+  it("links the CTA to the Gallery page", () => {
     renderHome();
 
     expect(
       screen.getByRole("link", { name: "Explore the work" }),
     ).toHaveAttribute("href", "/gallery");
-    expect(screen.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
-  });
-
-  it("lists all five brand palette colours", () => {
-    renderHome();
-
-    for (const name of [
-      "Aussie Blue",
-      "English Red",
-      "Cream",
-      "Black",
-      "White",
-    ]) {
-      expect(screen.getByText(name)).toBeInTheDocument();
-    }
   });
 });

@@ -11,13 +11,13 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Gallery", to: "/gallery" },
-  { label: "Catalog", to: "/catalog" },
-  { label: "Contact", to: "/contact" },
+  { label: "About", to: "/about" },
 ];
 
 export function NavMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -27,6 +27,9 @@ export function NavMenu() {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setIsOpen(false);
+        // The menu becomes invisible immediately, so move focus back to the
+        // toggle rather than leaving it stranded on a hidden link.
+        toggleRef.current?.focus();
       }
     }
 
@@ -51,6 +54,7 @@ export function NavMenu() {
     <div className={styles.navMenu} ref={containerRef}>
       <button
         type="button"
+        ref={toggleRef}
         className={styles.toggle}
         aria-expanded={isOpen}
         aria-controls="primary-navigation"

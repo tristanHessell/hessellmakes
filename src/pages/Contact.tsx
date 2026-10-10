@@ -1,7 +1,11 @@
 import { useState, type FormEvent } from "react";
+import { usePageTitle } from "../hooks/usePageTitle";
 import styles from "./Contact.module.css";
 
+// Not linked from the nav — reachable only by visiting /contact directly.
 export function Contact() {
+  usePageTitle("Contact");
+
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {

@@ -33,6 +33,11 @@
   text-decoration: none;
 }
 
+.cta:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .ctaPrimary {
   background-color: var(--color-primary);
   color: var(--color-primary-text);
@@ -40,16 +45,6 @@
 
 .ctaPrimary:hover {
   opacity: 0.9;
-}
-
-.ctaSecondary {
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-
-.ctaSecondary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
 }
 
 .features {
@@ -79,54 +74,6 @@
   margin: 0;
 }
 
-.palette {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1rem 2rem 4rem;
-}
-
-.palette h2 {
-  color: var(--color-heading);
-  font-size: 1.125rem;
-}
-
-.swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-}
-
-.swatch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  width: 110px;
-}
-
-.swatchChip {
-  display: block;
-  width: 64px;
-  height: 64px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-}
-
-.swatchName {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--color-text);
-  text-align: center;
-}
-
-.swatchHex {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
 /* Phone-sized screens: tighten up section padding and CTA width. */
 @media (width <= 640px) {
   .hero {
@@ -144,9 +91,5 @@
 
   .features {
     padding: 1.25rem;
-  }
-
-  .palette {
-    padding: 1rem 1.25rem 2.5rem;
   }
 }

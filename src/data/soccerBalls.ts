@@ -1,54 +1,42 @@
-import { brandColors } from "../theme/colors";
+import ball1 from "../assets/gallery/ball1.jpeg";
+import ball2 from "../assets/gallery/ball2.jpeg";
+import ball3 from "../assets/gallery/ball3.jpeg";
 
 export interface SoccerBallProduct {
   id: string;
   name: string;
-  /** Trim colour shown on the ball graphic, standing in for its finish. */
-  accentColor: string;
+  imageSrc: string;
+  /** Describes what's visible in the photo, since the image itself is the content. */
+  imageAlt: string;
   description: string;
 }
 
 export const soccerBalls: SoccerBallProduct[] = [
   {
-    id: "original",
-    name: "The Original",
-    accentColor: brandColors.aussieBlue,
+    id: "wave-weave",
+    name: "Wave Weave",
+    imageSrc: ball1,
+    imageAlt:
+      "A hand-stitched ball with swirling teal and maroon panels on white leather.",
     description:
-      "Our signature ball, hand-stitched from full-grain leather panels and finished with Aussie Blue trim.",
+      "A swirling wave pattern, hand-stitched panel by panel in teal and maroon leather.",
   },
   {
-    id: "club-edition",
-    name: "Club Edition",
-    accentColor: brandColors.englishRed,
+    id: "patchwork",
+    name: "Patchwork",
+    imageSrc: ball2,
+    imageAlt:
+      "A hand-stitched ball made of mismatched leather offcuts in browns, blues, and gold, with a whimsical cat face on one panel.",
     description:
-      "Built for local clubs and five-a-side leagues, with reinforced seams for regular match play.",
+      "Made from offcuts of leather left over from other pieces, with a playful surprise stitched into one panel.",
   },
   {
-    id: "heritage",
-    name: "Heritage",
-    accentColor: brandColors.cream,
+    id: "match-day",
+    name: "Match Day",
+    imageSrc: ball3,
+    imageAlt:
+      "A blue and white hand-stitched ball with a club crest and fixture dates embroidered on its panels.",
     description:
-      "A retro-inspired panel design finished in cream leather, built to age like a favourite pair of boots.",
-  },
-  {
-    id: "training-pro",
-    name: "Training Pro",
-    accentColor: brandColors.black,
-    description:
-      "A slightly weighted training ball designed for consistent touch and durability on any surface.",
-  },
-  {
-    id: "anniversary",
-    name: "Anniversary",
-    accentColor: brandColors.aussieBlue,
-    description:
-      "A limited run made to mark ten years of HessellMakes, finished with contrast stitching.",
-  },
-  {
-    id: "first-touch",
-    name: "Kids' First Touch",
-    accentColor: brandColors.englishRed,
-    description:
-      "A lighter, smaller build designed for younger players just learning the game.",
+      "A commemorative design, with a season's fixtures and a club crest hand-stitched onto its panels.",
   },
 ];

@@ -1,6 +1,6 @@
 // Shared page chrome (header, nav, footer) rendered around every route via
 // React Router's <Outlet />.
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Logo } from "./Logo";
 import { NavMenu } from "./NavMenu";
 import styles from "./AppLayout.module.css";
@@ -8,17 +8,21 @@ import styles from "./AppLayout.module.css";
 export function AppLayout() {
   return (
     <div className={styles.page}>
+      <a href="#main-content" className={styles.skipLink}>
+        Skip to content
+      </a>
+
       <header className={styles.header}>
-        <div className={styles.brand}>
-          <Logo size={32} />
+        <Link to="/" className={styles.brand}>
+          <Logo size={32} decorative />
           <span className={styles.wordmark}>
             <strong>HESSELL</strong>MAKES
           </span>
-        </div>
+        </Link>
         <NavMenu />
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
 

@@ -1,6 +1,6 @@
 # HessellMakes Website
 
-A React + TypeScript site for HessellMakes, built with [Vite](https://vite.dev). It has four pages — Home, Gallery, Catalog, and Contact — runs locally with hot reload, and builds to a static bundle you can upload to any CDN.
+A React + TypeScript site for HessellMakes, built with [Vite](https://vite.dev). It has three pages — Home, Gallery, and Contact — runs locally with hot reload, and builds to a static bundle you can upload to any CDN.
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Starts a dev server (default `http://localhost:5173`) with hot module reload.
 npm run build
 ```
 
-Type-checks the project and outputs a static bundle to `dist/`. Assets use relative paths (`base: './'` in `vite.config.ts`), so the contents of `dist/` can be uploaded as-is to a CDN or any static host, at the domain root or a subfolder.
+Type-checks the project and outputs a static bundle to `dist/`. Assets use absolute paths rooted at `/` (`base: '/'` in `vite.config.ts`), so the site is expected to be hosted at the domain root — change `base` if it's ever deployed under a subfolder instead.
 
 Preview the production build locally before deploying:
 
@@ -38,6 +38,8 @@ npm run preview
 ## Deploying to a CDN
 
 Upload the entire contents of `dist/` to your CDN/static host. No server-side runtime is required — it's plain HTML/CSS/JS.
+
+Because routing uses real URLs (see [Pages & navigation](#pages--navigation)), the host must be configured with an SPA fallback rewrite: any path that doesn't match a real file (e.g. `/gallery`, `/contact`) should serve `dist/index.html` instead of 404ing, so React Router can take over and render the right page. Most static hosts and CDNs support this (a "rewrite all to index.html" or "single-page app" rule).
 
 ## Tests
 
@@ -113,21 +115,22 @@ The site is designed to work from phone widths up through laptop/desktop:
 
 ## Pages & navigation
 
-Routing uses [React Router](https://reactrouter.com) in declarative mode via `HashRouter` (URLs look like `/#/gallery`). A hash router is used deliberately so the built site works on any static/CDN host without server-side URL rewrite rules — every route resolves to the same `index.html`.
+Routing uses [React Router](https://reactrouter.com) in declarative mode via `BrowserRouter`, so URLs look like `/gallery` rather than `/#/gallery`. This needs the SPA fallback rewrite described in [Deploying to a CDN](#deploying-to-a-cdn) — every path resolves to the same `index.html`, and React Router reads the route from the real URL path.
 
-- `/` — Home (`src/pages/Home.tsx`): hero, features, and the brand palette.
-- `/gallery` — Gallery (`src/pages/Gallery.tsx`): placeholder grid for finished pieces.
-- `/catalog` — Catalog (`src/pages/Catalog.tsx`): a grid of custom soccer balls; clicking a ball opens a dialog with its name and description.
-- `/contact` — Contact (`src/pages/Contact.tsx`): a simple contact form.
+- `/` — Home (`src/pages/Home.tsx`): hero and features.
+- `/gallery` — Gallery (`src/pages/Gallery.tsx`): a grid of custom soccer balls; clicking a ball opens a dialog with its name and description.
+- `/about` — About (`src/pages/About.tsx`): a founder blurb with a portrait — currently a placeholder graphic (`src/components/FounderPortrait.tsx`) until a real photo is added.
+- `/contact` — Contact (`src/pages/Contact.tsx`): a simple contact form. Deliberately **not** linked from the nav or anywhere else in the UI — it's only reachable by visiting the URL directly.
+- `/design` — Design (`src/pages/Design.tsx`): the brand colour palette. Also deliberately unlinked, for the same reason.
 
-All four pages are rendered inside `AppLayout` (`src/components/AppLayout.tsx`), which renders the shared header (logo, hamburger nav, theme toggle) and footer around a React Router `<Outlet />`. The hamburger menu (`src/components/NavMenu.tsx`) links to all four pages and highlights whichever one is active.
+All pages are rendered inside `AppLayout` (`src/components/AppLayout.tsx`), which renders the shared header (logo, hamburger nav, theme toggle) and footer around a React Router `<Outlet />`. The hamburger menu (`src/components/NavMenu.tsx`) links to Home, Gallery, and About, and highlights whichever one is active.
 
 ## Project structure
 
 ```
 index.html                       Entry HTML page
 src/main.tsx                      App entry point
-src/App.tsx                       Sets up ThemeProvider + HashRouter + routes
+src/App.tsx                       Sets up ThemeProvider + BrowserRouter + routes
 src/theme/colors.ts                Brand colour tokens
 src/theme/theme.css                Light/dark CSS variables (global, not a module)
 src/theme/ThemeContext.tsx         Theme provider & useTheme hook
@@ -140,14 +143,17 @@ src/components/ThemeToggle.module.css ThemeToggle styles
 src/components/Logo.tsx            HessellMakes icon mark
 src/pages/Home.tsx                 Home page
 src/pages/Home.module.css          Home styles
-src/pages/Gallery.tsx              Gallery page
+src/pages/Gallery.tsx              Gallery page (soccer balls + info dialog)
 src/pages/Gallery.module.css       Gallery styles
-src/pages/Catalog.tsx              Catalog page (soccer balls + info dialog)
-src/pages/Catalog.module.css       Catalog styles
+src/pages/About.tsx                About page (founder blurb + portrait)
+src/pages/About.module.css         About styles
+src/components/FounderPortrait.tsx Placeholder founder portrait glyph
 src/pages/Contact.tsx              Contact page
 src/pages/Contact.module.css       Contact styles
-src/components/SoccerBall.tsx      Soccer ball SVG glyph used in the Catalog
-src/data/soccerBalls.ts            Soccer ball product data (name, colour, description)
+src/pages/Design.tsx               Design page (brand palette; not linked from the nav)
+src/pages/Design.module.css        Design styles
+src/data/soccerBalls.ts            Soccer ball product data (name, photo, description)
+src/assets/gallery/                Soccer ball product photos
 src/setupTests.ts                  Test setup (jest-dom matchers)
 vite.config.ts                     Build & test configuration
 tsconfig*.json                      TypeScript configuration

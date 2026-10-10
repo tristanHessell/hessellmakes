@@ -55,13 +55,9 @@ describe("NavMenu", () => {
       "href",
       "/gallery",
     );
-    expect(screen.getByRole("link", { name: "Catalog" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute(
       "href",
-      "/catalog",
-    );
-    expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute(
-      "href",
-      "/contact",
+      "/about",
     );
   });
 

@@ -1,50 +1,113 @@
-import { brandColors } from "../theme/colors";
+import { useRef, useState, type MouseEvent } from "react";
+import { usePageTitle } from "../hooks/usePageTitle";
+import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Gallery.module.css";
 
-const swatchRotation = [
-  brandColors.aussieBlue,
-  brandColors.cream,
-  brandColors.englishRed,
-];
-
-const pieces = [
-  { title: "Piece 01", description: "Hand-finished, solid construction." },
-  { title: "Piece 02", description: "Small batch, made to order." },
-  { title: "Piece 03", description: "Reclaimed materials, new purpose." },
-  { title: "Piece 04", description: "Detailed joinery, built by hand." },
-  { title: "Piece 05", description: "Simple lines, durable finish." },
-  { title: "Piece 06", description: "Designed to be used every day." },
-];
-
 export function Gallery() {
+  usePageTitle("Gallery");
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const selectedBall =
+    selectedIndex === null ? null : soccerBalls[selectedIndex];
+
+  function openBall(index: number) {
+    setSelectedIndex(index);
+    dialogRef.current?.showModal();
+  }
+
+  function closeDialog() {
+    dialogRef.current?.close();
+  }
+
+  function showPrevious() {
+    setSelectedIndex(
+      (index) => ((index ?? 0) - 1 + soccerBalls.length) % soccerBalls.length,
+    );
+  }
+
+  function showNext() {
+    setSelectedIndex((index) => ((index ?? 0) + 1) % soccerBalls.length);
+  }
+
+  function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
+    // A click that lands on the <dialog> element itself (rather than any of
+    // its content) means the user clicked the backdrop, so close it.
+    if (event.target === dialogRef.current) {
+      closeDialog();
+    }
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.intro}>
         <h1>Gallery</h1>
         <p>
-          A look at recent work from the workshop. Photos of finished pieces
-          will go here — for now, each placeholder is coloured with a shade from
-          the HessellMakes palette.
+          Every ball is hand-stitched to order. Select a ball to see more about
+          its finish and story.
         </p>
       </div>
 
       <ul className={styles.grid}>
-        {pieces.map((piece, index) => (
-          <li className={styles.item} key={piece.title}>
-            <span
-              className={styles.swatch}
-              style={{
-                backgroundColor: swatchRotation[index % swatchRotation.length],
-              }}
-              aria-hidden="true"
-            />
-            <div className={styles.caption}>
-              <h2>{piece.title}</h2>
-              <p>{piece.description}</p>
-            </div>
+        {soccerBalls.map((ball, index) => (
+          <li key={ball.id}>
+            <button
+              type="button"
+              className={styles.card}
+              onClick={() => openBall(index)}
+            >
+              <img className={styles.cardImage} src={ball.imageSrc} alt="" />
+              <span className={styles.cardName}>{ball.name}</span>
+            </button>
           </li>
         ))}
       </ul>
+
+      <dialog
+        ref={dialogRef}
+        className={styles.dialog}
+        aria-labelledby="ball-dialog-title"
+        onClose={() => setSelectedIndex(null)}
+        onClick={handleBackdropClick}
+      >
+        {selectedBall && (
+          <div className={styles.dialogContent}>
+            <button
+              type="button"
+              className={styles.dialogClose}
+              onClick={closeDialog}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.dialogNav} ${styles.dialogPrev}`}
+              onClick={showPrevious}
+              aria-label="Previous ball"
+            >
+              &lsaquo;
+            </button>
+            <button
+              type="button"
+              className={`${styles.dialogNav} ${styles.dialogNext}`}
+              onClick={showNext}
+              aria-label="Next ball"
+            >
+              &rsaquo;
+            </button>
+
+            <img
+              className={styles.dialogImage}
+              src={selectedBall.imageSrc}
+              alt={selectedBall.imageAlt}
+            />
+            <h2 id="ball-dialog-title">{selectedBall.name}</h2>
+            <p>{selectedBall.description}</p>
+          </div>
+        )}
+      </dialog>
     </div>
   );
 }

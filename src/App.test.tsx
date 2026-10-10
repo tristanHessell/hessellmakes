@@ -30,7 +30,7 @@ describe("App", () => {
     );
   });
 
-  it("navigates to the Gallery, Catalog and Contact pages via the hamburger menu", () => {
+  it("navigates to the Gallery and About pages via the hamburger menu", () => {
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
@@ -41,17 +41,10 @@ describe("App", () => {
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
-    fireEvent.click(screen.getByRole("link", { name: "Catalog" }));
+    fireEvent.click(screen.getByRole("link", { name: "About" }));
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "Catalog" }),
-    ).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
-    fireEvent.click(screen.getByRole("link", { name: "Contact" }));
-
-    expect(
-      screen.getByRole("heading", { level: 1, name: "Contact" }),
+      screen.getByRole("heading", { level: 1, name: "About" }),
     ).toBeInTheDocument();
   });
 });

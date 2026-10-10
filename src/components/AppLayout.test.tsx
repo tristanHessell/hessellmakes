@@ -37,6 +37,15 @@ describe("AppLayout", () => {
     expect(screen.getByText("Page content")).toBeInTheDocument();
   });
 
+  it("links the brand name to the home page", () => {
+    renderAppLayout();
+
+    expect(screen.getByRole("link", { name: /hessellmakes/i })).toHaveAttribute(
+      "href",
+      "/",
+    );
+  });
+
   it("renders the footer copyright notice", () => {
     renderAppLayout();
 
@@ -66,6 +75,5 @@ describe("AppLayout", () => {
 
     expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Gallery" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Contact" })).toBeInTheDocument();
   });
 });

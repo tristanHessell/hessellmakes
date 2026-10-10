@@ -13,7 +13,7 @@ npm run preview            # preview the production build locally
 npm run playwright:install # one-time: installs Chromium for Vitest browser mode
 npm run test                # run all tests once
 npm run test:watch          # watch mode
-npx vitest run src/pages/Catalog.test.tsx   # run a single test file
+npx vitest run src/pages/Gallery.test.tsx   # run a single test file
 npx vitest run -t "opens a dialog"          # run tests matching a name
 
 npm run lint / lint:fix     # ESLint (TS/React)
@@ -27,13 +27,13 @@ Tests use **Vitest in browser mode** (real headless Chromium via Playwright + `@
 
 ## Architecture
 
-This is a static React + TypeScript site (Vite) for the HessellMakes brand, built as relocatable static assets (`base: './'` in `vite.config.ts`) for CDN hosting — no server runtime.
+This is a static React + TypeScript site (Vite) for the HessellMakes brand, built as static assets (`base: '/'` in `vite.config.ts`, assuming domain-root hosting) for CDN hosting — no server runtime.
 
-- **Routing**: `react-router-dom`'s `HashRouter` (deliberate — URLs like `/#/gallery` need no server-side rewrite rules on a static host). Routes are declared in `src/App.tsx`; all pages render inside `AppLayout` (`src/components/AppLayout.tsx`), which supplies the shared header/hamburger-nav/footer around an `<Outlet />`. Pages: `/` (Home), `/gallery`, `/catalog`, `/contact`.
+- **Routing**: `react-router-dom`'s `BrowserRouter`, giving real URLs like `/gallery` instead of `/#/gallery`. This requires the static host to be configured with an SPA fallback rewrite (serve `index.html` for any unmatched path), since a static host otherwise 404s on a direct link to `/gallery` or a refresh there. Routes are declared in `src/App.tsx`; all pages render inside `AppLayout` (`src/components/AppLayout.tsx`), which supplies the shared header/hamburger-nav/footer around an `<Outlet />`. Pages: `/` (Home), `/gallery`, `/about` (founder blurb, `src/pages/About.tsx` — uses `src/components/FounderPortrait.tsx` as a placeholder graphic until a real photo is added), plus `/contact` and `/design` (the brand colour palette, `src/pages/Design.tsx`) — the latter two are deliberately not linked from `NavMenu` or anywhere else in the UI, reachable only by visiting the URL directly.
 - **Theming**: `src/theme/colors.ts` holds the brand palette (sourced from `ColourGuide.pdf`). `src/theme/theme.css` maps those colours to CSS custom properties per `[data-theme="light"|"dark"]` — components must consume the variables (`--color-primary`, `--color-bg`, etc.), never hardcode colours. `--color-danger`/`--color-danger-text` (English Red) is reserved exclusively for destructive/negative actions; regular buttons use `--color-primary`. `src/theme/ThemeContext.tsx` exposes `ThemeProvider`/`useTheme()`, initializing from `localStorage` then `prefers-color-scheme`, and persisting changes. The toggle lives inside the hamburger menu (`src/components/ThemeToggle.tsx`), not in the header directly.
 - **Styling**: CSS Modules everywhere (`*.module.css`, camelCase class names, `import styles from './X.module.css'`) except the two genuinely global stylesheets — `src/theme/theme.css` (CSS variables on `:root`/`[data-theme]`) and `src/index.css` (base reset) — which are intentionally not modules.
 - **Responsive layout**: no component-level breakpoint logic; grids use `repeat(auto-fit, minmax(...))` to reflow naturally, plus shared breakpoints at `@media (width <= 640px)` (phone-sized adjustments) and `@media (width <= 380px)` (hides the wordmark so the header still fits) using range-notation media queries (Stylelint-enforced style).
-- **Catalog pattern**: `src/pages/Catalog.tsx` is the reference for "grid of items → native `<dialog>` on click" — product data lives separately in `src/data/soccerBalls.ts`, and a reusable placeholder glyph (`src/components/SoccerBall.tsx`) is parameterized by `accentColor` from the brand palette rather than using real photos.
+- **Gallery pattern**: `src/pages/Gallery.tsx` is the reference for "grid of items → native `<dialog>` on click" — product data (including each ball's photo, imported from `src/assets/gallery/`) lives separately in `src/data/soccerBalls.ts`. Grid thumbnails use `alt=""` (decorative — the name is already shown as visible text beside them); the dialog's larger image carries the real descriptive `alt` text, since that's the detail view.
 
 ## Tooling notes
 
