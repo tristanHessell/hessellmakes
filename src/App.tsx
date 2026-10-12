@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
+import { ComingSoon } from "./pages/ComingSoon";
 import { Home } from "./pages/Home";
 import { Gallery } from "./pages/Gallery";
 import { About } from "./pages/About";
@@ -15,7 +16,17 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AppLayout />}>
+          {/* TEMPORARY: "/" shows a Coming Soon page, and the rest of the
+              site sits behind "/site" instead of at the site root. To
+              remove the Coming Soon page and restore the site at "/":
+              1. Delete this Route line.
+              2. Change the Route path below from "/site" back to "/".
+              3. Delete src/pages/ComingSoon.tsx and
+                 src/pages/ComingSoon.module.css.
+              AppLayout, NavMenu, and the in-app links all use route-relative
+              paths, so they need no change either way. */}
+          <Route path="/" element={<ComingSoon />} />
+          <Route path="/site" element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="about" element={<About />} />

@@ -94,24 +94,32 @@ The file `vite.config.ts` sets `base: '/'`.
 This setting assumes the site sits at the domain root.
 
 **Routing**: The app uses `BrowserRouter` from `react-router-dom`.
-This gives real URLs, for example `/gallery`, instead of hash URLs like `/#/gallery`.
-Because of this, the static host needs an SPA fallback rewrite rule, to send each unmatched path to `index.html` — without this rule, a direct link to `/gallery` or a refresh on `/gallery` gives a 404 error.
+This gives real URLs, for example `/site/gallery`, instead of hash URLs like `/#/site/gallery`.
+Because of this, the static host needs an SPA fallback rewrite rule, to send each unmatched path to `index.html` — without this rule, a direct link to `/site/gallery` or a refresh on `/site/gallery` gives a 404 error.
 `src/App.tsx` declares the routes.
-Each page renders inside `AppLayout` (`src/components/AppLayout.tsx`), which gives the shared header, the hamburger nav, and the footer around an `<Outlet />`.
+Each page except `ComingSoon` renders inside `AppLayout` (`src/components/AppLayout.tsx`), which gives the shared header, the hamburger nav, and the footer around an `<Outlet />`.
+`AppLayout`, `NavMenu`, and the in-app links all use route-relative paths, for example `to="."` and `to="gallery"`, not an absolute path like `to="/gallery"`.
+Because of this, the whole site still works if its mount path, currently `/site`, ever changes.
 The pages are:
 
-- `/` — Home.
-- `/gallery` — Gallery.
-- `/about` — About.
+- `/` — `ComingSoon` (`src/pages/ComingSoon.tsx`). **Temporary**: see the "Coming Soon page" note below.
+- `/site` — Home.
+- `/site/gallery` — Gallery.
+- `/site/about` — About.
   This page has the founder blurb, in `src/pages/About.tsx`.
   This page uses `src/components/FounderPortrait.tsx` as a placeholder graphic, until a real photo is ready.
-- `/contact` — Contact.
+- `/site/contact` — Contact.
   `NavMenu` does not link to this page, and no other UI element links to this page.
   A visitor can reach this page only through the URL.
-- `/design` — Design.
+- `/site/design` — Design.
   This page shows the brand colour palette, in `src/pages/Design.tsx`.
   `NavMenu` does not link to this page, and no other UI element links to this page.
   A visitor can reach this page only through the URL.
+
+**Coming Soon page (temporary)**: `src/pages/ComingSoon.tsx` is a holding page, shown at the site root while the rest of the site sits under `/site`.
+It shows the logo, with the same hover animation as the header, the message "Coming soon!", and the footer.
+It reuses `src/components/Footer.tsx`, the component `AppLayout` also uses, but keeps its own CSS module, so it has no other tie to `AppLayout`.
+To remove this page and restore the site at `/`, follow the numbered comment next to the routes in `src/App.tsx`.
 
 **Theming**: `src/theme/colors.ts` holds the brand palette, taken from `ColourGuide.pdf`.
 `src/theme/theme.css` maps these colours to CSS custom properties, set per `[data-theme="light"]` and per `[data-theme="dark"]`.

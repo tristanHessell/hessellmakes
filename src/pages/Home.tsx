@@ -32,7 +32,7 @@ export function Home() {
           considered, everyday pieces — designed with care and finished by hand.
         </p>
         <div className={styles.ctaGroup}>
-          <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="/gallery">
+          <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="gallery">
             Explore the work
           </Link>
         </div>
