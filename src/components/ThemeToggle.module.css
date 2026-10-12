@@ -1,5 +1,6 @@
 .toggle {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.625rem;
   width: 100%;
@@ -19,9 +20,11 @@
   flex: 1;
 }
 
-.toggle:hover {
-  background-color: var(--color-surface-strong);
-  color: var(--color-primary);
+@media (hover: hover) {
+  .toggle:hover {
+    background-color: var(--color-surface-strong);
+    color: var(--color-primary);
+  }
 }
 
 .toggle:focus-visible {

@@ -62,8 +62,10 @@
   cursor: pointer;
 }
 
-.submit:hover {
-  opacity: 0.9;
+@media (hover: hover) {
+  .submit:hover {
+    opacity: 0.9;
+  }
 }
 
 .submit:focus-visible {

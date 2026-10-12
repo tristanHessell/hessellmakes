@@ -25,6 +25,8 @@
   --brand-white: #fff;
 }
 
+/* stylelint-disable-next-line defensive-css/require-pure-selectors -- the
+   root theme attribute is the application's intentional theme hook */
 [data-theme="light"] {
   --color-bg: var(--brand-white);
   --color-surface: #f7f2ec;
@@ -40,6 +42,8 @@
   --color-logo: var(--brand-aussie-blue);
 }
 
+/* stylelint-disable-next-line defensive-css/require-pure-selectors -- the
+   root theme attribute is the application's intentional theme hook */
 [data-theme="dark"] {
   --color-bg: #14171c;
   --color-surface: var(--brand-aussie-blue);

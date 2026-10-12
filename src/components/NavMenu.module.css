@@ -26,12 +26,14 @@
   transition: background-color 0.15s ease;
 }
 
-.toggle:hover {
-  border-color: var(--color-primary);
-}
+@media (hover: hover) {
+  .toggle:hover {
+    border-color: var(--color-primary);
+  }
 
-.toggle:hover .bar {
-  background-color: var(--color-primary);
+  .toggle:hover .bar {
+    background-color: var(--color-primary);
+  }
 }
 
 .toggle:focus-visible {
@@ -53,10 +55,15 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease,
-    visibility 0.15s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .list {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      visibility 0.15s ease;
+  }
 }
 
 .listOpen {
@@ -66,7 +73,7 @@
 }
 
 .list ul {
-  list-style: none;
+  list-style-type: "";
   margin: 0;
   padding: 0.5rem;
   display: flex;
@@ -83,10 +90,16 @@
   font-weight: 600;
 }
 
-.link:hover,
 .linkActive {
   background-color: var(--color-surface-strong);
   color: var(--color-primary);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    background-color: var(--color-surface-strong);
+    color: var(--color-primary);
+  }
 }
 
 .link:focus-visible {
