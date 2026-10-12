@@ -58,9 +58,10 @@ npx vitest run -t "opens a dialog"          # run tests matching a name
 
 npm run lint / lint:fix     # ESLint (TS/React)
 npm run lint:css / lint:css:fix  # Stylelint (CSS Modules)
+npm run lint:md / lint:md:fix    # markdownlint (all Markdown files)
 npm run format / format:check    # Prettier
 npm run spellcheck           # cspell (en-GB)
-npm run validate             # lint + lint:css + lint:package-json + format:check + spellcheck + test + build — run before considering work done
+npm run validate             # lint + lint:css + lint:md + lint:package-json + format:check + spellcheck + test + build — run before considering work done
 ```
 
 The tests run in Vitest browser mode.
@@ -160,10 +161,12 @@ The larger image in the dialog has real, descriptive `alt` text, because the dia
 - Stylelint uses `stylelint-config-standard`, `stylelint-config-css-modules`, and the recommended config from `stylelint-plugin-defensive-css`. It overrides `selector-class-pattern` to `^[a-z][a-zA-Z0-9]*$` because `stylelint-config-css-modules` does not itself relax that rule for camelCase class names, and allows intentional global/theme selectors in `defensive-css/require-pure-selectors`.
 - cspell uses the config file `cspell.json`, set to British English (`en-GB`).
   Add a genuinely new, correct project word to the `words` list; do not turn off a spelling check.
+- markdownlint uses `.markdownlint-cli2.jsonc` for all Markdown files, including files in hidden directories.
+  Use the default rules except `MD013` for one sentence per line and `MD033` for the README logo image.
 - npm-package-json-lint uses the config file `.npmpackagejsonlintrc.json`.
   The rules `prefer-absolute-version-dependencies` and `prefer-absolute-version-devDependencies` require an exact version for each package in `dependencies` and in `devDependencies` — no `^` and no `~` prefix.
   Pin a new dependency to its exact installed version, from `package-lock.json`, when you add it.
-- The command `npm run validate` runs all 5 tools above, plus the tests, plus a production build, together.
+- The command `npm run validate` runs all 6 tools above, plus the tests, plus a production build, together.
   The test runner does not type-check a file, only transpile it, so the build step catches a type error the tests miss.
 - The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow.
   This workflow runs on each pull request against `main`.

@@ -14,11 +14,13 @@
     "lint:fix": "eslint . --fix",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:css:fix": "stylelint \"src/**/*.css\" --fix",
+    "lint:md": "markdownlint-cli2",
+    "lint:md:fix": "markdownlint-cli2 --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "spellcheck": "cspell \"**/*.{ts,tsx,css,md,json,html}\"",
     "lint:package-json": "npmPkgJsonLint .",
-    "validate": "npm run lint && npm run lint:css && npm run lint:package-json && npm run format:check && npm run spellcheck && npm run test && npm run build"
+    "validate": "npm run lint && npm run lint:css && npm run lint:md && npm run lint:package-json && npm run format:check && npm run spellcheck && npm run test && npm run build"
   },
   "dependencies": {
     "react": "19.3.0",
@@ -40,6 +42,7 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.6",
     "globals": "17.12.0",
+    "markdownlint-cli2": "0.23.3",
     "npm-package-json-lint": "11.0.0",
     "playwright": "1.63.0",
     "prettier": "3.9.6",
