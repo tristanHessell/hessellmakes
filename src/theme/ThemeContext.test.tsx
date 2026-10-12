@@ -23,10 +23,14 @@ function mockSystemTheme(prefersDark: boolean) {
       return matches;
     },
     media: "(prefers-color-scheme: dark)",
-    addEventListener: (_type, listener) =>
-      listeners.add(listener as (event: MediaQueryListEvent) => void),
-    removeEventListener: (_type, listener) =>
-      listeners.delete(listener as (event: MediaQueryListEvent) => void),
+    addEventListener: (
+      _type: string,
+      listener: (event: MediaQueryListEvent) => void,
+    ) => listeners.add(listener),
+    removeEventListener: (
+      _type: string,
+      listener: (event: MediaQueryListEvent) => void,
+    ) => listeners.delete(listener),
   } as unknown as MediaQueryList);
 
   return {

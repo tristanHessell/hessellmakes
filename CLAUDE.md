@@ -60,7 +60,7 @@ npm run lint / lint:fix     # ESLint (TS/React)
 npm run lint:css / lint:css:fix  # Stylelint (CSS Modules)
 npm run format / format:check    # Prettier
 npm run spellcheck           # cspell (en-GB)
-npm run validate             # lint + lint:css + format:check + spellcheck + test — run before considering work done
+npm run validate             # lint + lint:css + lint:package-json + format:check + spellcheck + test + build — run before considering work done
 ```
 
 The tests run in Vitest browser mode.
@@ -154,7 +154,8 @@ The larger image in the dialog has real, descriptive `alt` text, because the dia
 - npm-package-json-lint uses the config file `.npmpackagejsonlintrc.json`.
   The rules `prefer-absolute-version-dependencies` and `prefer-absolute-version-devDependencies` require an exact version for each package in `dependencies` and in `devDependencies` — no `^` and no `~` prefix.
   Pin a new dependency to its exact installed version, from `package-lock.json`, when you add it.
-- The command `npm run validate` runs all 5 tools above, plus the tests, together.
+- The command `npm run validate` runs all 5 tools above, plus the tests, plus a production build, together.
+  The test runner does not type-check a file, only transpile it, so the build step catches a type error the tests miss.
 - The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow.
   This workflow runs on each pull request against `main`.
   The workflow first installs Chromium through Playwright, since the tests need a real browser, then runs `npm run validate`.

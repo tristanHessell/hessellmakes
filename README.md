@@ -105,16 +105,18 @@ This project uses the standard, default config for each tool below, with little 
 The ESLint config lists `eslint-config-prettier` last.
 This turns off every ESLint formatting rule that could conflict with Prettier, so the two tools never disagree.
 
-Run every check above, plus the tests, together with this command:
+Run every check above, plus the tests, plus a production build, together with this command:
 
 ```bash
 npm run validate
 ```
 
+The test runner does not type-check a file, only transpile it, so add the build step to catch a type error the tests miss.
+
 ## Continuous integration
 
 The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow.
-This workflow runs `npm run validate` — the full check above, with the tests — on each pull request against `main`.
+This workflow runs `npm run validate` — the full check above, with the tests and the build — on each pull request against `main`.
 The workflow first installs Chromium through Playwright on the runner, since the tests need a real browser, not jsdom (see [Tests](#tests)).
 
 This workflow shows a pass or fail check on each pull request.

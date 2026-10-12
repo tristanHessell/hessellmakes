@@ -28,6 +28,8 @@ jobs:
       # see CLAUDE.md.
       - run: npx playwright install --with-deps chromium
 
-      # Runs lint, lint:css, format:check, spellcheck, and the test suite —
-      # the same command used locally before considering work done.
+      # Runs lint, lint:css, lint:package-json, format:check, spellcheck, the
+      # test suite, and a production build — the same command used locally
+      # before considering work done. The build step fails this check on a
+      # type error the test suite does not catch.
       - run: npm run validate
