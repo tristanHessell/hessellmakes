@@ -4,6 +4,23 @@ import { Gallery } from "./Gallery";
 import { soccerBalls } from "../data/soccerBalls";
 import { expectNoA11yViolations } from "../testUtils/a11y";
 
+function swipe(
+  target: Element,
+  start: { x: number; y: number },
+  end: { x: number; y: number },
+) {
+  fireEvent.touchStart(target, {
+    touches: [
+      new Touch({ identifier: 0, target, clientX: start.x, clientY: start.y }),
+    ],
+  });
+  fireEvent.touchEnd(target, {
+    changedTouches: [
+      new Touch({ identifier: 0, target, clientX: end.x, clientY: end.y }),
+    ],
+  });
+}
+
 describe("Gallery", () => {
   it("renders the page heading and a card for every ball", () => {
     render(<Gallery />);
@@ -98,6 +115,58 @@ describe("Gallery", () => {
 
     fireEvent.click(screen.getByRole("button", { name: secondBall.name }));
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowLeft" });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: firstBall.name }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the next ball when the dialog is swiped left", () => {
+    render(<Gallery />);
+    const [firstBall, secondBall] = soccerBalls;
+
+    fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+    const dialog = screen.getByRole("dialog");
+    swipe(dialog, { x: 200, y: 0 }, { x: 100, y: 0 });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: secondBall.name }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the previous ball when the dialog is swiped right", () => {
+    render(<Gallery />);
+    const [firstBall, secondBall] = soccerBalls;
+
+    fireEvent.click(screen.getByRole("button", { name: secondBall.name }));
+    const dialog = screen.getByRole("dialog");
+    swipe(dialog, { x: 100, y: 0 }, { x: 200, y: 0 });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: firstBall.name }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not change the ball when the swipe is too short", () => {
+    render(<Gallery />);
+    const firstBall = soccerBalls[0];
+
+    fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+    const dialog = screen.getByRole("dialog");
+    swipe(dialog, { x: 100, y: 0 }, { x: 120, y: 0 });
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: firstBall.name }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not change the ball when the swipe is mostly vertical", () => {
+    render(<Gallery />);
+    const firstBall = soccerBalls[0];
+
+    fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+    const dialog = screen.getByRole("dialog");
+    swipe(dialog, { x: 100, y: 0 }, { x: 160, y: 200 });
 
     expect(
       screen.getByRole("heading", { level: 2, name: firstBall.name }),

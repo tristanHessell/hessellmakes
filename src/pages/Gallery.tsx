@@ -1,13 +1,23 @@
-import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import {
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent,
+  type TouchEvent,
+} from "react";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Gallery.module.css";
+
+// A swipe shorter than this, in pixels, is a tap or a scroll, not a swipe.
+const SWIPE_THRESHOLD = 50;
 
 export function Gallery() {
   usePageTitle("Gallery");
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const selectedBall =
     selectedIndex === null ? null : soccerBalls[selectedIndex];
 
@@ -48,6 +58,38 @@ export function Gallery() {
     }
   }
 
+  function handleTouchStart(event: TouchEvent<HTMLDialogElement>) {
+    const touch = event.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDialogElement>) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    // A swipe must move more in the X direction than in the Y direction,
+    // so a vertical scroll does not also change the ball.
+    if (
+      Math.abs(deltaX) < SWIPE_THRESHOLD ||
+      Math.abs(deltaX) <= Math.abs(deltaY)
+    ) {
+      return;
+    }
+
+    if (deltaX < 0) {
+      showNext();
+    } else {
+      showPrevious();
+    }
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.intro}>
@@ -80,6 +122,8 @@ export function Gallery() {
         onClose={() => setSelectedIndex(null)}
         onClick={handleBackdropClick}
         onKeyDown={handleDialogKeyDown}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {selectedBall && (
           <div className={styles.dialogContent}>
