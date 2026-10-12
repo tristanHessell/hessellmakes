@@ -102,16 +102,22 @@ Each test file sits next to the code it tests, with the name `*.test.tsx`.
 
 This project uses the standard, default config for each tool below, with little customisation:
 
-| Tool                                                    | Config file                  | Checks                                                                                                                                                                | Command                                     |
-| ------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| [ESLint](https://eslint.org)                            | `eslint.config.js`           | TypeScript and React code. Flat config, with `@eslint/js`, the recommended `typescript-eslint` rules, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh`. | `npm run lint` / `npm run lint:fix`         |
-| [Prettier](https://prettier.io)                         | `.prettierrc.json`           | Formatting. All settings use the default value.                                                                                                                       | `npm run format` / `npm run format:check`   |
-| [Stylelint](https://stylelint.io)                       | `.stylelintrc.json`          | CSS. Uses the standard, CSS Modules, and defensive CSS recommended configs. The rule `selector-class-pattern` allows the camelCase class names from CSS Modules.      | `npm run lint:css` / `npm run lint:css:fix` |
-| [cspell](https://cspell.org)                            | `cspell.json`                | Spelling, in code and in docs. Set to British English (`en-GB`), to match this repository.                                                                            | `npm run spellcheck`                        |
-| [npm-package-json-lint](https://npmpackagejsonlint.org) | `.npmpackagejsonlintrc.json` | `package.json` validity. Requires an exact version, with no `^` and no `~` prefix, for each dependency and each dev dependency.                                       | `npm run lint:package-json`                 |
+| Tool                                                       | Config file                  | Checks                                                                                                                                                                | Command                                     |
+| ---------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| [ESLint](https://eslint.org)                               | `eslint.config.js`           | TypeScript and React code. Flat config, with `@eslint/js`, the recommended `typescript-eslint` rules, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh`. | `npm run lint` / `npm run lint:fix`         |
+| [Prettier](https://prettier.io)                            | `.prettierrc.json`           | Formatting. All settings use the default value.                                                                                                                       | `npm run format` / `npm run format:check`   |
+| [Stylelint](https://stylelint.io)                          | `.stylelintrc.json`          | CSS. Uses the standard, CSS Modules, and defensive CSS recommended configs. The rule `selector-class-pattern` allows the camelCase class names from CSS Modules.      | `npm run lint:css` / `npm run lint:css:fix` |
+| [markdownlint](https://github.com/DavidAnson/markdownlint) | `.markdownlint-cli2.jsonc`   | Markdown. Uses the default rules, with exceptions for sentence-length lines and the HTML logo image.                                                                  | `npm run lint:md` / `npm run lint:md:fix`   |
+| [cspell](https://cspell.org)                               | `cspell.json`                | Spelling, in code and in docs. Set to British English (`en-GB`), to match this repository.                                                                            | `npm run spellcheck`                        |
+| [npm-package-json-lint](https://npmpackagejsonlint.org)    | `.npmpackagejsonlintrc.json` | `package.json` validity. Requires an exact version, with no `^` and no `~` prefix, for each dependency and each dev dependency.                                       | `npm run lint:package-json`                 |
 
 The ESLint config lists `eslint-config-prettier` last.
 This turns off every ESLint formatting rule that could conflict with Prettier, so the two tools never disagree.
+
+The Markdown check includes files in hidden directories, such as `.claude/skills`.
+It excludes dependencies in `node_modules`, build output in `dist`, and Git metadata in `.git`.
+The configuration disables `MD013` to permit one sentence per line.
+It allows only the `img` HTML element under `MD033` for the README logo.
 
 Run every check above, plus the tests, plus a production build, together with this command:
 
@@ -246,7 +252,7 @@ The Gallery page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Pr
 
 ## Project structure
 
-```
+```text
 index.html                       Entry HTML page
 src/main.tsx                      App entry point
 src/App.tsx                       Sets up ThemeProvider + BrowserRouter + routes
