@@ -18,35 +18,65 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function getPreferredTheme(): ThemeName {
+const DARK_MEDIA_QUERY = "(prefers-color-scheme: dark)";
+
+/** The theme the user set explicitly, through the theme toggle, if any. */
+function getStoredTheme(): ThemeName | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  return stored === "light" || stored === "dark" ? stored : null;
+}
+
+/** The theme the user's browser or OS currently prefers. */
+function getSystemTheme(): ThemeName {
   if (typeof window === "undefined") {
     return "light";
   }
 
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored === "light" || stored === "dark") {
-    return stored;
-  }
-
-  return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches
-    ? "dark"
-    : "light";
+  return window.matchMedia?.(DARK_MEDIA_QUERY)?.matches ? "dark" : "light";
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>(getPreferredTheme);
+  const [theme, setThemeState] = useState<ThemeName>(
+    () => getStoredTheme() ?? getSystemTheme(),
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
+
+  useEffect(() => {
+    // The user has not chosen a theme explicitly yet, so this component
+    // must keep following the browser or OS theme, until the user does.
+    const media = window.matchMedia?.(DARK_MEDIA_QUERY);
+    if (!media) {
+      return;
+    }
+
+    function handleChange(event: MediaQueryListEvent) {
+      if (getStoredTheme() !== null) {
+        return;
+      }
+      setThemeState(event.matches ? "dark" : "light");
+    }
+
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
+
+  function setTheme(next: ThemeName) {
+    window.localStorage.setItem(STORAGE_KEY, next);
+    setThemeState(next);
+  }
 
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
-      setTheme: setThemeState,
-      toggleTheme: () =>
-        setThemeState((current) => (current === "light" ? "dark" : "light")),
+      setTheme,
+      toggleTheme: () => setTheme(theme === "light" ? "dark" : "light"),
     }),
     [theme],
   );
