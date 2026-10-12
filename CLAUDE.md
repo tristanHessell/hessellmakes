@@ -143,7 +143,10 @@ The larger image in the dialog has real, descriptive `alt` text, because the dia
 - Stylelint uses `stylelint-config-standard` and `stylelint-config-css-modules`, and overrides the rule `selector-class-pattern` to `^[a-z][a-zA-Z0-9]*$` — this override is necessary because `stylelint-config-css-modules` does not itself relax that rule for camelCase class names.
 - cspell uses the config file `cspell.json`, set to British English (`en-GB`).
   Add a genuinely new, correct project word to the `words` list; do not turn off a spelling check.
-- The command `npm run validate` runs all 4 tools above, plus the tests, together.
+- npm-package-json-lint uses the config file `.npmpackagejsonlintrc.json`.
+  The rules `prefer-absolute-version-dependencies` and `prefer-absolute-version-devDependencies` require an exact version for each package in `dependencies` and in `devDependencies` — no `^` and no `~` prefix.
+  Pin a new dependency to its exact installed version, from `package-lock.json`, when you add it.
+- The command `npm run validate` runs all 5 tools above, plus the tests, together.
 - The file `.github/workflows/validate.yml` sets up a GitHub Actions workflow.
   This workflow runs on each pull request against `main`.
   The workflow first installs Chromium through Playwright, since the tests need a real browser, then runs `npm run validate`.
