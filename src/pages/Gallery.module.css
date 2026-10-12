@@ -21,9 +21,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    [card-start] minmax(180px, 1fr) [card-end]
+  );
   gap: 1.5rem;
-  list-style: none;
+  list-style-type: "";
   padding: 0;
   margin: 0;
 }
@@ -42,8 +45,10 @@
   font: inherit;
 }
 
-.card:hover {
-  border-color: var(--color-primary);
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--color-primary);
+  }
 }
 
 .card:focus-visible {
@@ -163,9 +168,11 @@
   cursor: pointer;
 }
 
-.dialogClose:hover {
-  background-color: var(--color-surface-strong);
-  color: var(--color-primary);
+@media (hover: hover) {
+  .dialogClose:hover {
+    background-color: var(--color-surface-strong);
+    color: var(--color-primary);
+  }
 }
 
 .dialogClose:focus-visible {
@@ -196,8 +203,10 @@
   right: 0.5rem;
 }
 
-.dialogNav:hover {
-  color: var(--color-primary);
+@media (hover: hover) {
+  .dialogNav:hover {
+    color: var(--color-primary);
+  }
 }
 
 .dialogNav:focus-visible {

@@ -1,6 +1,18 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
+  "plugins": ["stylelint-plugin-defensive-css"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-css-modules",
+    "stylelint-plugin-defensive-css/configs/recommended"
+  ],
   "rules": {
+    "defensive-css/require-pure-selectors": [
+      true,
+      {
+        "ignoreAttributeModifiers": true,
+        "ignoreElements": ["*", "html", "body"]
+      }
+    ],
     "selector-class-pattern": "^[a-z][a-zA-Z0-9]*$"
   }
 }

@@ -43,13 +43,18 @@
   color: var(--color-primary-text);
 }
 
-.ctaPrimary:hover {
-  opacity: 0.9;
+@media (hover: hover) {
+  .ctaPrimary:hover {
+    opacity: 0.9;
+  }
 }
 
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    [feature-start] minmax(220px, 1fr) [feature-end]
+  );
   gap: 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
