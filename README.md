@@ -1,6 +1,14 @@
 # HessellMakes Website
 
+<img src="public/favicon.svg" alt="HessellMakes logo" width="100" height="100" />
+
+Visit [HessellMakes](https://www.hessellmakes.com.au).
+
+HessellMakes creates custom leather soccer balls by hand in Perth, Western Australia.
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d24a906a-cdd5-4b4a-b9b7-899eef1d9451/deploy-status)](https://app.netlify.com/projects/statuesque-smakager-0729f9/deploys)
+
+## Project Overview
 
 This is a React and TypeScript site for the HessellMakes brand, built with [Vite](https://vite.dev).
 The site has 5 pages: Home, Gallery, About, Contact, and Design.
