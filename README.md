@@ -7,6 +7,9 @@ The site has 5 pages: Home, Gallery, About, Contact, and Design.
 The hamburger nav links to Home, Gallery, and About only — a visitor can reach Contact and Design only through the direct URL (see [Pages & navigation](#pages--navigation)).
 The site runs locally with hot reload, and the build produces a static bundle for upload to any CDN.
 
+A temporary Coming Soon page sits at the site root.
+The 5 pages above sit under `/site` instead, until this page comes down — see [Pages & navigation](#pages--navigation).
+
 ## Requirements
 
 - Node.js, version 18 or a later version.
@@ -60,7 +63,7 @@ Upload all the contents of `dist/` to your CDN or static host.
 The site needs no server-side runtime — it is plain HTML, CSS, and JS.
 
 The routing uses real URLs (see [Pages & navigation](#pages--navigation)).
-Because of this, the host needs an SPA fallback rewrite rule: a rule that sends each path with no matching real file, for example `/gallery` or `/contact`, to `dist/index.html`, instead of a 404 error.
+Because of this, the host needs an SPA fallback rewrite rule: a rule that sends each path with no matching real file, for example `/site/gallery` or `/site/contact`, to `dist/index.html`, instead of a 404 error.
 React Router then reads the real path and renders the correct page.
 Most static hosts and CDNs support this kind of rule, often called a "rewrite all to index.html" rule or a "single-page app" rule.
 The file `public/_redirects` already gives this rule for Netlify, and for Cloudflare Pages, which also reads this file format.
@@ -174,26 +177,43 @@ The site works from phone widths up to laptop and desktop widths:
 ## Pages & navigation
 
 The routing uses [React Router](https://reactrouter.com), in declarative mode, through `BrowserRouter`.
-Because of this, a URL looks like `/gallery`, not `/#/gallery`.
+Because of this, a URL looks like `/site/gallery`, not `/#/site/gallery`.
 This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN](#deploying-to-a-cdn): each path resolves to the same `index.html` file, and React Router then reads the route from the real URL path.
 
-- `/` — Home, in `src/pages/Home.tsx`. This page has the hero section and the features section.
-- `/gallery` — Gallery, in `src/pages/Gallery.tsx`.
+- `/` — `ComingSoon`, in `src/pages/ComingSoon.tsx`.
+  This page shows the logo, the message "Coming soon!", and the footer.
+  This page is temporary — see the Coming Soon page note below.
+- `/site` — Home, in `src/pages/Home.tsx`. This page has the hero section and the features section.
+- `/site/gallery` — Gallery, in `src/pages/Gallery.tsx`.
   This page shows a grid of custom soccer balls.
   A click on a ball opens a dialog with its name and its description.
-- `/about` — About, in `src/pages/About.tsx`.
+- `/site/about` — About, in `src/pages/About.tsx`.
   This page has a founder blurb and a portrait.
   The portrait is a placeholder graphic, `src/components/FounderPortrait.tsx`, until a real photo is ready.
-- `/contact` — Contact, in `src/pages/Contact.tsx`.
+- `/site/contact` — Contact, in `src/pages/Contact.tsx`.
   This page has a simple contact form.
   By design, this page is not linked from the nav, and not linked from any other part of the UI — a visitor can reach this page only through the direct URL.
-- `/design` — Design, in `src/pages/Design.tsx`.
+- `/site/design` — Design, in `src/pages/Design.tsx`.
   This page shows the brand colour palette.
   This page is also unlinked, by design, for the same reason.
 
-Each page renders inside `AppLayout`, in `src/components/AppLayout.tsx`.
+Each page except `ComingSoon` renders inside `AppLayout`, in `src/components/AppLayout.tsx`.
 `AppLayout` renders the shared header (the logo, the hamburger nav, and the theme toggle) and the footer, around a React Router `<Outlet />`.
 The hamburger menu, in `src/components/NavMenu.tsx`, links to Home, to Gallery, and to About, and highlights the active page.
+`AppLayout` and `NavMenu` link to each other page with a route-relative path, not an absolute path, so they need no change if the site's mount path ever changes again.
+
+### Coming Soon page (temporary)
+
+`src/pages/ComingSoon.tsx` is a holding page.
+It shows while the rest of the site sits under `/site` instead of at the site root.
+It shares the footer component, `src/components/Footer.tsx`, with `AppLayout`, but keeps its own CSS module, so it has no other tie to `AppLayout`.
+
+To remove this page, and move the rest of the site back to the site root:
+
+1. Open `src/App.tsx`.
+2. Delete the `Route` for `ComingSoon`.
+3. Change the next `Route`'s path from `/site` back to `/`.
+4. Delete `src/pages/ComingSoon.tsx` and `src/pages/ComingSoon.module.css`.
 
 ## Project structure
 

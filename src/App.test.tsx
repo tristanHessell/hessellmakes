@@ -6,6 +6,7 @@ describe("App", () => {
   beforeEach(() => {
     window.localStorage.clear();
     document.documentElement.removeAttribute("data-theme");
+    window.history.pushState({}, "", "/");
   });
 
   afterEach(() => {
@@ -13,7 +14,16 @@ describe("App", () => {
     document.documentElement.removeAttribute("data-theme");
   });
 
-  it("renders the home page by default", () => {
+  // TEMPORARY: the site root shows a Coming Soon page, and the real site
+  // sits under "/site" — see the routing comment in App.tsx. This test, and
+  // the "/site" push in each test below, can go once that page is removed.
+  it("shows the coming soon page at the site root", () => {
+    render(<App />);
+    expect(screen.getByText("Coming soon!")).toBeInTheDocument();
+  });
+
+  it("renders the home page under /site", () => {
+    window.history.pushState({}, "", "/site");
     render(<App />);
     expect(
       screen.getByRole("heading", {
@@ -24,6 +34,7 @@ describe("App", () => {
   });
 
   it("applies a theme attribute to the document root", () => {
+    window.history.pushState({}, "", "/site");
     render(<App />);
     expect(document.documentElement.getAttribute("data-theme")).toMatch(
       /^(light|dark)$/,
@@ -31,6 +42,7 @@ describe("App", () => {
   });
 
   it("navigates to the Gallery and About pages via the hamburger menu", async () => {
+    window.history.pushState({}, "", "/site");
     render(<App />);
 
     // The dropdown fades/flips visibility in via a CSS transition, so a nav

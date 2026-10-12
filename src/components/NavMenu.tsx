@@ -8,10 +8,12 @@ interface NavItem {
   to: string;
 }
 
+// Relative paths, so this menu still points at the right pages when
+// AppLayout is mounted under a prefix (e.g. "/site") rather than at "/".
 const navItems: NavItem[] = [
-  { label: "Home", to: "/" },
-  { label: "Gallery", to: "/gallery" },
-  { label: "About", to: "/about" },
+  { label: "Home", to: "." },
+  { label: "Gallery", to: "gallery" },
+  { label: "About", to: "about" },
 ];
 
 export function NavMenu() {
@@ -76,7 +78,7 @@ export function NavMenu() {
             <li key={item.to}>
               <NavLink
                 to={item.to}
-                end={item.to === "/"}
+                end={item.to === "."}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }: { isActive: boolean }) =>
                   isActive ? `${styles.link} ${styles.linkActive}` : styles.link
