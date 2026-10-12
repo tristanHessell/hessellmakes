@@ -19,7 +19,7 @@ describe("App", () => {
   // the "/site" push in each test below, can go once that page is removed.
   it("shows the coming soon page at the site root", () => {
     render(<App />);
-    expect(screen.getByText("Coming soon!")).toBeInTheDocument();
+    expect(screen.getByText(/coming soon!$/i)).toBeInTheDocument();
   });
 
   it("renders the home page under /site", () => {
@@ -28,7 +28,7 @@ describe("App", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Handmade, built to last.",
+        name: "Handmade soccer balls, built to last.",
       }),
     ).toBeInTheDocument();
   });

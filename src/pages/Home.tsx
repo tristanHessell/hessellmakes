@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { usePageTitle } from "../hooks/usePageTitle";
+import { useSeo } from "../hooks/useSeo";
 import styles from "./Home.module.css";
 
 const features = [
@@ -21,15 +21,20 @@ const features = [
 ];
 
 export function Home() {
-  usePageTitle("Home");
+  useSeo({
+    title: "Handmade Custom Soccer Balls in Perth, WA",
+    description:
+      "Handmade custom soccer balls, hand-stitched to order in our Perth, Western Australia workshop. Considered design, durable leather, built to last.",
+  });
 
   return (
     <>
       <section className={styles.hero}>
-        <h1>Handmade, built to last.</h1>
+        <h1>Handmade soccer balls, built to last.</h1>
         <p>
-          HessellMakes is a small workshop turning raw materials into
-          considered, everyday pieces — designed with care and finished by hand.
+          HessellMakes is a small Perth, Western Australia workshop,
+          hand-stitching custom soccer balls from raw leather into considered,
+          one-of-a-kind pieces.
         </p>
         <div className={styles.ctaGroup}>
           <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="gallery">

@@ -98,7 +98,7 @@ This project uses the standard, default config for each tool below, with little 
 | ------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | [ESLint](https://eslint.org)                            | `eslint.config.js`           | TypeScript and React code. Flat config, with `@eslint/js`, the recommended `typescript-eslint` rules, `eslint-plugin-react-hooks`, and `eslint-plugin-react-refresh`. | `npm run lint` / `npm run lint:fix`         |
 | [Prettier](https://prettier.io)                         | `.prettierrc.json`           | Formatting. All settings use the default value.                                                                                                                       | `npm run format` / `npm run format:check`   |
-| [Stylelint](https://stylelint.io)                       | `.stylelintrc.json`          | CSS. Uses `stylelint-config-standard` and `stylelint-config-css-modules`. The rule `selector-class-pattern` allows the camelCase class names from CSS Modules.        | `npm run lint:css` / `npm run lint:css:fix` |
+| [Stylelint](https://stylelint.io)                       | `.stylelintrc.json`          | CSS. Uses the standard, CSS Modules, and defensive CSS recommended configs. The rule `selector-class-pattern` allows the camelCase class names from CSS Modules.      | `npm run lint:css` / `npm run lint:css:fix` |
 | [cspell](https://cspell.org)                            | `cspell.json`                | Spelling, in code and in docs. Set to British English (`en-GB`), to match this repository.                                                                            | `npm run spellcheck`                        |
 | [npm-package-json-lint](https://npmpackagejsonlint.org) | `.npmpackagejsonlintrc.json` | `package.json` validity. Requires an exact version, with no `^` and no `~` prefix, for each dependency and each dev dependency.                                       | `npm run lint:package-json`                 |
 
@@ -216,6 +216,25 @@ To remove this page, and move the rest of the site back to the site root:
 2. Delete the `Route` for `ComingSoon`.
 3. Change the next `Route`'s path from `/site` back to `/`.
 4. Delete `src/pages/ComingSoon.tsx` and `src/pages/ComingSoon.module.css`.
+5. Update `public/sitemap.xml` to match — see the SEO section below.
+
+## SEO
+
+`index.html` sets a default page title, a default meta description, a canonical link, an `og:*` and a `twitter:*` preview tag, and a `LocalBusiness` JSON-LD block, each with the production domain, `https://www.hessellmakes.com`.
+These defaults are for a crawler that does not run JavaScript, for example a social media link preview bot.
+
+Each page then calls `useSeo`, in `src/hooks/useSeo.ts`, with its own short title and its own 1 or 2 sentence description.
+This hook overrides the document title, the meta description, the canonical link, the robots directive, and the preview tags, for a crawler or a browser that does run JavaScript.
+A page that is intentionally unlinked, for example Contact or Design, passes `noindex: true`, so a search engine does not index it.
+
+The Gallery page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
+
+- `public/favicon.svg` is the browser tab icon, the "H" mark from the logo, in Aussie Blue.
+- `public/og-image.jpg` is the default social media preview image, a photo of the Wave Weave ball.
+- `public/robots.txt` allows every crawler, and points to the sitemap.
+- `public/sitemap.xml` lists each page search engines should index.
+  It excludes Contact and Design, both unlinked by design — see [Pages & navigation](#pages--navigation).
+  **Temporary**: each URL in this file includes the `/site` prefix — update them when the Coming Soon page comes down, see the note above.
 
 ## Project structure
 

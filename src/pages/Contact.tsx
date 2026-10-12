@@ -1,10 +1,17 @@
 import { useState, type FormEvent } from "react";
-import { usePageTitle } from "../hooks/usePageTitle";
+import { useSeo } from "../hooks/useSeo";
 import styles from "./Contact.module.css";
 
 // Not linked from the nav — reachable only by visiting /contact directly.
 export function Contact() {
-  usePageTitle("Contact");
+  useSeo({
+    title: "Contact",
+    description:
+      "Commission a custom hand-stitched soccer ball from HessellMakes in Perth, WA.",
+    // Not linked from anywhere in the UI, by design, so a search engine
+    // should not index or recommend this page either.
+    noindex: true,
+  });
 
   const [submitted, setSubmitted] = useState(false);
 

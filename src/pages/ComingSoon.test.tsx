@@ -7,13 +7,15 @@ describe("ComingSoon", () => {
   it("shows the coming soon message", () => {
     render(<ComingSoon />);
 
-    expect(screen.getByText("Coming soon!")).toBeInTheDocument();
+    expect(screen.getByText(/coming soon!$/i)).toBeInTheDocument();
   });
 
-  it("shows the brand name", () => {
+  it("shows the brand name as the page heading", () => {
     render(<ComingSoon />);
 
-    expect(screen.getByText("HESSELL")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "HESSELLMAKES" }),
+    ).toBeInTheDocument();
   });
 
   it("shows the footer copyright notice", () => {

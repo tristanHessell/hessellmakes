@@ -23,6 +23,8 @@ function App() {
               2. Change the Route path below from "/site" back to "/".
               3. Delete src/pages/ComingSoon.tsx and
                  src/pages/ComingSoon.module.css.
+              4. Update public/sitemap.xml to match — see the SEO section
+                 in README.md.
               AppLayout, NavMenu, and the in-app links all use route-relative
               paths, so they need no change either way. */}
           <Route path="/" element={<ComingSoon />} />

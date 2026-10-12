@@ -1,4 +1,4 @@
-import { usePageTitle } from "../hooks/usePageTitle";
+import { useSeo } from "../hooks/useSeo";
 import { brandColors } from "../theme/colors";
 import styles from "./Design.module.css";
 
@@ -12,7 +12,13 @@ const palette: { name: string; hex: string }[] = [
 
 // Not linked from the nav — reachable only by visiting /design directly.
 export function Design() {
-  usePageTitle("Design");
+  useSeo({
+    title: "Design",
+    description: "The HessellMakes brand colour palette.",
+    // Not linked from anywhere in the UI, by design, so a search engine
+    // should not index or recommend this page either.
+    noindex: true,
+  });
 
   return (
     <section className={styles.palette} aria-label="Brand colour palette">

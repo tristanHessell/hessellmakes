@@ -121,6 +121,15 @@ It shows the logo, with the same hover animation as the header, the message "Com
 It reuses `src/components/Footer.tsx`, the component `AppLayout` also uses, but keeps its own CSS module, so it has no other tie to `AppLayout`.
 To remove this page and restore the site at `/`, follow the numbered comment next to the routes in `src/App.tsx`.
 
+**SEO**: `src/hooks/useSeo.ts` sets the document title, the meta description, the canonical link, the robots directive, and the Open Graph / Twitter preview tags, for the current page.
+Call it once in each page component, with a short `title` and a 1 or 2 sentence `description` — see an existing page for the exact shape.
+Pass `noindex: true` for a page that is intentionally unlinked, for example Contact or Design, so a search engine does not index it.
+`index.html` sets a default value for each of these tags, and a static `LocalBusiness` JSON-LD block, for a crawler that does not run JavaScript; `useSeo` then overrides the tags with a page-specific value, for a crawler or a browser that does.
+`src/hooks/useJsonLd.ts` adds a `<script type="application/ld+json">` with structured data to the page, for example the `Product` data Gallery adds for the open ball, and removes it again when the data changes or the component unmounts.
+`public/robots.txt` and `public/sitemap.xml` are static files, copied as-is into the build.
+Update both, along with the hardcoded domain in `index.html`, if the live domain, `https://www.hessellmakes.com`, ever changes.
+**Temporary**: `public/sitemap.xml` lists each page's current URL, under `/site`; update these URLs, the same way as the routes in `src/App.tsx`, once the Coming Soon page comes down.
+
 **Theming**: `src/theme/colors.ts` holds the brand palette, taken from `ColourGuide.pdf`.
 `src/theme/theme.css` maps these colours to CSS custom properties, set per `[data-theme="light"]` and per `[data-theme="dark"]`.
 Each component must use these properties, for example `--color-primary` and `--color-bg` — never write a fixed colour value in a component.
@@ -148,7 +157,7 @@ The larger image in the dialog has real, descriptive `alt` text, because the dia
 - ESLint uses the flat config format, in `eslint.config.js`, with ESLint 10 and `typescript-eslint`.
   Reference the flat preset from `eslint-plugin-react-hooks` as `reactHooks.configs.flat['recommended-latest']` — do not use the old top-level export.
   `eslint-config-prettier` must be the last entry in the config, to stop ESLint rules from conflicting with Prettier rules.
-- Stylelint uses `stylelint-config-standard` and `stylelint-config-css-modules`, and overrides the rule `selector-class-pattern` to `^[a-z][a-zA-Z0-9]*$` — this override is necessary because `stylelint-config-css-modules` does not itself relax that rule for camelCase class names.
+- Stylelint uses `stylelint-config-standard`, `stylelint-config-css-modules`, and the recommended config from `stylelint-plugin-defensive-css`. It overrides `selector-class-pattern` to `^[a-z][a-zA-Z0-9]*$` because `stylelint-config-css-modules` does not itself relax that rule for camelCase class names, and allows intentional global/theme selectors in `defensive-css/require-pure-selectors`.
 - cspell uses the config file `cspell.json`, set to British English (`en-GB`).
   Add a genuinely new, correct project word to the `words` list; do not turn off a spelling check.
 - npm-package-json-lint uses the config file `.npmpackagejsonlintrc.json`.
