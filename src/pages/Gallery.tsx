@@ -1,11 +1,13 @@
 import {
+  useMemo,
   useRef,
   useState,
   type KeyboardEvent,
   type MouseEvent,
   type TouchEvent,
 } from "react";
-import { usePageTitle } from "../hooks/usePageTitle";
+import { useSeo } from "../hooks/useSeo";
+import { useJsonLd } from "../hooks/useJsonLd";
 import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Gallery.module.css";
 
@@ -13,13 +15,33 @@ import styles from "./Gallery.module.css";
 const SWIPE_THRESHOLD = 50;
 
 export function Gallery() {
-  usePageTitle("Gallery");
+  useSeo({
+    title: "Gallery",
+    description:
+      "Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.",
+  });
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const selectedBall =
     selectedIndex === null ? null : soccerBalls[selectedIndex];
+
+  const selectedBallJsonLd = useMemo(() => {
+    if (!selectedBall) {
+      return null;
+    }
+
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: selectedBall.name,
+      description: selectedBall.description,
+      image: `${window.location.origin}${selectedBall.imageSrc}`,
+      brand: { "@type": "Brand", name: "HessellMakes" },
+    };
+  }, [selectedBall]);
+  useJsonLd(selectedBallJsonLd);
 
   function openBall(index: number) {
     setSelectedIndex(index);
@@ -95,8 +117,8 @@ export function Gallery() {
       <div className={styles.intro}>
         <h1>Gallery</h1>
         <p>
-          Every ball is hand-stitched to order. Select a ball to see more about
-          its finish and story.
+          Every ball is hand-stitched to order in our Perth, WA workshop. Select
+          a ball to see more about its finish and story.
         </p>
       </div>
 

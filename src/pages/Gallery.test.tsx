@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Gallery } from "./Gallery";
 import { soccerBalls } from "../data/soccerBalls";
 import { expectNoA11yViolations } from "../testUtils/a11y";
@@ -198,5 +198,32 @@ describe("Gallery", () => {
 
     fireEvent.click(screen.getByRole("button", { name: soccerBalls[0].name }));
     await expectNoA11yViolations(container);
+  });
+
+  it("adds Product structured data for the open ball, and removes it when closed", async () => {
+    render(<Gallery />);
+    const firstBall = soccerBalls[0];
+
+    fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+
+    const script = document.querySelector('script[type="application/ld+json"]');
+    expect(script).not.toBeNull();
+    const data = JSON.parse(script?.textContent ?? "");
+    expect(data).toMatchObject({
+      "@type": "Product",
+      name: firstBall.name,
+      description: firstBall.description,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+
+    // The <dialog> fires its native "close" event, and the resulting state
+    // update, a tick after the click, so this check retries until the
+    // script is actually removed.
+    await waitFor(() => {
+      expect(
+        document.querySelector('script[type="application/ld+json"]'),
+      ).toBeNull();
+    });
   });
 });

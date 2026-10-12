@@ -1,9 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HessellMakes</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Each value below is a default, for a crawler that does not run
+         JavaScript, or for the first instant a page loads. src/hooks/useSeo.ts
+         then overrides the title, the description, the canonical link, the
+         robots directive, and the Open Graph / Twitter tags, with a value
+         specific to the current page. -->
+    <title>HessellMakes — Handmade Custom Soccer Balls, Perth WA</title>
+    <meta
+      name="description"
+      content="Handmade custom soccer balls, hand-stitched to order in Perth, Western Australia. Considered design, durable materials, built to last."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.hessellmakes.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HessellMakes" />
+    <meta
+      property="og:title"
+      content="HessellMakes — Handmade Custom Soccer Balls, Perth WA"
+    />
+    <meta
+      property="og:description"
+      content="Handmade custom soccer balls, hand-stitched to order in Perth, Western Australia. Considered design, durable materials, built to last."
+    />
+    <meta property="og:url" content="https://www.hessellmakes.com/" />
+    <meta
+      property="og:image"
+      content="https://www.hessellmakes.com/og-image.jpg"
+    />
+    <meta property="og:image:width" content="900" />
+    <meta property="og:image:height" content="1200" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="HessellMakes — Handmade Custom Soccer Balls, Perth WA"
+    />
+    <meta
+      name="twitter:description"
+      content="Handmade custom soccer balls, hand-stitched to order in Perth, Western Australia. Considered design, durable materials, built to last."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.hessellmakes.com/og-image.jpg"
+    />
+
+    <!-- Brand identity, for a rich search result. This stays accurate
+         whether the site sits at the domain root or under /site — see the
+         "Coming Soon page" note in CLAUDE.md. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "HessellMakes",
+        "description": "Handmade custom soccer balls, hand-stitched to order in Perth, Western Australia.",
+        "url": "https://www.hessellmakes.com/",
+        "image": "https://www.hessellmakes.com/og-image.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Perth",
+          "addressRegion": "WA",
+          "addressCountry": "AU"
+        },
+        "sameAs": [
+          "https://www.instagram.com/hessellmakes/",
+          "https://www.etsy.com/au/shop/Hessellmakes",
+          "https://www.tiktok.com/@hessellmakes"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

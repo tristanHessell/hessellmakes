@@ -18,7 +18,7 @@ describe("Home", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Handmade, built to last.",
+        name: "Handmade soccer balls, built to last.",
       }),
     ).toBeInTheDocument();
   });

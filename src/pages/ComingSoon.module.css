@@ -45,7 +45,9 @@
 }
 
 .wordmark {
+  margin: 0;
   font-size: 1.5rem;
+  font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--color-heading);
 }
