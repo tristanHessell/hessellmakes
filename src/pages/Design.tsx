@@ -10,7 +10,7 @@ const palette: { name: string; hex: string }[] = [
   { name: "White", hex: brandColors.white },
 ];
 
-// Not linked from the nav — reachable only by visiting /design directly.
+// Not linked from the nav - reachable only by visiting /design directly.
 export function Design() {
   useSeo({
     title: "Design",

@@ -4,7 +4,7 @@ const SITE_NAME = "HessellMakes";
 
 interface SeoOptions {
   /** A short page name, for example "Gallery". Combined with the site name
-   * to make the document title, for example "Gallery — HessellMakes". */
+   * to make the document title, for example "Gallery - HessellMakes". */
   title: string;
   /** A 1 or 2 sentence summary of the page, shown in a search result and in
    * a social media preview card. */
@@ -47,7 +47,7 @@ function setCanonicalLink(href: string) {
  */
 export function useSeo({ title, description, noindex = false }: SeoOptions) {
   useEffect(() => {
-    const fullTitle = `${title} — ${SITE_NAME}`;
+    const fullTitle = `${title} - ${SITE_NAME}`;
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
 
     document.title = fullTitle;

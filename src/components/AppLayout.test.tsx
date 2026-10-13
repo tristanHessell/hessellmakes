@@ -57,6 +57,12 @@ describe("AppLayout", () => {
   it("switches theme via the toggle inside the hamburger menu", async () => {
     renderAppLayout();
 
+    const logo = screen
+      .getByRole("link", { name: /hessellmakes/i })
+      .querySelector("svg");
+    expect(logo).not.toBeNull();
+    expect(getComputedStyle(logo!).fill).toBe("rgb(31, 48, 94)");
+
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
     // The dropdown fades/flips visibility in via a CSS transition, so the
     // toggle isn't in the accessibility tree the instant the class changes —
@@ -69,6 +75,7 @@ describe("AppLayout", () => {
       screen.getByRole("button", { name: /switch to light mode/i }),
     ).toBeInTheDocument();
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    expect(getComputedStyle(logo!).fill).toBe("rgb(255, 255, 255)");
   });
 
   it("opens the hamburger navigation menu and shows the nav links", async () => {

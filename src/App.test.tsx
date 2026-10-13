@@ -58,7 +58,7 @@ describe("App", () => {
 
     // The dropdown fades/flips visibility in via a CSS transition, so a nav
     // link isn't in the accessibility tree the instant the menu's class
-    // changes — findByRole retries until the transition has actually
+    // changes - findByRole retries until the transition has actually
     // applied.
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
     fireEvent.click(await screen.findByRole("link", { name: "Gallery" }));

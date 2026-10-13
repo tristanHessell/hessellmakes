@@ -9,7 +9,7 @@
   out against the dark background.
 
   English Red is reserved for negative/destructive actions only (e.g. a
-  "delete" button) via `--color-danger` — it is not used for regular buttons
+  "delete" button) via `--color-danger` - it is not used for regular buttons
   or interactive states.
 */
 
@@ -56,7 +56,7 @@
   --color-danger: var(--brand-english-red);
   --color-danger-text: var(--brand-white);
   --color-border: #33406b;
-  --color-logo: var(--brand-cream);
+  --color-logo: var(--brand-white);
 }
 
 body {

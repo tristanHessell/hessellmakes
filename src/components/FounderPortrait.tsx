@@ -4,8 +4,8 @@ interface FounderPortraitProps {
 }
 
 /**
- * Placeholder portrait glyph — a simple head-and-shoulders silhouette on a
- * soft disc — standing in for the founder's photo until one is ready.
+ * Placeholder portrait glyph - a simple head-and-shoulders silhouette on a
+ * soft disc - standing in for the founder's photo until one is ready.
  */
 export function FounderPortrait({
   size = 160,

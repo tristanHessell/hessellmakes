@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { useSeo } from "../hooks/useSeo";
 import styles from "./Contact.module.css";
 
-// Not linked from the nav — reachable only by visiting /contact directly.
+// Not linked from the nav - reachable only by visiting /contact directly.
 export function Contact() {
   useSeo({
     title: "Contact",
@@ -50,7 +50,7 @@ export function Contact() {
 
         {submitted && (
           <p className={styles.status} role="status">
-            Thanks — we'll be in touch soon.
+            Thanks - we'll be in touch soon.
           </p>
         )}
       </form>
