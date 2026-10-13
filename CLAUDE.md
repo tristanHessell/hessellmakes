@@ -119,7 +119,7 @@ The pages are:
   Defer custom orders until a later phase.
 - `/site/about` — About.
   This page has the founder blurb, in `src/pages/About.tsx`.
-  This page uses `src/components/FounderPortrait.tsx` as a placeholder graphic, until a real photo is ready.
+  This page uses Emily's photograph from `src/assets/emily.jpeg` with descriptive alt text.
 - `/site/contact` — Contact.
   `NavMenu` does not link to this page, and no other UI element links to this page.
   A visitor can reach this page only through the URL.
