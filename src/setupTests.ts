@@ -5,7 +5,7 @@ import { beforeEach } from "vitest";
 // (everything else is a CSS Module imported directly by its component).
 // Without them, CSS custom properties like --color-primary are undefined,
 // so components render with browser-default colours/fonts instead of the
-// real theme — including in the screenshots Vitest's browser mode captures
+// real theme - including in the screenshots Vitest's browser mode captures
 // on a failing test.
 import "./index.css";
 import "./theme/theme.css";

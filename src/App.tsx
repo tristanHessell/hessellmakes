@@ -25,7 +25,7 @@ function LegacySiteRedirect() {
 }
 
 // BrowserRouter requires the static host to serve index.html for every
-// path (e.g. /gallery, /contact), not just "/" — see README's Pages &
+// path (e.g. /gallery, /contact), not just "/" - see README's Pages &
 // navigation section for the rewrite rule this needs on a CDN/static host.
 function App() {
   return (

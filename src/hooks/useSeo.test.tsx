@@ -35,7 +35,7 @@ describe("useSeo", () => {
   it("sets the document title, with the site name appended", () => {
     render(<SeoProbe title="Gallery" description="Browse the gallery." />);
 
-    expect(document.title).toBe("Gallery — HessellMakes");
+    expect(document.title).toBe("Gallery - HessellMakes");
   });
 
   it("sets the meta description", () => {
@@ -56,13 +56,13 @@ describe("useSeo", () => {
     render(<SeoProbe title="Gallery" description="Browse the gallery." />);
 
     expect(getMetaContent("property", "og:title")).toBe(
-      "Gallery — HessellMakes",
+      "Gallery - HessellMakes",
     );
     expect(getMetaContent("property", "og:description")).toBe(
       "Browse the gallery.",
     );
     expect(getMetaContent("name", "twitter:title")).toBe(
-      "Gallery — HessellMakes",
+      "Gallery - HessellMakes",
     );
     expect(getMetaContent("name", "twitter:description")).toBe(
       "Browse the gallery.",

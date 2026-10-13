@@ -16,7 +16,7 @@ const features = [
   {
     title: "Quality",
     description:
-      "Built to be used, not just displayed — durable materials matched to durable design.",
+      "Built to be used, not just displayed - durable materials matched to durable design.",
   },
 ];
 

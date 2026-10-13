@@ -1,6 +1,6 @@
 /**
  * Brand palette, sourced from ColourGuide.pdf (HessellMakes Logo & Colour Guide).
- * Keep this as the single source of truth for brand colours — the CSS
+ * Keep this as the single source of truth for brand colours - the CSS
  * variables in `theme.css` are derived from these values.
  */
 export const brandColors = {
