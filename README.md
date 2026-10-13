@@ -214,7 +214,9 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
 - `/site` — Home, in `src/pages/Home.tsx`. This page has the hero section and the features section.
 - `/site/gallery` — Gallery, in `src/pages/Gallery.tsx`.
   This page shows a grid of custom soccer balls.
-  A click on a ball opens a dialog with its name and its description.
+  A click opens a dialog with the completion date, construction details, story, and an embedded Instagram reel.
+  A direct Instagram link remains available if the embed cannot load.
+  The iframe follows Instagram's reported content height, so scrolling stays on the dialog.
 - `/site/shop` — Shop, in `src/pages/Shop.tsx`.
   The collection preview remains hidden until it is ready.
   Online purchasing remains unavailable until Shopify is connected.
@@ -259,7 +261,7 @@ A page that is intentionally unlinked, for example Contact or Design, passes `no
 The Gallery page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
 
 - `public/favicon.svg` is the browser tab icon, the "H" mark from the logo, in Aussie Blue.
-- `public/og-image.jpg` is the default social media preview image, a photo of the Wave Weave ball.
+- `public/og-image.jpg` is the default social media preview image, a photo of the Triple Truchet Tile ball.
 - `public/robots.txt` allows every crawler, and points to the sitemap.
 - `public/sitemap.xml` lists each page search engines should index.
   It excludes Contact and Design, both unlinked by design — see [Pages & navigation](#pages--navigation).

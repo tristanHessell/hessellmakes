@@ -11,7 +11,7 @@ component.
 
 ## Inputs
 
-Get these 3 values before you start. Ask the user for a value that is
+Get these 6 values before you start. Ask the user for a value that is
 missing.
 
 1. **Title** — the product name, for example "Heritage Red".
@@ -19,6 +19,9 @@ missing.
    project if it does not exist yet.
 3. **Description** — 1 or 2 sentences about the product, in the site's
    existing voice. Read `src/data/soccerBalls.ts` for examples of this voice.
+4. **Completion date** — the month and year, for example "July 2025".
+5. **Construction** — the number of pieces, material, and colours.
+6. **Instagram URL** — the public reel URL for the ball.
 
 ## Steps
 
@@ -44,6 +47,9 @@ missing.
      imageSrc: heritageRed,
      imageAlt: "The 1-sentence description from step 4.",
      description: "The 1 or 2 sentence description from the user.",
+     completed: "July 2025",
+     construction: "The construction details from the user.",
+     instagramUrl: "https://www.instagram.com/reel/REEL_ID",
    },
    ```
 
@@ -60,15 +66,15 @@ missing.
 ## Notes
 
 - The type `SoccerBallProduct`, in `src/data/soccerBalls.ts`, requires
-  exactly these 5 fields: `id`, `name`, `imageSrc`, `imageAlt`, and
-  `description`.
+  these 8 fields: `id`, `name`, `imageSrc`, `imageAlt`, `description`,
+  `completed`, `construction`, and `instagramUrl`.
 - Do not change `src/pages/Gallery.tsx` or `Gallery.module.css` for this
   task. The grid, the dialog, and the Previous/Next buttons all read from the
   `soccerBalls` array already, so a new array entry appears everywhere with
   no other change.
-- Each grid thumbnail uses `alt=""`, by design, since the product name sits
-  next to it as visible text. Only the `imageAlt` field, used in the dialog,
-  needs real descriptive text.
+- Each grid thumbnail uses `alt=""` because visible text names the ball.
+  The Gallery dialog uses an Instagram reel with a descriptive iframe title.
+  Keep `imageAlt` descriptive for other views that use the photograph.
 - Follow the ASD-STE100 style rule and the Conventional Commits rule in
   `CLAUDE.md`, for example `feat(gallery): add heritage red ball`, for any
   commit message about this change.
