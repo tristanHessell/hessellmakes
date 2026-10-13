@@ -162,7 +162,13 @@ Write each media query in range notation — Stylelint enforces this format.
 **Gallery pattern**: `src/pages/Gallery.tsx` shows the standard pattern for a grid of items, where a click on an item opens a native `<dialog>` element.
 The product data sits in a separate file, `src/data/soccerBalls.ts`, and each photo comes from `src/assets/gallery/`.
 Each grid thumbnail has `alt=""`, because the name text already sits next to it.
-The larger image in the dialog has real, descriptive `alt` text, because the dialog is the detail view.
+The dialog shows the completion date, construction details, story, and an embedded Instagram reel instead of the thumbnail image.
+Each iframe has a title that identifies the ball.
+Mount the iframe only when the dialog opens.
+Replace it when the selected ball changes and remove it when the dialog closes.
+Keep a direct Instagram link for visitors who cannot load the embed.
+Use Instagram's height messages to size the iframe without internal scrolling.
+Accept messages only from the active Instagram frame.
 
 ## Tooling notes
 

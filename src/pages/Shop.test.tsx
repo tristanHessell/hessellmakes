@@ -52,10 +52,10 @@ describe("Shop", () => {
 
   it("opens product details with checkout disabled until the shop is connected", () => {
     renderCollectionPreview();
-    const opener = screen.getByRole("button", { name: "View Patchwork" });
+    const opener = screen.getByRole("button", { name: "View The Cat" });
     opener.focus();
     fireEvent.click(opener);
-    const dialog = screen.getByRole("dialog", { name: "Patchwork" });
+    const dialog = screen.getByRole("dialog", { name: "The Cat" });
     expect(
       within(dialog).getByRole("img", { name: soccerBalls[1].imageAlt }),
     ).toBeVisible();
@@ -69,18 +69,20 @@ describe("Shop", () => {
     ).toBeVisible();
     fireEvent.click(within(dialog).getByRole("button", { name: "Close" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "View Patchwork" }),
-    ).toHaveFocus();
+    expect(screen.getByRole("button", { name: "View The Cat" })).toHaveFocus();
   });
 
   it("closes on a backdrop click and shows the next selected ball", () => {
     renderCollectionPreview();
-    fireEvent.click(screen.getByRole("button", { name: "View Wave Weave" }));
-    fireEvent.click(screen.getByRole("dialog", { name: "Wave Weave" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "View Triple Truchet Tile" }),
+    );
+    fireEvent.click(
+      screen.getByRole("dialog", { name: "Triple Truchet Tile" }),
+    );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "View Match Day" }));
-    expect(screen.getByRole("dialog", { name: "Match Day" })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "View SK100" }));
+    expect(screen.getByRole("dialog", { name: "SK100" })).toBeVisible();
   });
 
   it("has no accessibility violations in the collection or product details", async () => {
@@ -93,7 +95,9 @@ describe("Shop", () => {
       })
       .closest("section")!.hidden = false;
     await expectNoA11yViolations(container);
-    fireEvent.click(screen.getByRole("button", { name: "View Wave Weave" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "View Triple Truchet Tile" }),
+    );
     await expectNoA11yViolations(container);
   });
 });

@@ -22,6 +22,37 @@ function swipe(
 }
 
 describe("Gallery", () => {
+  it("shows the renamed balls in the requested order", () => {
+    render(<Gallery />);
+    expect(
+      screen.getAllByRole("button").map((button) => button.textContent),
+    ).toEqual(["Triple Truchet Tile", "The Cat", "SK100"]);
+  });
+
+  it("shows the completion date, construction, story and reel for every ball", async () => {
+    render(<Gallery />);
+    for (const ball of soccerBalls) {
+      fireEvent.click(screen.getByRole("button", { name: ball.name }));
+      expect(
+        screen.getByText(`Completed - ${ball.completed}`),
+      ).toBeInTheDocument();
+      expect(screen.getByText(ball.construction)).toBeInTheDocument();
+      expect(screen.getByText(ball.description)).toBeInTheDocument();
+      expect(
+        screen.getByTitle(`${ball.name} - Instagram reel`),
+      ).toHaveAttribute("src", `${ball.instagramUrl}/embed/`);
+      expect(
+        screen.getByRole("link", { name: /watch on instagram/i }),
+      ).toHaveAttribute("href", ball.instagramUrl);
+      expect(screen.queryByRole("img")).not.toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button", { name: "Close" }));
+      await waitFor(() =>
+        expect(
+          screen.queryByTitle(`${ball.name} - Instagram reel`),
+        ).not.toBeInTheDocument(),
+      );
+    }
+  });
   it("renders the page heading and a card for every ball", () => {
     render(<Gallery />);
 
@@ -78,7 +109,14 @@ describe("Gallery", () => {
     const [firstBall, secondBall] = soccerBalls;
 
     fireEvent.click(screen.getByRole("button", { name: firstBall.name }));
+    const previousVideo = screen.getByTitle(
+      `${firstBall.name} - Instagram reel`,
+    );
     fireEvent.click(screen.getByRole("button", { name: "Next ball" }));
+    expect(previousVideo).not.toBeInTheDocument();
+    expect(
+      screen.getByTitle(`${secondBall.name} - Instagram reel`),
+    ).toHaveAttribute("src", `${secondBall.instagramUrl}/embed/`);
 
     expect(
       screen.getByRole("heading", { level: 2, name: secondBall.name }),

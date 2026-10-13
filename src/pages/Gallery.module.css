@@ -70,8 +70,9 @@
 }
 
 .dialog {
-  max-width: 420px;
+  max-width: 600px;
   width: calc(100vw - 2.5rem);
+  max-height: calc(100dvh - 2.5rem);
   padding: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -131,26 +132,42 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 2rem 2.75rem 1.75rem;
-  text-align: center;
+  padding: 3.5rem 1.25rem 1.5rem;
+  text-align: left;
 }
 
-.dialogImage {
+.instagramVideo {
   width: 100%;
-  max-width: 220px;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: var(--radius);
+  flex-shrink: 0;
+  border: 0;
+  background-color: var(--color-bg);
+}
+
+.instagramLink {
+  color: var(--color-primary);
+  text-underline-offset: 0.25em;
+}
+
+.instagramLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .dialogContent h2 {
+  align-self: flex-start;
   margin: 0;
   color: var(--color-heading);
 }
 
 .dialogContent p {
+  align-self: flex-start;
   margin: 0;
   color: var(--color-text-muted);
+}
+
+.completed {
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .dialogClose {
@@ -182,10 +199,9 @@
 
 .dialogNav {
   position: absolute;
-  top: 50%;
+  top: 0.5rem;
   width: 32px;
   height: 32px;
-  transform: translateY(-50%);
   border: none;
   border-radius: 999px;
   background-color: var(--color-surface-strong);
@@ -200,7 +216,7 @@
 }
 
 .dialogNext {
-  right: 0.5rem;
+  left: 3rem;
 }
 
 @media (hover: hover) {

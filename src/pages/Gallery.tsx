@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useSeo } from "../hooks/useSeo";
 import { useJsonLd } from "../hooks/useJsonLd";
+import { InstagramReel } from "../components/InstagramReel";
 import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Gallery.module.css";
 
@@ -117,8 +118,8 @@ export function Gallery() {
       <div className={styles.intro}>
         <h1>Gallery</h1>
         <p>
-          Every ball is hand-stitched to order in our Perth, WA workshop. Select
-          a ball to see more about its finish and story.
+          Every ball is hand-stitched to order in Perth, Western Australia.
+          Select a ball to see more about its finish and story.
         </p>
       </div>
 
@@ -175,13 +176,26 @@ export function Gallery() {
               &rsaquo;
             </button>
 
-            <img
-              className={styles.dialogImage}
-              src={selectedBall.imageSrc}
-              alt={selectedBall.imageAlt}
-            />
             <h2 id="ball-dialog-title">{selectedBall.name}</h2>
+            <p className={styles.completed}>
+              Completed - {selectedBall.completed}
+            </p>
+            <p>{selectedBall.construction}</p>
             <p>{selectedBall.description}</p>
+            <a
+              className={styles.instagramLink}
+              href={selectedBall.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Watch on Instagram (opens in a new tab)
+            </a>
+            <InstagramReel
+              key={selectedBall.id}
+              className={styles.instagramVideo}
+              url={selectedBall.instagramUrl}
+              name={selectedBall.name}
+            />
           </div>
         )}
       </dialog>
