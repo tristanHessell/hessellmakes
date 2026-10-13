@@ -22,10 +22,7 @@ export function ComingSoon() {
             <strong>HESSELL</strong>MAKES
           </h1>
         </div>
-        <p className={styles.message}>
-          Handmade custom soccer balls, hand-stitched to order in Perth, Western
-          Australia. Coming soon!
-        </p>
+        <p className={styles.message}>Coming soon!</p>
       </main>
 
       <Footer />
