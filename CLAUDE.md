@@ -110,6 +110,12 @@ The pages are:
 - `/` — `ComingSoon` (`src/pages/ComingSoon.tsx`). **Temporary**: see the "Coming Soon page" note below.
 - `/site` — Home.
 - `/site/gallery` — Gallery.
+- `/site/shop` — Shop.
+  This page shows a pre-made collection preview and product details.
+  It does not accept payments before Shopify is connected.
+  It uses noindex until the shop is ready.
+  Follow `docs/shopify-plan.md` for pre-made sales.
+  Defer custom orders until a later phase.
 - `/site/about` — About.
   This page has the founder blurb, in `src/pages/About.tsx`.
   This page uses `src/components/FounderPortrait.tsx` as a placeholder graphic, until a real photo is ready.

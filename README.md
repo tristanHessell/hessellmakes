@@ -11,12 +11,23 @@ HessellMakes creates custom leather soccer balls by hand in Perth, Western Austr
 ## Project Overview
 
 This is a React and TypeScript site for the HessellMakes brand, built with [Vite](https://vite.dev).
-The site has 5 pages: Home, Gallery, About, Contact, and Design.
-The hamburger nav links to Home, Gallery, and About only — a visitor can reach Contact and Design only through the direct URL (see [Pages & navigation](#pages--navigation)).
+The site has 6 pages: Home, Gallery, Shop, About, Contact, and Design.
+The hamburger nav links to Home, Gallery, Shop, and About.
+A visitor can reach Contact and Design only through the direct URL (see [Pages & navigation](#pages--navigation)).
 The site runs locally with hot reload, and the build produces a static bundle for upload to any CDN.
 
 A temporary Coming Soon page sits at the site root.
-The 5 pages above sit under `/site` instead, until this page comes down — see [Pages & navigation](#pages--navigation).
+The 6 pages above sit under `/site` instead, until this page comes down — see [Pages & navigation](#pages--navigation).
+
+## Shop
+
+The [Shopify integration plan](docs/shopify-plan.md) focuses on sales of pre-made balls.
+Custom orders are a later phase.
+The initial Shop page works without a Shopify account.
+It shows a collection preview and product details without prices or confirmed stock.
+It does not accept payments.
+The page links to the existing Etsy shop for current stock.
+The page uses noindex and stays out of the sitemap until the shop is ready.
 
 ## Requirements
 
@@ -203,6 +214,9 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
 - `/site/gallery` — Gallery, in `src/pages/Gallery.tsx`.
   This page shows a grid of custom soccer balls.
   A click on a ball opens a dialog with its name and its description.
+- `/site/shop` — Shop, in `src/pages/Shop.tsx`.
+  This page shows a pre-made collection preview and product details.
+  Online purchasing remains unavailable until Shopify is connected.
 - `/site/about` — About, in `src/pages/About.tsx`.
   This page has a founder blurb and a portrait.
   The portrait is a placeholder graphic, `src/components/FounderPortrait.tsx`, until a real photo is ready.

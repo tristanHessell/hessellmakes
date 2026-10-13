@@ -41,6 +41,17 @@ describe("App", () => {
     );
   });
 
+  it("navigates to the shop through its relative navigation link", async () => {
+    window.history.pushState({}, "", "/site");
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+    fireEvent.click(await screen.findByRole("link", { name: "Shop" }));
+    expect(window.location.pathname).toBe("/site/shop");
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Shop" }),
+    ).toBeVisible();
+  });
+
   it("navigates to the Gallery and About pages via the hamburger menu", async () => {
     window.history.pushState({}, "", "/site");
     render(<App />);

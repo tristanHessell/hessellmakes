@@ -3,6 +3,7 @@ import { AppLayout } from "./components/AppLayout";
 import { ComingSoon } from "./pages/ComingSoon";
 import { Home } from "./pages/Home";
 import { Gallery } from "./pages/Gallery";
+import { Shop } from "./pages/Shop";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
 import { Design } from "./pages/Design";
@@ -31,6 +32,7 @@ function App() {
           <Route path="/site" element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="gallery" element={<Gallery />} />
+            <Route path="shop" element={<Shop />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="design" element={<Design />} />
