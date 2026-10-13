@@ -38,7 +38,7 @@ The Buy Button remains an alternative for a smaller initial release.
 
 ## Initial Work Without a Shopify Account
 
-- [x] Add a Shop route at `/site/shop` and a navigation link.
+- [x] Add a Shop route at `/shop` and a navigation link.
 - [x] Link to the Shop page from Home.
 - [x] Show a pre-made collection preview with existing product photographs.
 - [x] Provide product details for each ball.
@@ -95,7 +95,7 @@ Replace preview data with confirmed Shopify listings before launch.
 - [ ] Add accurate product structured data from Shopify.
 - [ ] Check canonical URLs against `https://www.hessellmakes.com.au`.
 - [ ] Add the live Shop routes to the sitemap and remove noindex.
-- [ ] Decide when to remove the temporary Coming Soon page and the `/site` prefix.
+- [x] Move the main site to the domain root and remove the holding page.
 - [ ] Run `npm run validate` before release.
 
 ## Later Phase: Custom Orders

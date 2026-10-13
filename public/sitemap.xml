@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TEMPORARY: the real site sits under /site, not at the site root — see
-     the "Coming Soon page" note in CLAUDE.md. When that page comes down,
-     remove the "/site" prefix from each URL below, and delete the "/" entry
-     for ComingSoon.
-     This sitemap excludes /site/contact and /site/design on purpose: both
-     pages are intentionally unlinked, and not meant to be discovered through
-     search. -->
+<!-- Contact and Design are intentionally unlinked. Shop remains unfinished.
+     These pages use noindex and stay out of the sitemap. -->
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.hessellmakes.com/</loc>
   </url>
   <url>
-    <loc>https://www.hessellmakes.com/site</loc>
+    <loc>https://www.hessellmakes.com/gallery</loc>
   </url>
   <url>
-    <loc>https://www.hessellmakes.com/site/gallery</loc>
-  </url>
-  <url>
-    <loc>https://www.hessellmakes.com/site/about</loc>
+    <loc>https://www.hessellmakes.com/about</loc>
   </url>
 </urlset>

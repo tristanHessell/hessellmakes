@@ -8,8 +8,7 @@ interface NavItem {
   to: string;
 }
 
-// Relative paths, so this menu still points at the right pages when
-// AppLayout is mounted under a prefix (e.g. "/site") rather than at "/".
+// Relative paths keep each link within the AppLayout route.
 const navItems: NavItem[] = [
   { label: "Home", to: "." },
   { label: "Gallery", to: "gallery" },

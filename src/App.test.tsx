@@ -14,16 +14,7 @@ describe("App", () => {
     document.documentElement.removeAttribute("data-theme");
   });
 
-  // TEMPORARY: the site root shows a Coming Soon page, and the real site
-  // sits under "/site" — see the routing comment in App.tsx. This test, and
-  // the "/site" push in each test below, can go once that page is removed.
-  it("shows the coming soon page at the site root", () => {
-    render(<App />);
-    expect(screen.getByText(/coming soon!$/i)).toBeInTheDocument();
-  });
-
-  it("renders the home page under /site", () => {
-    window.history.pushState({}, "", "/site");
+  it("renders the home page at the site root", () => {
     render(<App />);
     expect(
       screen.getByRole("heading", {
@@ -34,7 +25,6 @@ describe("App", () => {
   });
 
   it("applies a theme attribute to the document root", () => {
-    window.history.pushState({}, "", "/site");
     render(<App />);
     expect(document.documentElement.getAttribute("data-theme")).toMatch(
       /^(light|dark)$/,
@@ -42,23 +32,21 @@ describe("App", () => {
   });
 
   it("navigates to the shop through its relative navigation link", async () => {
-    window.history.pushState({}, "", "/site");
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
     fireEvent.click(await screen.findByRole("link", { name: "Shop" }));
-    expect(window.location.pathname).toBe("/site/shop");
+    expect(window.location.pathname).toBe("/shop");
     expect(
       screen.getByRole("heading", { level: 1, name: "Shop" }),
     ).toBeVisible();
   });
 
   it("links to the shop from the home page", () => {
-    window.history.pushState({}, "", "/site");
     render(<App />);
     const shopLink = screen.getByRole("link", { name: "Visit the shop" });
-    expect(shopLink).toHaveAttribute("href", "/site/shop");
+    expect(shopLink).toHaveAttribute("href", "/shop");
     fireEvent.click(shopLink);
-    expect(window.location.pathname).toBe("/site/shop");
+    expect(window.location.pathname).toBe("/shop");
     expect(screen.getByRole("heading", { name: "Shop" })).toBeVisible();
     expect(
       screen.queryByRole("heading", { name: "The pre-made collection" }),
@@ -66,7 +54,6 @@ describe("App", () => {
   });
 
   it("navigates to the Gallery and About pages via the hamburger menu", async () => {
-    window.history.pushState({}, "", "/site");
     render(<App />);
 
     // The dropdown fades/flips visibility in via a CSS transition, so a nav
@@ -86,5 +73,40 @@ describe("App", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "About" }),
     ).toBeInTheDocument();
+  });
+
+  it.each([
+    ["/gallery", "Gallery"],
+    ["/shop", "Shop"],
+    ["/about", "About"],
+    ["/contact", "Contact"],
+    ["/design", "Our palette"],
+  ])("renders a direct visit to %s", (path, heading) => {
+    window.history.pushState({}, "", path);
+    render(<App />);
+    expect(
+      screen.getByRole("heading", { level: 1, name: heading }),
+    ).toBeInTheDocument();
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      `${window.location.origin}${path}`,
+    );
+  });
+
+  it.each([
+    ["/site", "/"],
+    ["/site/", "/"],
+    ["/site/gallery?ref=bookmark#details", "/gallery?ref=bookmark#details"],
+    ["/site/shop", "/shop"],
+    ["/site/about", "/about"],
+    ["/site/contact", "/contact"],
+    ["/site/design", "/design"],
+  ])("redirects the old URL %s to %s", (oldPath, newPath) => {
+    window.history.pushState({}, "", oldPath);
+    render(<App />);
+    expect(
+      `${window.location.pathname}${window.location.search}${window.location.hash}`,
+    ).toBe(newPath);
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
   });
 });
