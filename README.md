@@ -222,7 +222,7 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
   Online purchasing remains unavailable until Shopify is connected.
 - `/site/about` — About, in `src/pages/About.tsx`.
   This page has a founder blurb and a portrait.
-  The portrait is a placeholder graphic, `src/components/FounderPortrait.tsx`, until a real photo is ready.
+  The portrait uses `src/assets/emily.jpeg` and keeps the photograph's original proportions.
 - `/site/contact` — Contact, in `src/pages/Contact.tsx`.
   This page has a simple contact form.
   By design, this page is not linked from the nav, and not linked from any other part of the UI — a visitor can reach this page only through the direct URL.
