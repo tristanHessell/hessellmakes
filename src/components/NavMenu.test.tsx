@@ -64,6 +64,10 @@ describe("NavMenu", () => {
       "href",
       "/about",
     );
+    expect(screen.getByRole("link", { name: "Shop" })).toHaveAttribute(
+      "href",
+      "/shop",
+    );
   });
 
   it("marks the current page link as active", async () => {

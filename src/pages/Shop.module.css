@@ -1,0 +1,227 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.intro {
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+}
+
+.intro h1 {
+  margin: 0 0 0.75rem;
+  color: var(--color-heading);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.lead {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.availability {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.availability span {
+  color: var(--color-text-muted);
+}
+
+.availability a {
+  margin-left: auto;
+}
+
+.page a {
+  color: var(--color-primary);
+  text-underline-offset: 0.25em;
+}
+
+.sectionHeading {
+  padding: 2rem 0 1.5rem;
+}
+
+.sectionHeading h2 {
+  margin: 0 0 0.75rem;
+  color: var(--color-heading);
+  font-size: 1.5rem;
+}
+
+.sectionHeading p {
+  max-width: 640px;
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    [product-start] minmax(min(100%, 260px), 1fr) [product-end]
+  );
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  list-style-type: "";
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.productImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 1rem;
+}
+
+.product h3 {
+  margin: 0.5rem 0;
+  color: var(--color-heading);
+  font-size: 1.25rem;
+}
+
+.description {
+  flex: 1;
+  margin: 0 0 1.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.priceNote {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.secondaryButton,
+.purchaseButton {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.secondaryButton {
+  cursor: pointer;
+}
+
+.purchaseButton {
+  width: 100%;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.dialog {
+  width: calc(100% - 2.5rem);
+  max-width: 820px;
+  max-height: calc(100dvh - 2.5rem);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background-color: var(--color-bg);
+  opacity: 0.85;
+}
+
+.dialogContent {
+  position: relative;
+  display: grid;
+  grid-template-columns: [image] minmax(0, 1fr) [details] minmax(0, 1fr) [end];
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 2rem 2rem;
+}
+
+.dialogContent h2 {
+  margin: 0.5rem 0 1rem;
+  color: var(--color-heading);
+  font-size: 1.5rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.checkoutNotice {
+  margin: 0.75rem 0 1.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.page :focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .secondaryButton:hover,
+  .closeButton:hover {
+    background-color: var(--color-surface-strong);
+  }
+}
+
+@media (width <= 640px) {
+  .page {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .availability a {
+    margin-left: 0;
+  }
+
+  .dialogContent {
+    grid-template-columns: [start] minmax(0, 1fr) [end];
+    gap: 1.25rem;
+    padding: 3rem 1.25rem 1.25rem;
+  }
+}
