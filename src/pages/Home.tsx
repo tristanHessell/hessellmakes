@@ -40,6 +40,9 @@ export function Home() {
           <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="gallery">
             Explore the work
           </Link>
+          <Link className={`${styles.cta} ${styles.ctaSecondary}`} to="shop">
+            Visit the shop
+          </Link>
         </div>
       </section>
 

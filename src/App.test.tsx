@@ -52,6 +52,19 @@ describe("App", () => {
     ).toBeVisible();
   });
 
+  it("links to the shop from the home page", () => {
+    window.history.pushState({}, "", "/site");
+    render(<App />);
+    const shopLink = screen.getByRole("link", { name: "Visit the shop" });
+    expect(shopLink).toHaveAttribute("href", "/site/shop");
+    fireEvent.click(shopLink);
+    expect(window.location.pathname).toBe("/site/shop");
+    expect(screen.getByRole("heading", { name: "Shop" })).toBeVisible();
+    expect(
+      screen.queryByRole("heading", { name: "The pre-made collection" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("navigates to the Gallery and About pages via the hamburger menu", async () => {
     window.history.pushState({}, "", "/site");
     render(<App />);
