@@ -43,7 +43,8 @@ export function Shop() {
         <a href="https://www.etsy.com/au/shop/Hessellmakes">Visit Etsy</a>
       </div>
 
-      <section aria-labelledby="collection-heading">
+      {/* Remove hidden when the collection is ready to show. */}
+      <section aria-labelledby="collection-heading" hidden>
         <div className={styles.sectionHeading}>
           <h2 id="collection-heading">The pre-made collection</h2>
           <p>

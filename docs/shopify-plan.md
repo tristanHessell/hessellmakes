@@ -39,6 +39,7 @@ The Buy Button remains an alternative for a smaller initial release.
 ## Initial Work Without a Shopify Account
 
 - [x] Add a Shop route at `/site/shop` and a navigation link.
+- [x] Link to the Shop page from Home.
 - [x] Show a pre-made collection preview with existing product photographs.
 - [x] Provide product details for each ball.
 - [x] State that prices and availability remain unconfirmed.
@@ -49,6 +50,8 @@ The Buy Button remains an alternative for a smaller initial release.
 - [x] Keep the unfinished shop out of the sitemap and mark it as noindex.
 
 The preview uses existing gallery data until the Shopify catalogue exists.
+The entire collection section is currently hidden, but its code remains for later work.
+Remove its `hidden` attribute in `src/pages/Shop.tsx` when it is ready to show.
 It does not claim that the photographed balls are available.
 Replace preview data with confirmed Shopify listings before launch.
 

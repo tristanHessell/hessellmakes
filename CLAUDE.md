@@ -111,7 +111,8 @@ The pages are:
 - `/site` — Home.
 - `/site/gallery` — Gallery.
 - `/site/shop` — Shop.
-  This page shows a pre-made collection preview and product details.
+  The pre-made collection section is hidden while the shop is unfinished.
+  Keep its code for later work.
   It does not accept payments before Shopify is connected.
   It uses noindex until the shop is ready.
   Follow `docs/shopify-plan.md` for pre-made sales.
