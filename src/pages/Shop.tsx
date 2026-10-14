@@ -2,6 +2,7 @@ import { useRef, useState, type MouseEvent } from "react";
 import { soccerBalls, type SoccerBallProduct } from "../data/soccerBalls";
 import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
+import { ExternalLink } from "../components/ExternalLink";
 import styles from "./Shop.module.css";
 
 export function Shop() {
@@ -41,7 +42,10 @@ export function Shop() {
       <div className={styles.availability}>
         <strong>Online ordering is coming soon.</strong>
         <span>Shop current stock on Etsy.</span>
-        <a href="https://www.etsy.com/au/shop/Hessellmakes">Visit Etsy</a>
+        <ExternalLink
+          href="https://www.etsy.com/au/shop/Hessellmakes"
+          label="Visit Etsy"
+        />
       </div>
 
       {/* Remove hidden when the collection is ready to show. */}
@@ -122,9 +126,10 @@ export function Shop() {
                 Online ordering is not open yet. Availability for this ball has
                 not been confirmed.
               </p>
-              <a href="https://www.etsy.com/au/shop/Hessellmakes">
-                Shop current stock on Etsy
-              </a>
+              <ExternalLink
+                href="https://www.etsy.com/au/shop/Hessellmakes"
+                label="Shop current stock on Etsy"
+              />
             </div>
           </div>
         )}

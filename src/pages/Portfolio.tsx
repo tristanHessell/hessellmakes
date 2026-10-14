@@ -10,6 +10,7 @@ import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
 import { useJsonLd } from "../hooks/useJsonLd";
 import { InstagramReel } from "../components/InstagramReel";
+import { ExternalLink } from "../components/ExternalLink";
 import { soccerBalls } from "../data/soccerBalls";
 import styles from "./Portfolio.module.css";
 
@@ -211,14 +212,11 @@ export function Portfolio() {
             <p>{selectedBall.description}</p>
             {selectedBall.instagramUrl && (
               <>
-                <a
+                <ExternalLink
                   className={styles.instagramLink}
                   href={selectedBall.instagramUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Watch on Instagram (opens in a new tab)
-                </a>
+                  label="Watch on Instagram"
+                />
                 <InstagramReel
                   key={selectedBall.id}
                   className={styles.instagramVideo}
