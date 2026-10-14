@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
+import { siteRoutes } from "../siteRoutes";
 import styles from "./Home.module.css";
 
 const features = [
@@ -22,6 +23,7 @@ const features = [
 
 export function Home() {
   useSeo({
+    noindex: !siteRoutes.home.indexable,
     title: "Handmade Custom Soccer Balls in Perth, WA",
     description:
       "Handmade custom soccer balls, hand-stitched to order in our Perth, Western Australia workshop. Considered design, durable leather, built to last.",

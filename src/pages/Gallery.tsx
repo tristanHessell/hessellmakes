@@ -7,6 +7,7 @@ import {
   type TouchEvent,
 } from "react";
 import { useSeo } from "../hooks/useSeo";
+import { siteRoutes } from "../siteRoutes";
 import { useJsonLd } from "../hooks/useJsonLd";
 import { InstagramReel } from "../components/InstagramReel";
 import { soccerBalls } from "../data/soccerBalls";
@@ -17,6 +18,7 @@ const SWIPE_THRESHOLD = 50;
 
 export function Gallery() {
   useSeo({
+    noindex: !siteRoutes.gallery.indexable,
     title: "Gallery",
     description:
       "Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.",

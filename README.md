@@ -245,16 +245,25 @@ These defaults are for a crawler that does not run JavaScript, for example a soc
 
 Each page then calls `useSeo`, in `src/hooks/useSeo.ts`, with its own short title and its own 1 or 2 sentence description.
 This hook overrides the document title, the meta description, the canonical link, the robots directive, and the preview tags, for a crawler or a browser that does run JavaScript.
-A page that is intentionally unlinked, for example Contact or Design, passes `noindex: true`, so a search engine does not index it.
+Each page reads its indexing setting from `src/siteRoutes.ts`.
+A page with `indexable: false` passes `noindex: true` to the hook.
 
 The Gallery page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
 
 - `public/favicon.svg` is the browser tab icon, the "H" mark from the logo, in Aussie Blue.
 - `public/og-image.jpg` is the default social media preview image, a photo of the Triple Truchet Tile ball.
 - `public/robots.txt` allows every crawler, and points to the sitemap.
-- `public/sitemap.xml` lists each page search engines should index.
+- The Vite build generates `dist/sitemap.xml` from `src/siteRoutes.ts`.
   It lists Home, Gallery, and About at their root paths.
   It excludes Contact, Design, and the unfinished Shop, which use noindex.
+
+To add a page, add its path and indexing setting to `src/siteRoutes.ts`.
+Add its component to the page map in `src/App.tsx`.
+Use `noindex: !siteRoutes.<page>.indexable` in the page's `useSeo` call.
+Each production build then updates the sitemap automatically.
+The validation tests check the generated XML and excluded routes.
+The sitemap omits modification dates until accurate content dates exist.
+If the domain changes, update `siteOrigin`, `public/robots.txt`, and `index.html`.
 
 ## Project structure
 

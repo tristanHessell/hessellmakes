@@ -45,7 +45,14 @@
     "combobox",
     "hessellmakes",
     "wordmark",
-    "reflow"
+    "reflow",
+    "lastmod",
+    "parsererror",
+    "Ecwid",
+    "Snipcart",
+    "Amex",
+    "DMARC",
+    "multifactor"
   ],
   "ignorePaths": [
     "node_modules/**",

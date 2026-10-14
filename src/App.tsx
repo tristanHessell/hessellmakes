@@ -13,6 +13,17 @@ import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
 import { Design } from "./pages/Design";
 import { ThemeProvider } from "./theme/ThemeContext";
+import type { ComponentType } from "react";
+import { siteRoutes, type SitePage } from "./siteRoutes";
+
+const pages: Record<SitePage, ComponentType> = {
+  home: Home,
+  gallery: Gallery,
+  shop: Shop,
+  about: About,
+  contact: Contact,
+  design: Design,
+};
 
 function LegacySiteRedirect() {
   const { pathname, search, hash } = useLocation();
@@ -34,12 +45,14 @@ function App() {
         <Routes>
           <Route path="/site/*" element={<LegacySiteRedirect />} />
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Home />} />
-            <Route path="gallery" element={<Gallery />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="about" element={<About />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="design" element={<Design />} />
+            {Object.entries(siteRoutes).map(([key, { path }]) => {
+              const Page = pages[key as SitePage];
+              return path === "" ? (
+                <Route key={key} index element={<Page />} />
+              ) : (
+                <Route key={key} path={path} element={<Page />} />
+              );
+            })}
           </Route>
         </Routes>
       </BrowserRouter>
