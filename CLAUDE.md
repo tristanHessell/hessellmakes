@@ -29,6 +29,22 @@ Instead, follow the structural and grammar rules below:
 - Do not use idioms or slang.
 - Use a numbered or bulleted list for a sequence of steps.
 
+## Branch workflow
+
+Prefer the latest `origin/main` as the base for each new task.
+Do not base a new task on an earlier task's unmerged branch.
+Use a different base only when the user requests it or the task requires an existing branch.
+For a continuation, keep the task's existing branch unless the user requests a new base.
+
+1. Check the current branch and working tree before switching branches.
+2. Preserve existing changes and commits.
+   Do not discard unrelated work.
+3. Fetch `origin` before creating a task branch.
+   If the fetch fails, report that the latest `main` is not verified.
+4. Create the new task branch from `origin/main`.
+   Use the `codex/` prefix for Codex branches unless the user specifies another name.
+5. Verify that the branch contains the fetched `origin/main` before starting the task.
+
 ## Commit message format
 
 Write each commit message in the Conventional Commits format: `type(scope): description`.
