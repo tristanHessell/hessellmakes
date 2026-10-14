@@ -7,6 +7,8 @@ Do not implement or operate a backend, database, serverless function, or webhook
 Use a service for checkout, payment validation, stock enforcement, and order records.
 Keep customisation outside this release.
 This document compares alternatives; it does not authorise a subscription or implementation.
+No provider is selected.
+Wait for approval before implementing any option.
 
 Prices were checked on 14 October 2026.
 Assume an Australian merchant who sells in AUD.
@@ -17,7 +19,7 @@ The comparison excludes introductory discounts.
 
 Choose Shopify Basic if control over the React shop interface is the priority.
 Use its public Storefront API with Shopify checkout.
-This approach best matches the existing design and the earlier Shopify plan.
+This approach supports the existing React design.
 
 Choose Ecwid Venture if a quick launch and less frontend maintenance are the priorities.
 Embed its catalogue, cart, and checkout rather than build equivalent controls.
@@ -231,7 +233,7 @@ Leave receipts and transactional emails to the provider.
 Do not send card details through site code.
 
 The repository currently uses `https://www.hessellmakes.com` as its production origin.
-The earlier Shopify plan mentions `https://www.hessellmakes.com.au`.
+Other planning documents mention `https://www.hessellmakes.com.au`.
 Confirm the canonical domain before configuring allowed domains, checkout links, or redirects.
 
 ## Implementation Checklist After Selection
@@ -244,7 +246,7 @@ Confirm the canonical domain before configuring allowed domains, checkout links,
   - **Implementation Tasks:**
     - [ ] **Decide:** Confirm provider, billing term, expected revenue, order value, and catalogue size.
     - [ ] **Confirm:** Check Australian account eligibility, current fees, stock rules, shipping support, and payout timing.
-    - [ ] **Reconcile:** Update `@docs/shopify-plan.md` after the provider decision.
+    - [ ] **Document:** Record the approved provider and implementation scope in this plan.
     - [ ] **Investigate:** Review the hidden collection in `@src/pages/Shop.tsx` and the portfolio data in `@src/data/soccerBalls.ts`.
     - [ ] **Configure:** Create the account manually; complete payment verification and customer policies.
     - [ ] **Implement:** Add only the selected provider's frontend code and tests.

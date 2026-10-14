@@ -114,9 +114,11 @@ The pages are:
 - `/shop` - Shop.
   The pre-made collection section is hidden while the shop is unfinished.
   Keep its code for later work.
-  It does not accept payments before Shopify is connected.
+  It does not accept payments before a shop provider is selected and connected.
   It uses noindex until the shop is ready.
-  Follow `docs/shopify-plan.md` for pre-made sales.
+  Use `docs/shop-alternatives-plan.md` to compare providers for pre-made sales.
+  No provider is selected.
+  Wait for approval before implementing a provider integration.
   Defer custom orders until a later phase.
 - `/about` - About.
   This page has the founder blurb, in `src/pages/About.tsx`.
