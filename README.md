@@ -21,9 +21,10 @@ Each other page uses a direct path, for example `/gallery` or `/about`.
 
 ## Shop
 
-The [Shopify integration plan](docs/shopify-plan.md) focuses on sales of pre-made balls.
+The [shop alternatives plan](docs/shop-alternatives-plan.md) compares providers for sales of pre-made balls.
+No provider is selected.
 Custom orders are a later phase.
-The initial Shop page works without a Shopify account.
+The initial Shop page works without a shop provider account.
 The collection preview and product details remain in the code but are hidden while the shop is unfinished.
 Remove the collection section's `hidden` attribute in `src/pages/Shop.tsx` to restore it.
 It does not accept payments.
@@ -217,7 +218,7 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
   The iframe follows Instagram's reported content height, so scrolling stays on the dialog.
 - `/shop` - Shop, in `src/pages/Shop.tsx`.
   The collection preview remains hidden until it is ready.
-  Online purchasing remains unavailable until Shopify is connected.
+  Online purchasing remains unavailable until a shop provider is selected and connected.
 - `/about` - About, in `src/pages/About.tsx`.
   This page has a founder blurb and a portrait.
   The portrait uses `src/assets/emily.jpeg` and keeps the photograph's original proportions.

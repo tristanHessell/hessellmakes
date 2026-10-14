@@ -29,6 +29,22 @@ Instead, follow the structural and grammar rules below:
 - Do not use idioms or slang.
 - Use a numbered or bulleted list for a sequence of steps.
 
+## Branch workflow
+
+Prefer the latest `origin/main` as the base for each new task.
+Do not base a new task on an earlier task's unmerged branch.
+Use a different base only when the user requests it or the task requires an existing branch.
+For a continuation, keep the task's existing branch unless the user requests a new base.
+
+1. Check the current branch and working tree before switching branches.
+2. Preserve existing changes and commits.
+   Do not discard unrelated work.
+3. Fetch `origin` before creating a task branch.
+   If the fetch fails, report that the latest `main` is not verified.
+4. Create the new task branch from `origin/main`.
+   Use the `codex/` prefix for Codex branches unless the user specifies another name.
+5. Verify that the branch contains the fetched `origin/main` before starting the task.
+
 ## Commit message format
 
 Write each commit message in the Conventional Commits format: `type(scope): description`.
@@ -114,9 +130,11 @@ The pages are:
 - `/shop` - Shop.
   The pre-made collection section is hidden while the shop is unfinished.
   Keep its code for later work.
-  It does not accept payments before Shopify is connected.
+  It does not accept payments before a shop provider is selected and connected.
   It uses noindex until the shop is ready.
-  Follow `docs/shopify-plan.md` for pre-made sales.
+  Use `docs/shop-alternatives-plan.md` to compare providers for pre-made sales.
+  No provider is selected.
+  Wait for approval before implementing a provider integration.
   Defer custom orders until a later phase.
 - `/about` - About.
   This page has the founder blurb, in `src/pages/About.tsx`.
