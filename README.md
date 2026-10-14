@@ -11,13 +11,13 @@ HessellMakes creates custom leather soccer balls by hand in Perth, Western Austr
 ## Project Overview
 
 This is a React and TypeScript site for the HessellMakes brand, built with [Vite](https://vite.dev).
-The site has 6 pages: Home, Gallery, Shop, About, Contact, and Design.
-The hamburger nav links to Home, Gallery, Shop, and About.
+The site has 6 pages: Home, Portfolio, Shop, About, Contact, and Design.
+The hamburger nav links to Home, Portfolio, Shop, and About.
 A visitor can reach Contact and Design only through the direct URL (see [Pages & navigation](#pages--navigation)).
 The site runs locally with hot reload, and the build produces a static bundle for upload to any CDN.
 
 Home sits at the site root.
-Each other page uses a direct path, for example `/gallery` or `/about`.
+Each other page uses a direct path, for example `/portfolio` or `/about`.
 
 ## Shop
 
@@ -85,7 +85,7 @@ The site needs no server-side runtime - it is plain HTML, CSS, and JS.
 
 The routing uses real URLs (see [Pages & navigation](#pages--navigation)).
 Because of this, the host needs an SPA fallback rewrite rule: a rule that sends each unmatched path to `dist/index.html`.
-For example, `/gallery` and `/contact` need this rule.
+For example, `/portfolio` and `/contact` need this rule.
 React Router then reads the real path and renders the correct page.
 Most static hosts and CDNs support this kind of rule, often called a "rewrite all to index.html" rule or a "single-page app" rule.
 The file `public/_redirects` already gives this rule for Netlify, and for Cloudflare Pages, which also reads this file format.
@@ -207,14 +207,16 @@ The site works from phone widths up to laptop and desktop widths:
 ## Pages & navigation
 
 The routing uses [React Router](https://reactrouter.com), in declarative mode, through `BrowserRouter`.
-Because of this, a URL looks like `/gallery`, not `/#/gallery`.
+Because of this, a URL looks like `/portfolio`, not `/#/portfolio`.
 This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN](#deploying-to-a-cdn): each path resolves to the same `index.html` file, and React Router then reads the route from the real URL path.
 
 - `/` - Home, in `src/pages/Home.tsx`. This page has the hero section and the features section.
-- `/gallery` - Gallery, in `src/pages/Gallery.tsx`.
+- `/portfolio` - Portfolio, in `src/pages/Portfolio.tsx`.
+  Old `/gallery` and `/site/gallery` URLs redirect to `/portfolio`.
   This page shows a grid of custom soccer balls.
-  A click opens a dialog with the completion date, construction details, story, and an embedded Instagram reel.
-  A direct Instagram link remains available if the embed cannot load.
+  A click opens a dialog with the completion date, construction details, and story.
+  Entries with an Instagram URL also show an embedded reel and a direct link.
+  Entries without a URL show only their details.
   The iframe follows Instagram's reported content height, so scrolling stays on the dialog.
 - `/shop` - Shop, in `src/pages/Shop.tsx`.
   The collection preview remains hidden until it is ready.
@@ -231,7 +233,7 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
 
 Each page renders inside `AppLayout`, in `src/components/AppLayout.tsx`.
 `AppLayout` renders the shared header (the logo, the hamburger nav, and the theme toggle) and the footer, around a React Router `<Outlet />`.
-The hamburger menu links to Home, Gallery, Shop, and About, and highlights the active page.
+The hamburger menu links to Home, Portfolio, Shop, and About, and highlights the active page.
 `AppLayout` and `NavMenu` link to each other page with a route-relative path, not an absolute path, so they need no change if the site's mount path ever changes again.
 
 Old `/site` URLs redirect to the corresponding root paths.
@@ -249,13 +251,13 @@ This hook overrides the document title, the meta description, the canonical link
 Each page reads its indexing setting from `src/siteRoutes.ts`.
 A page with `indexable: false` passes `noindex: true` to the hook.
 
-The Gallery page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
+The Portfolio page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
 
 - `public/favicon.svg` is the browser tab icon, the "H" mark from the logo, in Aussie Blue.
 - `public/og-image.jpg` is the default social media preview image, a photo of the Triple Truchet Tile ball.
 - `public/robots.txt` allows every crawler, and points to the sitemap.
 - The Vite build generates `dist/sitemap.xml` from `src/siteRoutes.ts`.
-  It lists Home, Gallery, and About at their root paths.
+  It lists Home, Portfolio, and About at their root paths.
   It excludes Contact, Design, and the unfinished Shop, which use noindex.
 
 To add a page, add its path and indexing setting to `src/siteRoutes.ts`.
@@ -284,8 +286,8 @@ src/components/ThemeToggle.module.css ThemeToggle styles
 src/components/Logo.tsx            HessellMakes icon mark
 src/pages/Home.tsx                 Home page
 src/pages/Home.module.css          Home styles
-src/pages/Gallery.tsx              Gallery page (soccer balls + info dialog)
-src/pages/Gallery.module.css       Gallery styles
+src/pages/Portfolio.tsx              Portfolio page (soccer balls + info dialog)
+src/pages/Portfolio.module.css       Portfolio styles
 src/pages/About.tsx                About page (founder blurb + portrait)
 src/pages/About.module.css         About styles
 src/components/FounderPortrait.tsx Placeholder founder portrait glyph

@@ -52,7 +52,16 @@
     "Snipcart",
     "Amex",
     "DMARC",
-    "multifactor"
+    "multifactor",
+    "Calcio",
+    "Italiano",
+    "Serie",
+    "Indivisa",
+    "Womens",
+    "Pritchard",
+    "Pritchards",
+    "Honeymoone",
+    "upcycled"
   ],
   "ignorePaths": [
     "node_modules/**",

@@ -56,9 +56,9 @@ describe("NavMenu", () => {
       "href",
       "/",
     );
-    expect(screen.getByRole("link", { name: "Gallery" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute(
       "href",
-      "/gallery",
+      "/portfolio",
     );
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute(
       "href",
@@ -77,7 +77,7 @@ describe("NavMenu", () => {
     expect(await screen.findByRole("link", { name: "Home" })).toHaveClass(
       styles.linkActive,
     );
-    expect(screen.getByRole("link", { name: "Gallery" })).not.toHaveClass(
+    expect(screen.getByRole("link", { name: "Portfolio" })).not.toHaveClass(
       styles.linkActive,
     );
   });
@@ -86,7 +86,7 @@ describe("NavMenu", () => {
     renderNavMenu();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
-    fireEvent.click(await screen.findByRole("link", { name: "Gallery" }));
+    fireEvent.click(await screen.findByRole("link", { name: "Portfolio" }));
 
     expect(screen.getByRole("button", { name: /open menu/i })).toHaveAttribute(
       "aria-expanded",

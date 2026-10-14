@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
 import { Home } from "./pages/Home";
-import { Gallery } from "./pages/Gallery";
+import { Portfolio } from "./pages/Portfolio";
 import { Shop } from "./pages/Shop";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
@@ -18,7 +18,7 @@ import { siteRoutes, type SitePage } from "./siteRoutes";
 
 const pages: Record<SitePage, ComponentType> = {
   home: Home,
-  gallery: Gallery,
+  portfolio: Portfolio,
   shop: Shop,
   about: About,
   contact: Contact,
@@ -27,22 +27,31 @@ const pages: Record<SitePage, ComponentType> = {
 
 function LegacySiteRedirect() {
   const { pathname, search, hash } = useLocation();
+  const path = pathname.slice("/site".length) || "/";
   return (
     <Navigate
-      to={`${pathname.slice("/site".length) || "/"}${search}${hash}`}
+      to={`${path.replace(/^\/gallery\/?$/, `/${siteRoutes.portfolio.path}`)}${search}${hash}`}
       replace
     />
   );
 }
 
+function LegacyGalleryRedirect() {
+  const { search, hash } = useLocation();
+  return (
+    <Navigate to={`/${siteRoutes.portfolio.path}${search}${hash}`} replace />
+  );
+}
+
 // BrowserRouter requires the static host to serve index.html for every
-// path (e.g. /gallery, /contact), not just "/" - see README's Pages &
+// path (e.g. /portfolio, /contact), not just "/" - see README's Pages &
 // navigation section for the rewrite rule this needs on a CDN/static host.
 function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/gallery" element={<LegacyGalleryRedirect />} />
           <Route path="/site/*" element={<LegacySiteRedirect />} />
           <Route path="/" element={<AppLayout />}>
             {Object.entries(siteRoutes).map(([key, { path }]) => {

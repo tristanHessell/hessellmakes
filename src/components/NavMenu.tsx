@@ -11,7 +11,7 @@ interface NavItem {
 // Relative paths keep each link within the AppLayout route.
 const navItems: NavItem[] = [
   { label: "Home", to: "." },
-  { label: "Gallery", to: "gallery" },
+  { label: "Portfolio", to: "portfolio" },
   { label: "Shop", to: "shop" },
   { label: "About", to: "about" },
 ];

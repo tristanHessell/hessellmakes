@@ -11,15 +11,20 @@ import { siteRoutes } from "../siteRoutes";
 import { useJsonLd } from "../hooks/useJsonLd";
 import { InstagramReel } from "../components/InstagramReel";
 import { soccerBalls } from "../data/soccerBalls";
-import styles from "./Gallery.module.css";
+import styles from "./Portfolio.module.css";
 
 // A swipe shorter than this, in pixels, is a tap or a scroll, not a swipe.
 const SWIPE_THRESHOLD = 50;
 
-export function Gallery() {
+const collections = [
+  { category: "custom", title: "Custom Balls" },
+  { category: "commission", title: "Commissions + Collaborations" },
+] as const;
+
+export function Portfolio() {
   useSeo({
-    noindex: !siteRoutes.gallery.indexable,
-    title: "Gallery",
+    noindex: !siteRoutes.portfolio.indexable,
+    title: "Portfolio",
     description:
       "Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.",
   });
@@ -118,27 +123,47 @@ export function Gallery() {
   return (
     <div className={styles.page}>
       <div className={styles.intro}>
-        <h1>Gallery</h1>
+        <h1>Portfolio</h1>
         <p>
           Every ball is hand-stitched to order in Perth, Western Australia.
           Select a ball to see more about its finish and story.
         </p>
       </div>
 
-      <ul className={styles.grid}>
-        {soccerBalls.map((ball, index) => (
-          <li key={ball.id}>
-            <button
-              type="button"
-              className={styles.card}
-              onClick={() => openBall(index)}
-            >
-              <img className={styles.cardImage} src={ball.imageSrc} alt="" />
-              <span className={styles.cardName}>{ball.name}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      {collections.map(({ category, title }) => (
+        <section
+          key={category}
+          className={styles.collection}
+          aria-labelledby={`collection-${category}`}
+        >
+          <h2 id={`collection-${category}`}>{title}</h2>
+          <ul className={styles.grid}>
+            {soccerBalls.map((ball, index) =>
+              ball.category === category ? (
+                <li key={ball.id}>
+                  <button
+                    type="button"
+                    className={styles.card}
+                    onClick={() => openBall(index)}
+                  >
+                    <img
+                      className={styles.cardImage}
+                      src={ball.imageSrc}
+                      alt=""
+                    />
+                    <span className={styles.cardName}>{ball.name}</span>
+                  </button>
+                </li>
+              ) : null,
+            )}
+          </ul>
+        </section>
+      ))}
+
+      <section className={styles.collection} aria-labelledby="can-it-ball">
+        <h2 id="can-it-ball">Can it Ball?</h2>
+        <p>A series testing out unique materials. Coming Soon!</p>
+      </section>
 
       <dialog
         ref={dialogRef}
@@ -184,20 +209,24 @@ export function Gallery() {
             </p>
             <p>{selectedBall.construction}</p>
             <p>{selectedBall.description}</p>
-            <a
-              className={styles.instagramLink}
-              href={selectedBall.instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Watch on Instagram (opens in a new tab)
-            </a>
-            <InstagramReel
-              key={selectedBall.id}
-              className={styles.instagramVideo}
-              url={selectedBall.instagramUrl}
-              name={selectedBall.name}
-            />
+            {selectedBall.instagramUrl && (
+              <>
+                <a
+                  className={styles.instagramLink}
+                  href={selectedBall.instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Watch on Instagram (opens in a new tab)
+                </a>
+                <InstagramReel
+                  key={selectedBall.id}
+                  className={styles.instagramVideo}
+                  url={selectedBall.instagramUrl}
+                  name={selectedBall.name}
+                />
+              </>
+            )}
           </div>
         )}
       </dialog>

@@ -86,6 +86,6 @@ describe("AppLayout", () => {
     expect(
       await screen.findByRole("link", { name: "Home" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Gallery" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Portfolio" })).toBeInTheDocument();
   });
 });

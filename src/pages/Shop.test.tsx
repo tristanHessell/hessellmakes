@@ -52,12 +52,13 @@ describe("Shop", () => {
 
   it("opens product details with checkout disabled until the shop is connected", () => {
     renderCollectionPreview();
-    const opener = screen.getByRole("button", { name: "View The Cat" });
+    const ball = soccerBalls[1];
+    const opener = screen.getByRole("button", { name: `View ${ball.name}` });
     opener.focus();
     fireEvent.click(opener);
-    const dialog = screen.getByRole("dialog", { name: "The Cat" });
+    const dialog = screen.getByRole("dialog", { name: ball.name });
     expect(
-      within(dialog).getByRole("img", { name: soccerBalls[1].imageAlt }),
+      within(dialog).getByRole("img", { name: ball.imageAlt }),
     ).toBeVisible();
     expect(
       within(dialog).getByRole("button", { name: "Buy online" }),
@@ -69,7 +70,9 @@ describe("Shop", () => {
     ).toBeVisible();
     fireEvent.click(within(dialog).getByRole("button", { name: "Close" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "View The Cat" })).toHaveFocus();
+    expect(
+      screen.getByRole("button", { name: `View ${ball.name}` }),
+    ).toHaveFocus();
   });
 
   it("closes on a backdrop click and shows the next selected ball", () => {

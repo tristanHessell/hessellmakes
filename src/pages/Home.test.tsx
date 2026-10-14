@@ -23,12 +23,12 @@ describe("Home", () => {
     ).toBeInTheDocument();
   });
 
-  it("links the CTA to the Gallery page", () => {
+  it("links the CTA to the Portfolio page", () => {
     renderHome();
 
     expect(
       screen.getByRole("link", { name: "Explore the work" }),
-    ).toHaveAttribute("href", "/gallery");
+    ).toHaveAttribute("href", "/portfolio");
   });
 
   it("has no accessibility violations", async () => {

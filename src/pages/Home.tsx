@@ -39,7 +39,7 @@ export function Home() {
           one-of-a-kind pieces.
         </p>
         <div className={styles.ctaGroup}>
-          <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="gallery">
+          <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="portfolio">
             Explore the work
           </Link>
           <Link className={`${styles.cta} ${styles.ctaSecondary}`} to="shop">

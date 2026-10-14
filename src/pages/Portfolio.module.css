@@ -19,6 +19,21 @@
   margin: 0;
 }
 
+.collection {
+  margin-top: 3rem;
+}
+
+.collection h2 {
+  margin: 0 0 1.5rem;
+  color: var(--color-heading);
+  font-size: 1.5rem;
+}
+
+.collection p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(

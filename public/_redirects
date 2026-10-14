@@ -1,3 +1,5 @@
+/gallery  /portfolio  301
+/site/gallery  /portfolio  301
 /site  /  301
 /site/*  /:splat  301
 /*  /index.html  200
