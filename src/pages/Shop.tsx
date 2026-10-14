@@ -1,6 +1,7 @@
 import { useRef, useState, type MouseEvent } from "react";
 import { soccerBalls, type SoccerBallProduct } from "../data/soccerBalls";
 import { useSeo } from "../hooks/useSeo";
+import { siteRoutes } from "../siteRoutes";
 import styles from "./Shop.module.css";
 
 export function Shop() {
@@ -10,10 +11,10 @@ export function Shop() {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useSeo({
+    noindex: !siteRoutes.shop.indexable,
     title: "Shop",
     description:
       "Browse the pre-made leather soccer ball collection from HessellMakes, hand-stitched in Perth, Western Australia. Online ordering is coming soon.",
-    noindex: true,
   });
 
   function openBall(ball: SoccerBallProduct) {

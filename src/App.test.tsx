@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
+import { siteRoutes } from "./siteRoutes";
 
 describe("App", () => {
   beforeEach(() => {
@@ -30,6 +31,19 @@ describe("App", () => {
       /^(light|dark)$/,
     );
   });
+
+  it.each(Object.entries(siteRoutes))(
+    "uses the shared indexing setting for %s",
+    (_page, { path, indexable }) => {
+      window.history.pushState({}, "", `/${path}`);
+      render(<App />);
+      expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        indexable ? "index, follow" : "noindex, nofollow",
+      );
+    },
+  );
 
   it("navigates to the shop through its relative navigation link", async () => {
     render(<App />);

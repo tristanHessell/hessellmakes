@@ -136,11 +136,19 @@ Preserve query strings and anchors during redirects.
 
 **SEO**: `src/hooks/useSeo.ts` sets the document title, the meta description, the canonical link, the robots directive, and the Open Graph / Twitter preview tags, for the current page.
 Call it once in each page component, with a short `title` and a 1 or 2 sentence `description` - see an existing page for the exact shape.
-Pass `noindex: true` for a page that is intentionally unlinked, for example Contact or Design, so a search engine does not index it.
+Set `indexable: false` in `src/siteRoutes.ts` for an unlinked or unfinished page.
+Each page passes `noindex: !siteRoutes.<page>.indexable` to `useSeo`.
 `index.html` sets a default value for each of these tags, and a static `LocalBusiness` JSON-LD block, for a crawler that does not run JavaScript; `useSeo` then overrides the tags with a page-specific value, for a crawler or a browser that does.
 `src/hooks/useJsonLd.ts` adds a `<script type="application/ld+json">` with structured data to the page, for example the `Product` data Gallery adds for the open ball, and removes it again when the data changes or the component unmounts.
-`public/robots.txt` and `public/sitemap.xml` are static files, copied as-is into the build.
-Update both, along with the hardcoded domain in `index.html`, if the live domain, `https://www.hessellmakes.com`, ever changes.
+`src/siteRoutes.ts` defines the route paths, indexing settings, and production origin.
+The router uses these paths.
+The Vite build generates `dist/sitemap.xml` through `src/sitemap.ts`.
+Do not add a manually maintained sitemap to `public/`.
+`public/robots.txt` remains a static file.
+Update the production origin, `public/robots.txt`, and `index.html` if the live domain changes.
+Add each new page to `src/siteRoutes.ts` and the component map in `src/App.tsx`.
+Use the shared indexing setting in the page's `useSeo` call.
+Omit `lastmod` until accurate content dates exist.
 The sitemap lists Home, Gallery, and About at their root paths.
 Keep Contact, Design, and the unfinished Shop out of the sitemap while they use noindex.
 
