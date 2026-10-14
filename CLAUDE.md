@@ -73,7 +73,7 @@ npm run preview            # preview the production build locally
 npm run playwright:install # one-time: installs Chromium for Vitest browser mode
 npm run test                # run all tests once
 npm run test:watch          # watch mode
-npx vitest run src/pages/Gallery.test.tsx   # run a single test file
+npx vitest run src/pages/Portfolio.test.tsx   # run a single test file
 npx vitest run -t "opens a dialog"          # run tests matching a name
 
 npm run lint / lint:fix     # ESLint (TS/React)
@@ -115,18 +115,18 @@ The file `vite.config.ts` sets `base: '/'`.
 This setting assumes the site sits at the domain root.
 
 **Routing**: The app uses `BrowserRouter` from `react-router-dom`.
-This gives real URLs, for example `/gallery`, instead of hash URLs like `/#/gallery`.
+This gives real URLs, for example `/portfolio`, instead of hash URLs like `/#/portfolio`.
 The static host needs an SPA fallback rewrite rule to send each unmatched path to `index.html`.
-Without this rule, a direct visit to `/gallery` gives a 404 error.
+Without this rule, a direct visit to `/portfolio` gives a 404 error.
 `src/App.tsx` declares the routes.
 Each page renders inside `AppLayout` (`src/components/AppLayout.tsx`).
 It gives the shared header, hamburger nav, and footer around an `<Outlet />`.
-`AppLayout`, `NavMenu`, and the in-app links all use route-relative paths, for example `to="."` and `to="gallery"`, not an absolute path like `to="/gallery"`.
+`AppLayout`, `NavMenu`, and the in-app links all use route-relative paths, for example `to="."` and `to="portfolio"`, not an absolute path like `to="/portfolio"`.
 The site uses the domain root as its mount path.
 The pages are:
 
 - `/` - Home.
-- `/gallery` - Gallery.
+- `/portfolio` - Portfolio.
 - `/shop` - Shop.
   The pre-made collection section is hidden while the shop is unfinished.
   Keep its code for later work.
@@ -148,6 +148,7 @@ The pages are:
   A visitor can reach this page only through the URL.
 
 Old `/site` URLs redirect to their corresponding root paths.
+Old `/gallery` and `/site/gallery` URLs redirect to `/portfolio`.
 Keep the permanent redirects in `public/_redirects` before the SPA fallback.
 React Router also redirects old URLs during local development.
 Preserve query strings and anchors during redirects.
@@ -157,7 +158,7 @@ Call it once in each page component, with a short `title` and a 1 or 2 sentence 
 Set `indexable: false` in `src/siteRoutes.ts` for an unlinked or unfinished page.
 Each page passes `noindex: !siteRoutes.<page>.indexable` to `useSeo`.
 `index.html` sets a default value for each of these tags, and a static `LocalBusiness` JSON-LD block, for a crawler that does not run JavaScript; `useSeo` then overrides the tags with a page-specific value, for a crawler or a browser that does.
-`src/hooks/useJsonLd.ts` adds a `<script type="application/ld+json">` with structured data to the page, for example the `Product` data Gallery adds for the open ball, and removes it again when the data changes or the component unmounts.
+`src/hooks/useJsonLd.ts` adds a `<script type="application/ld+json">` with structured data to the page, for example the `Product` data Portfolio adds for the open ball, and removes it again when the data changes or the component unmounts.
 `src/siteRoutes.ts` defines the route paths, indexing settings, and production origin.
 The router uses these paths.
 The Vite build generates `dist/sitemap.xml` through `src/sitemap.ts`.
@@ -167,7 +168,7 @@ Update the production origin, `public/robots.txt`, and `index.html` if the live 
 Add each new page to `src/siteRoutes.ts` and the component map in `src/App.tsx`.
 Use the shared indexing setting in the page's `useSeo` call.
 Omit `lastmod` until accurate content dates exist.
-The sitemap lists Home, Gallery, and About at their root paths.
+The sitemap lists Home, Portfolio, and About at their root paths.
 Keep Contact, Design, and the unfinished Shop out of the sitemap while they use noindex.
 
 **Theming**: `src/theme/colors.ts` holds the brand palette, taken from `ColourGuide.pdf`.
@@ -187,10 +188,12 @@ Each grid uses `repeat(auto-fit, minmax(...))`, so it can reflow with no extra c
 The app uses 2 shared breakpoints: `@media (width <= 640px)` adjusts the layout for a phone screen, and `@media (width <= 380px)` hides the wordmark, to keep room for the header on a very narrow screen.
 Write each media query in range notation - Stylelint enforces this format.
 
-**Gallery pattern**: `src/pages/Gallery.tsx` shows the standard pattern for a grid of items, where a click on an item opens a native `<dialog>` element.
+**Portfolio pattern**: `src/pages/Portfolio.tsx` shows the standard pattern for a grid of items, where a click on an item opens a native `<dialog>` element.
 The product data sits in a separate file, `src/data/soccerBalls.ts`, and each photo comes from `src/assets/gallery/`.
 Each grid thumbnail has `alt=""`, because the name text already sits next to it.
-The dialog shows the completion date, construction details, story, and an embedded Instagram reel instead of the thumbnail image.
+The dialog shows the completion date, construction details, and story.
+If the entry has an Instagram URL, show its embedded reel and direct link instead of the thumbnail image.
+Otherwise, show the details without a reel, direct Instagram link, or replacement image.
 Each iframe has a title that identifies the ball.
 Mount the iframe only when the dialog opens.
 Replace it when the selected ball changes and remove it when the dialog closes.
@@ -222,5 +225,5 @@ Accept messages only from the active Instagram frame.
   Run `nvm use` to switch to this version locally.
   The GitHub Actions workflow reads the same file, through the setting `node-version-file: .nvmrc` in `actions/setup-node`, so CI and local development never drift apart.
   To change the Node version, edit only the file `.nvmrc`.
-- The skill `.claude/skills/add-gallery-item/SKILL.md` gives the steps for adding a new product to the Gallery page, from a title, an image, and a description.
+- The skill `.claude/skills/add-gallery-item/SKILL.md` gives the steps for adding a new product to the Portfolio page, from a title, an image, and a description.
   Use this skill instead of re-deriving the steps from scratch.

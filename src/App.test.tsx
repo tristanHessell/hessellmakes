@@ -67,7 +67,7 @@ describe("App", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("navigates to the Gallery and About pages via the hamburger menu", async () => {
+  it("navigates to the Portfolio and About pages via the hamburger menu", async () => {
     render(<App />);
 
     // The dropdown fades/flips visibility in via a CSS transition, so a nav
@@ -75,10 +75,10 @@ describe("App", () => {
     // changes - findByRole retries until the transition has actually
     // applied.
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
-    fireEvent.click(await screen.findByRole("link", { name: "Gallery" }));
+    fireEvent.click(await screen.findByRole("link", { name: "Portfolio" }));
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "Gallery" }),
+      screen.getByRole("heading", { level: 1, name: "Portfolio" }),
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
@@ -90,7 +90,7 @@ describe("App", () => {
   });
 
   it.each([
-    ["/gallery", "Gallery"],
+    ["/portfolio", "Portfolio"],
     ["/shop", "Shop"],
     ["/about", "About"],
     ["/contact", "Contact"],
@@ -110,7 +110,10 @@ describe("App", () => {
   it.each([
     ["/site", "/"],
     ["/site/", "/"],
-    ["/site/gallery?ref=bookmark#details", "/gallery?ref=bookmark#details"],
+    ["/site/gallery?ref=bookmark#details", "/portfolio?ref=bookmark#details"],
+    ["/gallery?ref=bookmark#details", "/portfolio?ref=bookmark#details"],
+    ["/gallery/", "/portfolio"],
+    ["/site/portfolio", "/portfolio"],
     ["/site/shop", "/shop"],
     ["/site/about", "/about"],
     ["/site/contact", "/contact"],

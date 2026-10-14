@@ -1,18 +1,19 @@
 ---
 name: add-gallery-item
-description: Add a new product item to the Gallery page, from a title, an image, and a description. Use this skill when the user asks to add a new gallery item, a new ball, or a new product.
+description: Add a new product item to the Portfolio page, from a title, an image, and a description. Use this skill when the user asks to add a new gallery item, a new ball, or a new product.
 ---
 
 # Add a gallery item
 
-This skill adds one new item to the Gallery page. The Gallery page reads its
+This skill adds one new item to the Portfolio page. The Portfolio page reads its
 items from a single data file, so this skill needs no change to any
 component.
 
 ## Inputs
 
-Get these 6 values before you start. Ask the user for a value that is
-missing.
+Get the first 5 values before you start.
+Ask the user for a required value that is missing.
+The Instagram URL is optional.
 
 1. **Title** - the product name, for example "Heritage Red".
 2. **Image** - a path to an image file. Ask the user to add the file to the
@@ -21,7 +22,8 @@ missing.
    existing voice. Read `src/data/soccerBalls.ts` for examples of this voice.
 4. **Completion date** - the month and year, for example "July 2025".
 5. **Construction** - the number of pieces, material, and colours.
-6. **Instagram URL** - the public reel URL for the ball.
+6. **Instagram URL** - the public reel URL for the ball, if available.
+   Omit it when the user requests a description-only dialog.
 
 ## Steps
 
@@ -43,6 +45,7 @@ missing.
    ```ts
    {
      id: "heritage-red",
+     category: "custom",
      name: "Heritage Red",
      imageSrc: heritageRed,
      imageAlt: "The 1-sentence description from step 4.",
@@ -53,12 +56,15 @@ missing.
    },
    ```
 
+   Use `custom` for Custom Balls or `commission` for Commissions + Collaborations.
+   Keep the array in the same order as the displayed sections.
+
 6. Run `npx prettier --write src/data/soccerBalls.ts`, to match the project's
    formatting rules.
 7. Run `npm run validate`. This command checks formatting, lint rules,
-   spelling, and the tests, together. `Gallery.test.tsx` reads its test
-   cases from the `soccerBalls` array, so the existing tests already cover
-   the new item - no test file needs a change.
+   spelling, and the tests, together. `Portfolio.test.tsx` reads its test
+   cases from the `soccerBalls` array to check each item's details.
+   Update its expected gallery order when adding an item.
 8. If `npm run validate` reports an unknown word, from the new title or
    description, and the word is correct, add the word to the `words` list in
    `cspell.json`. Do not turn off the spelling check.
@@ -66,14 +72,16 @@ missing.
 ## Notes
 
 - The type `SoccerBallProduct`, in `src/data/soccerBalls.ts`, requires
-  these 8 fields: `id`, `name`, `imageSrc`, `imageAlt`, `description`,
-  `completed`, `construction`, and `instagramUrl`.
-- Do not change `src/pages/Gallery.tsx` or `Gallery.module.css` for this
+  these 7 fields: `id`, `name`, `imageSrc`, `imageAlt`, `description`,
+  `completed`, and `construction`.
+  Add `instagramUrl` only when a reel is available.
+- Do not change `src/pages/Portfolio.tsx` or `Portfolio.module.css` for this
   task. The grid, the dialog, and the Previous/Next buttons all read from the
   `soccerBalls` array already, so a new array entry appears everywhere with
   no other change.
 - Each grid thumbnail uses `alt=""` because visible text names the ball.
-  The Gallery dialog uses an Instagram reel with a descriptive iframe title.
+  If the entry has an Instagram URL, the dialog shows its reel and direct link.
+  Otherwise, the dialog shows the details without a reel, link, or replacement image.
   Keep `imageAlt` descriptive for other views that use the photograph.
 - Follow the ASD-STE100 style rule and the Conventional Commits rule in
   `CLAUDE.md`, for example `feat(gallery): add heritage red ball`, for any

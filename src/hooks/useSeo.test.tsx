@@ -33,19 +33,19 @@ describe("useSeo", () => {
   });
 
   it("sets the document title, with the site name appended", () => {
-    render(<SeoProbe title="Gallery" description="Browse the gallery." />);
+    render(<SeoProbe title="Portfolio" description="Browse the gallery." />);
 
-    expect(document.title).toBe("Gallery - HessellMakes");
+    expect(document.title).toBe("Portfolio - HessellMakes");
   });
 
   it("sets the meta description", () => {
-    render(<SeoProbe title="Gallery" description="Browse the gallery." />);
+    render(<SeoProbe title="Portfolio" description="Browse the gallery." />);
 
     expect(getMetaContent("name", "description")).toBe("Browse the gallery.");
   });
 
   it("sets the canonical link to the current URL", () => {
-    render(<SeoProbe title="Gallery" description="Browse the gallery." />);
+    render(<SeoProbe title="Portfolio" description="Browse the gallery." />);
 
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
@@ -53,16 +53,16 @@ describe("useSeo", () => {
   });
 
   it("sets the Open Graph and Twitter preview tags", () => {
-    render(<SeoProbe title="Gallery" description="Browse the gallery." />);
+    render(<SeoProbe title="Portfolio" description="Browse the gallery." />);
 
     expect(getMetaContent("property", "og:title")).toBe(
-      "Gallery - HessellMakes",
+      "Portfolio - HessellMakes",
     );
     expect(getMetaContent("property", "og:description")).toBe(
       "Browse the gallery.",
     );
     expect(getMetaContent("name", "twitter:title")).toBe(
-      "Gallery - HessellMakes",
+      "Portfolio - HessellMakes",
     );
     expect(getMetaContent("name", "twitter:description")).toBe(
       "Browse the gallery.",
@@ -70,7 +70,7 @@ describe("useSeo", () => {
   });
 
   it("allows indexing by default", () => {
-    render(<SeoProbe title="Gallery" description="Browse the gallery." />);
+    render(<SeoProbe title="Portfolio" description="Browse the gallery." />);
 
     expect(getMetaContent("name", "robots")).toBe("index, follow");
   });

@@ -18,7 +18,7 @@ describe("sitemap", () => {
   it("includes only the current indexable pages", () => {
     expect(parseSitemap(createSitemap())).toEqual([
       `${siteOrigin}/`,
-      `${siteOrigin}/gallery`,
+      `${siteOrigin}/portfolio`,
       `${siteOrigin}/about`,
     ]);
   });
