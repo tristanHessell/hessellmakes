@@ -144,6 +144,7 @@ export function Portfolio() {
                   <button
                     type="button"
                     className={styles.card}
+                    aria-label={ball.name}
                     onClick={() => openBall(index)}
                   >
                     <img
@@ -151,7 +152,6 @@ export function Portfolio() {
                       src={ball.imageSrc}
                       alt=""
                     />
-                    <span className={styles.cardName}>{ball.name}</span>
                   </button>
                 </li>
               ) : null,
