@@ -40,7 +40,7 @@ describe("Shop", () => {
     expect(screen.queryByRole("form")).not.toBeInTheDocument();
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
     expect(screen.getByText("Online ordering is coming soon.")).toBeVisible();
-    expect(screen.getByRole("link", { name: "Visit Etsy" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Visit Etsy/ })).toHaveAttribute(
       "href",
       "https://www.etsy.com/au/shop/Hessellmakes",
     );
