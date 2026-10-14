@@ -38,7 +38,7 @@ describe("Portfolio", () => {
     expect(
       within(screen.getByRole("region", { name: "Custom Balls" }))
         .getAllByRole("button")
-        .map((button) => button.textContent),
+        .map((button) => button.getAttribute("aria-label")),
     ).toEqual([
       "Triple Truchet Tile",
       "Tudor Rose",
@@ -51,7 +51,7 @@ describe("Portfolio", () => {
         screen.getByRole("region", { name: "Commissions + Collaborations" }),
       )
         .getAllByRole("button")
-        .map((button) => button.textContent),
+        .map((button) => button.getAttribute("aria-label")),
     ).toEqual([
       "SK100",
       "Calcio Italiano",
@@ -67,6 +67,26 @@ describe("Portfolio", () => {
       ),
     ).toBeInTheDocument();
     expect(within(comingSoon).queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("shows borderless images without visible ball names", () => {
+    render(<Portfolio />);
+    for (const ball of soccerBalls) {
+      const button = screen.getByRole("button", { name: ball.name });
+      expect(button).toHaveTextContent("");
+      expect(screen.queryByText(ball.name)).not.toBeInTheDocument();
+      const image = button.querySelector("img")!;
+      expect(image).toHaveAttribute("src", ball.imageSrc);
+      expect(getComputedStyle(button).padding).toBe("0px");
+      expect(getComputedStyle(button).borderWidth).toBe("0px");
+      expect(getComputedStyle(image).borderRadius).toBe("0px");
+      expect(image.getBoundingClientRect().width).toBe(
+        button.getBoundingClientRect().width,
+      );
+    }
+    for (const list of screen.getAllByRole("list")) {
+      expect(getComputedStyle(list).gap).toBe("0px");
+    }
   });
 
   it("shows each ball's details and its reel when available", async () => {

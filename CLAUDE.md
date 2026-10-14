@@ -190,7 +190,9 @@ Write each media query in range notation - Stylelint enforces this format.
 
 **Portfolio pattern**: `src/pages/Portfolio.tsx` shows the standard pattern for a grid of items, where a click on an item opens a native `<dialog>` element.
 The product data sits in a separate file, `src/data/soccerBalls.ts`, and each photo comes from `src/assets/gallery/`.
-Each grid thumbnail has `alt=""`, because the name text already sits next to it.
+The Portfolio uses a borderless image grid with no gaps or visible ball names.
+Each image button has the ball name as its accessible label.
+Each grid thumbnail has `alt=""` to avoid repeating the button label.
 The dialog shows the completion date, construction details, and story.
 If the entry has an Instagram URL, show its embedded reel and direct link instead of the thumbnail image.
 Otherwise, show the details without a reel, direct Instagram link, or replacement image.
