@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
@@ -70,7 +71,7 @@ export function NavMenu() {
 
       <nav
         id="primary-navigation"
-        className={isOpen ? `${styles.list} ${styles.listOpen}` : styles.list}
+        className={clsx(styles.list, { [styles.listOpen]: isOpen })}
         aria-label="Primary"
       >
         <ul>
@@ -81,7 +82,7 @@ export function NavMenu() {
                 end={item.to === "."}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }: { isActive: boolean }) =>
-                  isActive ? `${styles.link} ${styles.linkActive}` : styles.link
+                  clsx(styles.link, { [styles.linkActive]: isActive })
                 }
               >
                 {item.label}

@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Home } from "./Home";
 import { expectNoA11yViolations } from "../testUtils/a11y";
+import landing from "../assets/landing.jpg";
 
 function renderHome() {
   return render(
@@ -13,6 +14,17 @@ function renderHome() {
 }
 
 describe("Home", () => {
+  it("shows the landing photograph with priority loading", () => {
+    renderHome();
+    const image = screen.getByRole("img", {
+      name: /a collection of hand-stitched leather soccer balls/i,
+    });
+    expect(image).toHaveAttribute("src", landing);
+    expect(image).toHaveAttribute("width", "6000");
+    expect(image).toHaveAttribute("height", "3376");
+    expect(image).toHaveAttribute("fetchpriority", "high");
+  });
+
   it("renders the hero heading", () => {
     renderHome();
     expect(

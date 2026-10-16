@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {
   useMemo,
   useRef,
@@ -189,7 +190,7 @@ export function Portfolio() {
 
             <button
               type="button"
-              className={`${styles.dialogNav} ${styles.dialogPrev}`}
+              className={clsx(styles.dialogNav, styles.dialogPrev)}
               onClick={showPrevious}
               aria-label="Previous ball"
             >
@@ -197,7 +198,7 @@ export function Portfolio() {
             </button>
             <button
               type="button"
-              className={`${styles.dialogNav} ${styles.dialogNext}`}
+              className={clsx(styles.dialogNav, styles.dialogNext)}
               onClick={showNext}
               aria-label="Next ball"
             >

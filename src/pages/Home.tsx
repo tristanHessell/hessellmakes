@@ -1,6 +1,8 @@
+import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
+import landing from "../assets/landing.jpg";
 import styles from "./Home.module.css";
 
 const features = [
@@ -32,19 +34,32 @@ export function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <h1>Handmade soccer balls, built to last.</h1>
-        <p>
-          HessellMakes is a small Perth, Western Australia workshop,
-          hand-stitching custom soccer balls from raw leather into considered,
-          one-of-a-kind pieces.
-        </p>
-        <div className={styles.ctaGroup}>
-          <Link className={`${styles.cta} ${styles.ctaPrimary}`} to="portfolio">
-            Explore the work
-          </Link>
-          <Link className={`${styles.cta} ${styles.ctaSecondary}`} to="shop">
-            Visit the shop
-          </Link>
+        <img
+          className={styles.heroImage}
+          src={landing}
+          alt="A collection of hand-stitched leather soccer balls with colourful panels and detailed patterns."
+          width={6000}
+          height={3376}
+          fetchPriority="high"
+        />
+        <div className={styles.heroContent}>
+          <h1>Handmade soccer balls, built to last.</h1>
+          <p>
+            HessellMakes is a small Perth, Western Australia workshop,
+            hand-stitching custom soccer balls from raw leather into considered,
+            one-of-a-kind pieces.
+          </p>
+          <div className={styles.ctaGroup}>
+            <Link
+              className={clsx(styles.cta, styles.ctaPrimary)}
+              to="portfolio"
+            >
+              Explore the work
+            </Link>
+            <Link className={clsx(styles.cta, styles.ctaSecondary)} to="shop">
+              Visit the shop
+            </Link>
+          </div>
         </div>
       </section>
 
