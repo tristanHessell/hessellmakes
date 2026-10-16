@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
@@ -50,12 +51,12 @@ export function Home() {
           </p>
           <div className={styles.ctaGroup}>
             <Link
-              className={`${styles.cta} ${styles.ctaPrimary}`}
+              className={clsx(styles.cta, styles.ctaPrimary)}
               to="portfolio"
             >
               Explore the work
             </Link>
-            <Link className={`${styles.cta} ${styles.ctaSecondary}`} to="shop">
+            <Link className={clsx(styles.cta, styles.ctaSecondary)} to="shop">
               Visit the shop
             </Link>
           </div>
