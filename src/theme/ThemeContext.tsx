@@ -5,10 +5,10 @@ import {
   useMemo,
   useState,
   type ReactNode,
-} from "react";
-import type { ThemeName } from "./colors";
+} from 'react';
+import type { ThemeName } from './colors';
 
-const STORAGE_KEY = "hessellmakes-theme";
+const STORAGE_KEY = 'hessellmakes-theme';
 
 interface ThemeContextValue {
   theme: ThemeName;
@@ -18,25 +18,25 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const DARK_MEDIA_QUERY = "(prefers-color-scheme: dark)";
+const DARK_MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
 /** The theme the user set explicitly, through the theme toggle, if any. */
 function getStoredTheme(): ThemeName | null {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return null;
   }
 
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "light" || stored === "dark" ? stored : null;
+  return stored === 'light' || stored === 'dark' ? stored : null;
 }
 
 /** The theme the user's browser or OS currently prefers. */
 function getSystemTheme(): ThemeName {
-  if (typeof window === "undefined") {
-    return "light";
+  if (typeof window === 'undefined') {
+    return 'light';
   }
 
-  return window.matchMedia?.(DARK_MEDIA_QUERY)?.matches ? "dark" : "light";
+  return window.matchMedia?.(DARK_MEDIA_QUERY)?.matches ? 'dark' : 'light';
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -45,7 +45,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   useEffect(() => {
@@ -60,11 +60,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (getStoredTheme() !== null) {
         return;
       }
-      setThemeState(event.matches ? "dark" : "light");
+      setThemeState(event.matches ? 'dark' : 'light');
     }
 
-    media.addEventListener("change", handleChange);
-    return () => media.removeEventListener("change", handleChange);
+    media.addEventListener('change', handleChange);
+    return () => media.removeEventListener('change', handleChange);
   }, []);
 
   function setTheme(next: ThemeName) {
@@ -76,7 +76,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     () => ({
       theme,
       setTheme,
-      toggleTheme: () => setTheme(theme === "light" ? "dark" : "light"),
+      toggleTheme: () => setTheme(theme === 'light' ? 'dark' : 'light'),
     }),
     [theme],
   );
@@ -89,7 +89,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 export function useTheme(): ThemeContextValue {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 }

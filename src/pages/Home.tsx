@@ -1,34 +1,34 @@
-import clsx from "clsx";
-import { Link } from "react-router-dom";
-import { useSeo } from "../hooks/useSeo";
-import { siteRoutes } from "../siteRoutes";
-import landing from "../assets/landing.webp";
-import styles from "./Home.module.css";
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
+import { useSeo } from '../hooks/useSeo';
+import { siteRoutes } from '../siteRoutes';
+import landing from '../assets/landing.webp';
+import styles from './Home.module.css';
 
 const features = [
   {
-    title: "Craftsmanship",
+    title: 'Craftsmanship',
     description:
-      "Every piece is made by hand, with an eye for detail that mass production leaves behind.",
+      'Every piece is made by hand, with an eye for detail that mass production leaves behind.',
   },
   {
-    title: "Heritage",
+    title: 'Heritage',
     description:
-      "Techniques and materials chosen for how well they age, not just how they look on day one.",
+      'Techniques and materials chosen for how well they age, not just how they look on day one.',
   },
   {
-    title: "Quality",
+    title: 'Quality',
     description:
-      "Built to be used, not just displayed - durable materials matched to durable design.",
+      'Built to be used, not just displayed - durable materials matched to durable design.',
   },
 ];
 
 export function Home() {
   useSeo({
     noindex: !siteRoutes.home.indexable,
-    title: "Handmade Custom Soccer Balls in Perth, WA",
+    title: 'Handmade Custom Soccer Balls in Perth, WA',
     description:
-      "Handmade custom soccer balls, hand-stitched to order in our Perth, Western Australia workshop. Considered design, durable leather, built to last.",
+      'Handmade custom soccer balls, hand-stitched to order in our Perth, Western Australia workshop. Considered design, durable leather, built to last.',
   });
 
   return (

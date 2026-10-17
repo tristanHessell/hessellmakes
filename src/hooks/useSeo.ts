@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-const SITE_NAME = "HessellMakes";
+const SITE_NAME = 'HessellMakes';
 
 interface SeoOptions {
   /** A short page name, for example "Portfolio". Combined with the site name
@@ -14,16 +14,16 @@ interface SeoOptions {
   noindex?: boolean;
 }
 
-function setMeta(attribute: "name" | "property", key: string, content: string) {
+function setMeta(attribute: 'name' | 'property', key: string, content: string) {
   let element = document.querySelector<HTMLMetaElement>(
     `meta[${attribute}="${key}"]`,
   );
   if (!element) {
-    element = document.createElement("meta");
+    element = document.createElement('meta');
     element.setAttribute(attribute, key);
     document.head.appendChild(element);
   }
-  element.setAttribute("content", content);
+  element.setAttribute('content', content);
 }
 
 function setCanonicalLink(href: string) {
@@ -31,11 +31,11 @@ function setCanonicalLink(href: string) {
     'link[rel="canonical"]',
   );
   if (!element) {
-    element = document.createElement("link");
-    element.setAttribute("rel", "canonical");
+    element = document.createElement('link');
+    element.setAttribute('rel', 'canonical');
     document.head.appendChild(element);
   }
-  element.setAttribute("href", href);
+  element.setAttribute('href', href);
 }
 
 /**
@@ -51,13 +51,13 @@ export function useSeo({ title, description, noindex = false }: SeoOptions) {
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
 
     document.title = fullTitle;
-    setMeta("name", "description", description);
-    setMeta("name", "robots", noindex ? "noindex, nofollow" : "index, follow");
-    setMeta("property", "og:title", fullTitle);
-    setMeta("property", "og:description", description);
-    setMeta("property", "og:url", canonicalUrl);
-    setMeta("name", "twitter:title", fullTitle);
-    setMeta("name", "twitter:description", description);
+    setMeta('name', 'description', description);
+    setMeta('name', 'robots', noindex ? 'noindex, nofollow' : 'index, follow');
+    setMeta('property', 'og:title', fullTitle);
+    setMeta('property', 'og:description', description);
+    setMeta('property', 'og:url', canonicalUrl);
+    setMeta('name', 'twitter:title', fullTitle);
+    setMeta('name', 'twitter:description', description);
     setCanonicalLink(canonicalUrl);
   }, [title, description, noindex]);
 }

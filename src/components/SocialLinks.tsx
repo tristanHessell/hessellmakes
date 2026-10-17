@@ -1,4 +1,4 @@
-import styles from "./SocialLinks.module.css";
+import styles from './SocialLinks.module.css';
 
 function InstagramIcon() {
   return (
@@ -56,18 +56,18 @@ function TikTokIcon() {
 
 const socialLinks = [
   {
-    label: "Instagram",
-    href: "https://www.instagram.com/hessellmakes/",
+    label: 'Instagram',
+    href: 'https://www.instagram.com/hessellmakes/',
     icon: InstagramIcon,
   },
   {
-    label: "Etsy shop",
-    href: "https://www.etsy.com/au/shop/Hessellmakes",
+    label: 'Etsy shop',
+    href: 'https://www.etsy.com/au/shop/Hessellmakes',
     icon: EtsyIcon,
   },
   {
-    label: "TikTok",
-    href: "https://www.tiktok.com/@hessellmakes",
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/@hessellmakes',
     icon: TikTokIcon,
   },
 ];

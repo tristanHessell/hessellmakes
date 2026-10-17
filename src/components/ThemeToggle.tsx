@@ -1,5 +1,5 @@
-import { useTheme } from "../theme/ThemeContext";
-import styles from "./ThemeToggle.module.css";
+import { useTheme } from '../theme/ThemeContext';
+import styles from './ThemeToggle.module.css';
 
 function SunIcon() {
   return (
@@ -40,7 +40,7 @@ function MoonIcon() {
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark';
 
   return (
     <button
@@ -48,11 +48,11 @@ export function ThemeToggle() {
       className={styles.toggle}
       onClick={toggleTheme}
       aria-pressed={isDark}
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
       <span className={styles.label}>
-        {isDark ? "Light mode" : "Dark mode"}
+        {isDark ? 'Light mode' : 'Dark mode'}
       </span>
     </button>
   );

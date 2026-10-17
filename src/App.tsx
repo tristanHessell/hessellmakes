@@ -4,17 +4,17 @@ import {
   Route,
   Routes,
   useLocation,
-} from "react-router-dom";
-import { AppLayout } from "./components/AppLayout";
-import { Home } from "./pages/Home";
-import { Portfolio } from "./pages/Portfolio";
-import { Shop } from "./pages/Shop";
-import { About } from "./pages/About";
-import { Contact } from "./pages/Contact";
-import { Design } from "./pages/Design";
-import { ThemeProvider } from "./theme/ThemeContext";
-import type { ComponentType } from "react";
-import { siteRoutes, type SitePage } from "./siteRoutes";
+} from 'react-router-dom';
+import { AppLayout } from './components/AppLayout';
+import { Home } from './pages/Home';
+import { Portfolio } from './pages/Portfolio';
+import { Shop } from './pages/Shop';
+import { About } from './pages/About';
+import { Contact } from './pages/Contact';
+import { Design } from './pages/Design';
+import { ThemeProvider } from './theme/ThemeContext';
+import type { ComponentType } from 'react';
+import { siteRoutes, type SitePage } from './siteRoutes';
 
 const pages: Record<SitePage, ComponentType> = {
   home: Home,
@@ -27,7 +27,7 @@ const pages: Record<SitePage, ComponentType> = {
 
 function LegacySiteRedirect() {
   const { pathname, search, hash } = useLocation();
-  const path = pathname.slice("/site".length) || "/";
+  const path = pathname.slice('/site'.length) || '/';
   return (
     <Navigate
       to={`${path.replace(/^\/gallery\/?$/, `/${siteRoutes.portfolio.path}`)}${search}${hash}`}
@@ -56,7 +56,7 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             {Object.entries(siteRoutes).map(([key, { path }]) => {
               const Page = pages[key as SitePage];
-              return path === "" ? (
+              return path === '' ? (
                 <Route key={key} index element={<Page />} />
               ) : (
                 <Route key={key} path={path} element={<Page />} />

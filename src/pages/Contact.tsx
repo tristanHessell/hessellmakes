@@ -1,15 +1,15 @@
-import { useState, type FormEvent } from "react";
-import { useSeo } from "../hooks/useSeo";
-import { siteRoutes } from "../siteRoutes";
-import styles from "./Contact.module.css";
+import { useState, type FormEvent } from 'react';
+import { useSeo } from '../hooks/useSeo';
+import { siteRoutes } from '../siteRoutes';
+import styles from './Contact.module.css';
 
 // Not linked from the nav - reachable only by visiting /contact directly.
 export function Contact() {
   useSeo({
     noindex: !siteRoutes.contact.indexable,
-    title: "Contact",
+    title: 'Contact',
     description:
-      "Commission a custom hand-stitched soccer ball from HessellMakes in Perth, WA.",
+      'Commission a custom hand-stitched soccer ball from HessellMakes in Perth, WA.',
     // Not linked from anywhere in the UI, by design, so a search engine
     // should not index or recommend this page either.
   });

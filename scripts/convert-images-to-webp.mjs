@@ -1,19 +1,19 @@
-import { readdir, rename, stat, unlink } from "node:fs/promises";
-import { dirname, extname, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import sharp from "sharp";
+import { readdir, rename, stat, unlink } from 'node:fs/promises';
+import { dirname, extname, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 
-const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const scanRoots = ["src/assets", "public"].map((path) =>
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const scanRoots = ['src/assets', 'public'].map((path) =>
   resolve(projectRoot, path),
 );
-const supportedExtensions = new Set([".jpg", ".jpeg", ".png"]);
-const deleteOriginals = process.argv.includes("--delete-originals");
-const qualityOption = process.argv.find((arg) => arg.startsWith("--quality="));
-const quality = qualityOption ? Number(qualityOption.split("=")[1]) : 82;
+const supportedExtensions = new Set(['.jpg', '.jpeg', '.png']);
+const deleteOriginals = process.argv.includes('--delete-originals');
+const qualityOption = process.argv.find((arg) => arg.startsWith('--quality='));
+const quality = qualityOption ? Number(qualityOption.split('=')[1]) : 82;
 
 if (!Number.isInteger(quality) || quality < 1 || quality > 100) {
-  throw new Error("The quality value must be an integer from 1 to 100.");
+  throw new Error('The quality value must be an integer from 1 to 100.');
 }
 
 async function collectImages(directory) {
@@ -77,8 +77,8 @@ process.stdout.write(
   `Converted ${sourcePaths.length} images at quality ${quality}. ${sourceBytes} -> ${outputBytes} bytes.`,
 );
 if (deleteOriginals) {
-  process.stdout.write(" Original files removed.");
+  process.stdout.write(' Original files removed.');
 } else {
-  process.stdout.write(" Original files kept.");
+  process.stdout.write(' Original files kept.');
 }
-process.stdout.write("\n");
+process.stdout.write('\n');

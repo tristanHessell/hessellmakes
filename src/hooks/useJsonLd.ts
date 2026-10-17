@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 /**
  * Adds a `<script type="application/ld+json">` with the given structured
@@ -12,8 +12,8 @@ export function useJsonLd(data: object | null) {
       return;
     }
 
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
     script.textContent = JSON.stringify(data);
     document.head.appendChild(script);
 

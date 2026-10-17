@@ -1,9 +1,9 @@
-import { useRef, useState, type MouseEvent } from "react";
-import { soccerBalls, type SoccerBallProduct } from "../data/soccerBalls";
-import { useSeo } from "../hooks/useSeo";
-import { siteRoutes } from "../siteRoutes";
-import { ExternalLink } from "../components/ExternalLink";
-import styles from "./Shop.module.css";
+import { useRef, useState, type MouseEvent } from 'react';
+import { soccerBalls, type SoccerBallProduct } from '../data/soccerBalls';
+import { useSeo } from '../hooks/useSeo';
+import { siteRoutes } from '../siteRoutes';
+import { ExternalLink } from '../components/ExternalLink';
+import styles from './Shop.module.css';
 
 export function Shop() {
   const [selectedBall, setSelectedBall] = useState<SoccerBallProduct | null>(
@@ -13,9 +13,9 @@ export function Shop() {
 
   useSeo({
     noindex: !siteRoutes.shop.indexable,
-    title: "Shop",
+    title: 'Shop',
     description:
-      "Browse the pre-made leather soccer ball collection from HessellMakes, hand-stitched in Perth, Western Australia. Online ordering is coming soon.",
+      'Browse the pre-made leather soccer ball collection from HessellMakes, hand-stitched in Perth, Western Australia. Online ordering is coming soon.',
   });
 
   function openBall(ball: SoccerBallProduct) {

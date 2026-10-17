@@ -16,7 +16,7 @@
 :root {
   color-scheme: light dark;
 
-  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
   --radius: 8px;
   --brand-aussie-blue: #1f305e;
   --brand-english-red: #c93c47;
@@ -27,7 +27,7 @@
 
 /* stylelint-disable-next-line defensive-css/require-pure-selectors -- the
    root theme attribute is the application's intentional theme hook */
-[data-theme="light"] {
+[data-theme='light'] {
   --color-bg: var(--brand-white);
   --color-surface: #f7f2ec;
   --color-surface-strong: var(--brand-cream);
@@ -44,7 +44,7 @@
 
 /* stylelint-disable-next-line defensive-css/require-pure-selectors -- the
    root theme attribute is the application's intentional theme hook */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-bg: #14171c;
   --color-surface: var(--brand-aussie-blue);
   --color-surface-strong: #24345f;

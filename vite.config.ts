@@ -1,7 +1,7 @@
-import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
-import { playwright } from "@vitest/browser-playwright";
-import { createSitemap } from "./src/sitemap.ts";
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import { playwright } from '@vitest/browser-playwright';
+import { createSitemap } from './src/sitemap.ts';
 
 // Config notes:
 // - `base: '/'` assumes the site is hosted at the domain root. Relative
@@ -16,30 +16,30 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: "site-sitemap",
-      apply: "build",
+      name: 'site-sitemap',
+      apply: 'build',
       generateBundle() {
         this.emitFile({
-          type: "asset",
-          fileName: "sitemap.xml",
+          type: 'asset',
+          fileName: 'sitemap.xml',
           source: createSitemap(),
         });
       },
     },
   ],
-  base: "/",
+  base: '/',
   build: {
-    outDir: "dist",
+    outDir: 'dist',
     sourcemap: true,
   },
   test: {
     globals: true,
-    setupFiles: "./src/setupTests.ts",
+    setupFiles: './src/setupTests.ts',
     browser: {
       enabled: true,
       provider: playwright(),
       headless: true,
-      instances: [{ browser: "chromium" }],
+      instances: [{ browser: 'chromium' }],
     },
   },
 });

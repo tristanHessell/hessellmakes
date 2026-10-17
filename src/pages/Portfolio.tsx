@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 import {
   useMemo,
   useRef,
@@ -6,29 +6,29 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type TouchEvent,
-} from "react";
-import { useSeo } from "../hooks/useSeo";
-import { siteRoutes } from "../siteRoutes";
-import { useJsonLd } from "../hooks/useJsonLd";
-import { InstagramReel } from "../components/InstagramReel";
-import { ExternalLink } from "../components/ExternalLink";
-import { soccerBalls } from "../data/soccerBalls";
-import styles from "./Portfolio.module.css";
+} from 'react';
+import { useSeo } from '../hooks/useSeo';
+import { siteRoutes } from '../siteRoutes';
+import { useJsonLd } from '../hooks/useJsonLd';
+import { InstagramReel } from '../components/InstagramReel';
+import { ExternalLink } from '../components/ExternalLink';
+import { soccerBalls } from '../data/soccerBalls';
+import styles from './Portfolio.module.css';
 
 // A swipe shorter than this, in pixels, is a tap or a scroll, not a swipe.
 const SWIPE_THRESHOLD = 50;
 
 const collections = [
-  { category: "custom", title: "Custom Balls" },
-  { category: "commission", title: "Commissions + Collaborations" },
+  { category: 'custom', title: 'Custom Balls' },
+  { category: 'commission', title: 'Commissions + Collaborations' },
 ] as const;
 
 export function Portfolio() {
   useSeo({
     noindex: !siteRoutes.portfolio.indexable,
-    title: "Portfolio",
+    title: 'Portfolio',
     description:
-      "Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.",
+      'Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.',
   });
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -43,12 +43,12 @@ export function Portfolio() {
     }
 
     return {
-      "@context": "https://schema.org",
-      "@type": "Product",
+      '@context': 'https://schema.org',
+      '@type': 'Product',
       name: selectedBall.name,
       description: selectedBall.description,
       image: `${window.location.origin}${selectedBall.imageSrc}`,
-      brand: { "@type": "Brand", name: "HessellMakes" },
+      brand: { '@type': 'Brand', name: 'HessellMakes' },
     };
   }, [selectedBall]);
   useJsonLd(selectedBallJsonLd);
@@ -81,10 +81,10 @@ export function Portfolio() {
   }
 
   function handleDialogKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
-    if (event.key === "ArrowLeft") {
+    if (event.key === 'ArrowLeft') {
       event.preventDefault();
       showPrevious();
-    } else if (event.key === "ArrowRight") {
+    } else if (event.key === 'ArrowRight') {
       event.preventDefault();
       showNext();
     }
