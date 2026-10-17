@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Home } from "./Home";
 import { expectNoA11yViolations } from "../testUtils/a11y";
-import landing from "../assets/landing.jpg";
+import landing from "../assets/landing.webp";
 
 function renderHome() {
   return render(

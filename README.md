@@ -22,6 +22,7 @@ Each other page uses a direct path, for example `/portfolio` or `/about`.
 ## Shop
 
 The [shop alternatives plan](docs/shop-alternatives-plan.md) compares providers for sales of pre-made balls.
+The [image CDN plan](docs/image-cdn-plan.md) covers Netlify delivery and image formats for the web.
 No provider is selected.
 Custom orders are a later phase.
 The initial Shop page works without a shop provider account.
@@ -61,6 +62,17 @@ npm run dev
 ```
 
 This command starts a dev server, at `http://localhost:5173` by default, with hot module reload.
+
+## Convert images
+
+```bash
+npm run images:webp
+```
+
+This command converts JPG, JPEG, and PNG files in `src/assets/` and `public/` to WebP at quality 82.
+It keeps each source file by default.
+Add `-- --delete-originals` to remove each source after its WebP file is ready.
+Use `-- --quality=75` to set a different WebP quality from 1 to 100.
 
 ## Build for production
 
@@ -223,7 +235,7 @@ This setup needs the SPA fallback rewrite rule described in [Deploying to a CDN]
   Online purchasing remains unavailable until a shop provider is selected and connected.
 - `/about` - About, in `src/pages/About.tsx`.
   This page has a founder blurb and a portrait.
-  The portrait uses `src/assets/emily.jpeg` and keeps the photograph's original proportions.
+  The portrait uses `src/assets/emily.webp` and keeps the photograph's original proportions.
 - `/contact` - Contact, in `src/pages/Contact.tsx`.
   This page has a simple contact form.
   By design, this page is not linked from the nav, and not linked from any other part of the UI - a visitor can reach this page only through the direct URL.
@@ -254,7 +266,7 @@ A page with `indexable: false` passes `noindex: true` to the hook.
 The Portfolio page also calls `useJsonLd`, in `src/hooks/useJsonLd.ts`, to add `Product` structured data for the ball shown in the open dialog.
 
 - `public/favicon.svg` is the browser tab icon, the "H" mark from the logo, in Aussie Blue.
-- `public/og-image.jpg` is the default social media preview image, a photo of the Triple Truchet Tile ball.
+- `public/og-image.webp` is the default social media preview image, a photo of the Triple Truchet Tile ball.
 - `public/robots.txt` allows every crawler, and points to the sitemap.
 - The Vite build generates `dist/sitemap.xml` from `src/siteRoutes.ts`.
   It lists Home, Portfolio, and About at their root paths.

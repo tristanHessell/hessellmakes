@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { About } from "./About";
-import emily from "../assets/emily.jpeg";
+import emily from "../assets/emily.webp";
 
 describe("About", () => {
   it("renders the page heading and Emily's introduction without a name heading", () => {
