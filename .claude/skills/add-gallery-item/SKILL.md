@@ -31,16 +31,17 @@ The Instagram URL is optional.
    becomes `heritage-red`. Check `src/data/soccerBalls.ts` for a clash with
    an existing id.
 2. Copy the image file into `src/assets/gallery/`. Give the copy a file name
-   that matches the id, for example `heritage-red.jpeg`. Keep the original
-   file extension.
-3. Open `src/data/soccerBalls.ts`. Add an import for the new image, at the
-   top of the file, next to the existing imports from
+   that matches the id, for example `heritage-red.jpg`.
+3. Run `npm run images:webp` to create a WebP file. Check the output image.
+   Then run `npm run images:webp -- --delete-originals` to remove source files.
+4. Open `src/data/soccerBalls.ts`. Add an import for the `.webp` image, at
+   the top of the file, next to the existing imports from
    `src/assets/gallery/`.
-4. Look at the image. Write a 1-sentence, literal description of what it
+5. Look at the image. Write a 1-sentence, literal description of what it
    shows - the colours and the pattern on the ball. Do not just repeat the
    title. A screen reader reads this text in place of the image, in the
    dialog view, so it must carry real information.
-5. Add a new object to the `soccerBalls` array, with this exact shape:
+6. Add a new object to the `soccerBalls` array, with this exact shape:
 
    ```ts
    {
@@ -59,13 +60,13 @@ The Instagram URL is optional.
    Use `custom` for Custom Balls or `commission` for Commissions + Collaborations.
    Keep the array in the same order as the displayed sections.
 
-6. Run `npx prettier --write src/data/soccerBalls.ts`, to match the project's
+7. Run `npx prettier --write src/data/soccerBalls.ts`, to match the project's
    formatting rules.
-7. Run `npm run validate`. This command checks formatting, lint rules,
+8. Run `npm run validate`. This command checks formatting, lint rules,
    spelling, and the tests, together. `Portfolio.test.tsx` reads its test
    cases from the `soccerBalls` array to check each item's details.
    Update its expected gallery order when adding an item.
-8. If `npm run validate` reports an unknown word, from the new title or
+9. If `npm run validate` reports an unknown word, from the new title or
    description, and the word is correct, add the word to the `words` list in
    `cspell.json`. Do not turn off the spelling check.
 

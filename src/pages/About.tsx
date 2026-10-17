@@ -1,6 +1,6 @@
 import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
-import emily from "../assets/emily.jpeg";
+import emily from "../assets/emily.webp";
 import styles from "./About.module.css";
 
 export function About() {

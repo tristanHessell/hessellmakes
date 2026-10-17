@@ -138,7 +138,7 @@ The pages are:
   Defer custom orders until a later phase.
 - `/about` - About.
   This page has the founder blurb, in `src/pages/About.tsx`.
-  This page uses Emily's photograph from `src/assets/emily.jpeg` with descriptive alt text.
+  This page uses Emily's photograph from `src/assets/emily.webp` with descriptive alt text.
 - `/contact` - Contact.
   `NavMenu` does not link to this page, and no other UI element links to this page.
   A visitor can reach this page only through the URL.
@@ -182,6 +182,14 @@ The theme toggle sits inside the hamburger menu (`src/components/ThemeToggle.tsx
 **Styling**: The app uses CSS Modules in each component - each file has the name `*.module.css`, each class name uses camelCase, and each import reads `import styles from './X.module.css'`.
 There are 2 exceptions, by design: `src/theme/theme.css` (CSS variables on `:root` and on `[data-theme]`) and `src/index.css` (the base style reset).
 These 2 files are not CSS Modules.
+
+**Images**: The site uses WebP for raster images.
+The script `scripts/convert-images-to-webp.mjs` converts JPG, JPEG, and PNG files in `src/assets/` and `public/`.
+Run it with `npm run images:webp`.
+It keeps source files by default.
+Use `-- --delete-originals` only when the WebP outputs are ready to replace their sources.
+Update every code and metadata reference when an image filename changes.
+Keep vector logos and favicons as SVG.
 
 **Responsive layout**: No component holds its own breakpoint logic.
 Each grid uses `repeat(auto-fit, minmax(...))`, so it can reflow with no extra code.

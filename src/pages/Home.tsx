@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useSeo } from "../hooks/useSeo";
 import { siteRoutes } from "../siteRoutes";
-import landing from "../assets/landing.jpg";
+import landing from "../assets/landing.webp";
 import styles from "./Home.module.css";
 
 const features = [
