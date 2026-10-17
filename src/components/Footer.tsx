@@ -1,5 +1,5 @@
-import { SocialLinks } from "./SocialLinks";
-import styles from "./Footer.module.css";
+import { SocialLinks } from './SocialLinks';
+import styles from './Footer.module.css';
 
 export function Footer() {
   return (

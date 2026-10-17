@@ -1,10 +1,10 @@
 // Shared page chrome (header, nav, footer) rendered around every route via
 // React Router's <Outlet />.
-import { Link, Outlet } from "react-router-dom";
-import { Logo } from "./Logo";
-import { NavMenu } from "./NavMenu";
-import { Footer } from "./Footer";
-import styles from "./AppLayout.module.css";
+import { Link, Outlet } from 'react-router-dom';
+import { Logo } from './Logo';
+import { NavMenu } from './NavMenu';
+import { Footer } from './Footer';
+import styles from './AppLayout.module.css';
 
 export function AppLayout() {
   return (

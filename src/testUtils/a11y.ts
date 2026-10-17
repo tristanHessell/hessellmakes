@@ -1,5 +1,5 @@
-import { expect } from "vitest";
-import axe from "axe-core";
+import { expect } from 'vitest';
+import axe from 'axe-core';
 
 /**
  * Runs axe-core against a rendered container and asserts there are no
@@ -16,15 +16,15 @@ export async function expectNoA11yViolations(container: Element) {
 
 function describeViolations(violations: axe.Result[]): string {
   if (violations.length === 0) {
-    return "";
+    return '';
   }
 
   return violations
     .map((violation) => {
       const targets = violation.nodes
-        .map((node) => node.target.join(" "))
-        .join(", ");
+        .map((node) => node.target.join(' '))
+        .join(', ');
       return `[${violation.impact}] ${violation.id}: ${violation.help} (${violation.helpUrl})\n  affected: ${targets}`;
     })
-    .join("\n");
+    .join('\n');
 }

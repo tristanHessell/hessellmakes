@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 interface InstagramReelProps {
   url: string;
@@ -13,7 +13,7 @@ export function InstagramReel({ url, name, className }: InstagramReelProps) {
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (
-        event.origin !== "https://www.instagram.com" ||
+        event.origin !== 'https://www.instagram.com' ||
         event.source !== frameRef.current?.contentWindow
       ) {
         return;
@@ -23,14 +23,14 @@ export function InstagramReel({ url, name, className }: InstagramReelProps) {
       let message;
       try {
         message =
-          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+          typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
       } catch {
         return;
       }
       const measuredHeight = message?.details?.height;
       if (
-        message?.type === "MEASURE" &&
-        typeof measuredHeight === "number" &&
+        message?.type === 'MEASURE' &&
+        typeof measuredHeight === 'number' &&
         Number.isFinite(measuredHeight) &&
         measuredHeight > 0 &&
         measuredHeight <= 10000
@@ -39,8 +39,8 @@ export function InstagramReel({ url, name, className }: InstagramReelProps) {
       }
     }
 
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   return (

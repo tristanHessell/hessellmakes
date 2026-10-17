@@ -1,14 +1,14 @@
-import { useSeo } from "../hooks/useSeo";
-import { siteRoutes } from "../siteRoutes";
-import emily from "../assets/emily.webp";
-import styles from "./About.module.css";
+import { useSeo } from '../hooks/useSeo';
+import { siteRoutes } from '../siteRoutes';
+import emily from '../assets/emily.webp';
+import styles from './About.module.css';
 
 export function About() {
   useSeo({
     noindex: !siteRoutes.about.indexable,
-    title: "About",
+    title: 'About',
     description:
-      "Meet Emily, the maker behind HessellMakes. Every ball is designed, hand stitched and finished in Perth, Western Australia.",
+      'Meet Emily, the maker behind HessellMakes. Every ball is designed, hand stitched and finished in Perth, Western Australia.',
   });
 
   return (

@@ -1,5 +1,5 @@
-import { ExternalLink as ExternalLinkIcon } from "lucide-react";
-import styles from "./ExternalLink.module.css";
+import { ExternalLink as ExternalLinkIcon } from 'lucide-react';
+import styles from './ExternalLink.module.css';
 
 interface ExternalLinkProps {
   href: string;

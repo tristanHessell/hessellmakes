@@ -1,8 +1,8 @@
-import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { ThemeToggle } from "./ThemeToggle";
-import styles from "./NavMenu.module.css";
+import clsx from 'clsx';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { ThemeToggle } from './ThemeToggle';
+import styles from './NavMenu.module.css';
 
 interface NavItem {
   label: string;
@@ -11,10 +11,10 @@ interface NavItem {
 
 // Relative paths keep each link within the AppLayout route.
 const navItems: NavItem[] = [
-  { label: "Home", to: "." },
-  { label: "Portfolio", to: "portfolio" },
-  { label: "Shop", to: "shop" },
-  { label: "About", to: "about" },
+  { label: 'Home', to: '.' },
+  { label: 'Portfolio', to: 'portfolio' },
+  { label: 'Shop', to: 'shop' },
+  { label: 'About', to: 'about' },
 ];
 
 export function NavMenu() {
@@ -28,7 +28,7 @@ export function NavMenu() {
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsOpen(false);
         // The menu becomes invisible immediately, so move focus back to the
         // toggle rather than leaving it stranded on a hidden link.
@@ -45,11 +45,11 @@ export function NavMenu() {
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -61,7 +61,7 @@ export function NavMenu() {
         className={styles.toggle}
         aria-expanded={isOpen}
         aria-controls="primary-navigation"
-        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span className={styles.bar} aria-hidden="true" />
@@ -79,7 +79,7 @@ export function NavMenu() {
             <li key={item.to}>
               <NavLink
                 to={item.to}
-                end={item.to === "."}
+                end={item.to === '.'}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }: { isActive: boolean }) =>
                   clsx(styles.link, { [styles.linkActive]: isActive })
