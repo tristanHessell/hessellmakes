@@ -27,16 +27,30 @@ function swipe(
   });
 }
 
+function selectCollection(category: 'custom' | 'commission') {
+  const name =
+    category === 'custom' ? 'Custom' : 'Commissions + Collaborations';
+  fireEvent.click(screen.getByRole('tab', { name }));
+}
+
+function openBall(ball: (typeof soccerBalls)[number]) {
+  selectCollection(ball.category);
+  fireEvent.click(screen.getByRole('button', { name: ball.name }));
+}
+
 describe('Portfolio', () => {
-  it('groups the balls in the requested order', () => {
+  it('shows the balls in the selected collection', () => {
     render(<Portfolio />);
+    expect(screen.getAllByRole('tab').map((tab) => tab.textContent)).toEqual([
+      'Custom',
+      'Commissions + Collaborations',
+    ]);
+    expect(screen.getByRole('tab', { name: 'Custom' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
     expect(
-      screen
-        .getAllByRole('heading', { level: 2 })
-        .map((heading) => heading.textContent),
-    ).toEqual(['Custom Balls', 'Commissions + Collaborations', 'Can it Ball?']);
-    expect(
-      within(screen.getByRole('region', { name: 'Custom Balls' }))
+      within(screen.getByRole('tabpanel', { name: 'Custom' }))
         .getAllByRole('button')
         .map((button) => button.getAttribute('aria-label')),
     ).toEqual([
@@ -47,8 +61,16 @@ describe('Portfolio', () => {
       'Stitch-less',
     ]);
     expect(
+      screen.queryByRole('button', { name: 'SK100' }),
+    ).not.toBeInTheDocument();
+
+    selectCollection('commission');
+    expect(
+      screen.getByRole('tab', { name: 'Commissions + Collaborations' }),
+    ).toHaveAttribute('aria-selected', 'true');
+    expect(
       within(
-        screen.getByRole('region', { name: 'Commissions + Collaborations' }),
+        screen.getByRole('tabpanel', { name: 'Commissions + Collaborations' }),
       )
         .getAllByRole('button')
         .map((button) => button.getAttribute('aria-label')),
@@ -60,6 +82,9 @@ describe('Portfolio', () => {
       'Studio Honeymoone',
       'Indivisa',
     ]);
+    expect(
+      screen.queryByRole('button', { name: 'Triple Truchet Tile' }),
+    ).not.toBeInTheDocument();
     const comingSoon = screen.getByRole('region', { name: 'Can it Ball?' });
     expect(
       within(comingSoon).getByText(
@@ -69,9 +94,27 @@ describe('Portfolio', () => {
     expect(within(comingSoon).queryByRole('button')).not.toBeInTheDocument();
   });
 
+  it('moves focus between tabs with the arrow and Home keys', () => {
+    render(<Portfolio />);
+    const customTab = screen.getByRole('tab', { name: 'Custom' });
+
+    fireEvent.keyDown(customTab, { key: 'ArrowRight' });
+
+    const commissionTab = screen.getByRole('tab', {
+      name: 'Commissions + Collaborations',
+    });
+    expect(commissionTab).toHaveAttribute('aria-selected', 'true');
+    expect(commissionTab).toHaveFocus();
+
+    fireEvent.keyDown(commissionTab, { key: 'Home' });
+    expect(customTab).toHaveAttribute('aria-selected', 'true');
+    expect(customTab).toHaveFocus();
+  });
+
   it('shows borderless images without visible ball names', () => {
     render(<Portfolio />);
     for (const ball of soccerBalls) {
+      selectCollection(ball.category);
       const button = screen.getByRole('button', { name: ball.name });
       expect(button).toHaveTextContent('');
       expect(screen.queryByText(ball.name)).not.toBeInTheDocument();
@@ -83,16 +126,14 @@ describe('Portfolio', () => {
       expect(image.getBoundingClientRect().width).toBe(
         button.getBoundingClientRect().width,
       );
-    }
-    for (const list of screen.getAllByRole('list')) {
-      expect(getComputedStyle(list).gap).toBe('0px');
+      expect(getComputedStyle(screen.getByRole('list')).gap).toBe('16px');
     }
   });
 
   it("shows each ball's details and its reel when available", async () => {
     render(<Portfolio />);
     for (const ball of soccerBalls) {
-      fireEvent.click(screen.getByRole('button', { name: ball.name }));
+      openBall(ball);
       expect(
         screen.getByText(`Completed - ${ball.completed}`),
       ).toBeInTheDocument();
@@ -124,6 +165,7 @@ describe('Portfolio', () => {
   });
   it('removes the reel for Studio Honeymoone and restores it for the next ball', () => {
     render(<Portfolio />);
+    selectCollection('commission');
     fireEvent.click(screen.getByRole('button', { name: 'Pritchards Pencil' }));
     const previousVideo = screen.getByTitle(
       'Pritchards Pencil - Instagram reel',
@@ -145,7 +187,7 @@ describe('Portfolio', () => {
 
   it('has no accessibility violations with the description-only dialog open', async () => {
     const { container } = render(<Portfolio />);
-    fireEvent.click(screen.getByRole('button', { name: 'Studio Honeymoone' }));
+    openBall(soccerBalls.find((ball) => ball.name === 'Studio Honeymoone')!);
     await expectNoA11yViolations(container);
   });
 
@@ -157,6 +199,7 @@ describe('Portfolio', () => {
     ).toBeInTheDocument();
 
     for (const ball of soccerBalls) {
+      selectCollection(ball.category);
       expect(
         screen.getByRole('button', { name: ball.name }),
       ).toBeInTheDocument();
@@ -167,7 +210,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const firstBall = soccerBalls[0];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toHaveAttribute('open');
@@ -181,7 +224,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const firstBall = soccerBalls[0];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     expect(screen.getByRole('dialog')).not.toHaveAttribute('open');
@@ -191,9 +234,9 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
-    fireEvent.click(screen.getByRole('button', { name: secondBall.name }));
+    openBall(secondBall);
 
     expect(
       screen.getByRole('heading', { level: 2, name: secondBall.name }),
@@ -204,7 +247,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     const previousVideo = screen.getByTitle(
       `${firstBall.name} - Instagram reel`,
     );
@@ -223,7 +266,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: secondBall.name }));
+    openBall(secondBall);
     fireEvent.click(screen.getByRole('button', { name: 'Previous ball' }));
 
     expect(
@@ -235,7 +278,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     fireEvent.keyDown(screen.getByRole('dialog'), { key: 'ArrowRight' });
 
     expect(
@@ -247,7 +290,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: secondBall.name }));
+    openBall(secondBall);
     fireEvent.keyDown(screen.getByRole('dialog'), { key: 'ArrowLeft' });
 
     expect(
@@ -259,7 +302,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     const dialog = screen.getByRole('dialog');
     swipe(dialog, { x: 200, y: 0 }, { x: 100, y: 0 });
 
@@ -272,7 +315,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const [firstBall, secondBall] = soccerBalls;
 
-    fireEvent.click(screen.getByRole('button', { name: secondBall.name }));
+    openBall(secondBall);
     const dialog = screen.getByRole('dialog');
     swipe(dialog, { x: 100, y: 0 }, { x: 200, y: 0 });
 
@@ -285,7 +328,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const firstBall = soccerBalls[0];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     const dialog = screen.getByRole('dialog');
     swipe(dialog, { x: 100, y: 0 }, { x: 120, y: 0 });
 
@@ -298,7 +341,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const firstBall = soccerBalls[0];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     const dialog = screen.getByRole('dialog');
     swipe(dialog, { x: 100, y: 0 }, { x: 160, y: 200 });
 
@@ -312,7 +355,7 @@ describe('Portfolio', () => {
     const firstBall = soccerBalls[0];
     const lastBall = soccerBalls[soccerBalls.length - 1];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
     fireEvent.click(screen.getByRole('button', { name: 'Previous ball' }));
 
     expect(
@@ -330,7 +373,10 @@ describe('Portfolio', () => {
     const { container } = render(<Portfolio />);
     await expectNoA11yViolations(container);
 
-    fireEvent.click(screen.getByRole('button', { name: soccerBalls[0].name }));
+    selectCollection('commission');
+    await expectNoA11yViolations(container);
+
+    openBall(soccerBalls[0]);
     await expectNoA11yViolations(container);
   });
 
@@ -338,7 +384,7 @@ describe('Portfolio', () => {
     render(<Portfolio />);
     const firstBall = soccerBalls[0];
 
-    fireEvent.click(screen.getByRole('button', { name: firstBall.name }));
+    openBall(firstBall);
 
     const script = document.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();

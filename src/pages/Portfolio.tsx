@@ -19,7 +19,7 @@ import styles from './Portfolio.module.css';
 const SWIPE_THRESHOLD = 50;
 
 const collections = [
-  { category: 'custom', title: 'Custom Balls' },
+  { category: 'custom', title: 'Custom' },
   { category: 'commission', title: 'Commissions + Collaborations' },
 ] as const;
 
@@ -31,6 +31,8 @@ export function Portfolio() {
       'Browse our hand-stitched custom soccer balls, each one made to order in our Perth, WA workshop.',
   });
 
+  const [activeCategory, setActiveCategory] =
+    useState<(typeof collections)[number]['category']>('custom');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -60,6 +62,33 @@ export function Portfolio() {
 
   function closeDialog() {
     dialogRef.current?.close();
+  }
+
+  function handleTabKeyDown(
+    event: KeyboardEvent<HTMLButtonElement>,
+    category: (typeof collections)[number]['category'],
+  ) {
+    const currentIndex = collections.findIndex(
+      (collection) => collection.category === category,
+    );
+    let nextIndex: number;
+
+    if (event.key === 'ArrowRight') {
+      nextIndex = (currentIndex + 1) % collections.length;
+    } else if (event.key === 'ArrowLeft') {
+      nextIndex = (currentIndex - 1 + collections.length) % collections.length;
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = collections.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    const nextCategory = collections[nextIndex].category;
+    setActiveCategory(nextCategory);
+    document.getElementById(`portfolio-tab-${nextCategory}`)?.focus();
   }
 
   function showPrevious() {
@@ -132,13 +161,33 @@ export function Portfolio() {
         </p>
       </div>
 
-      {collections.map(({ category, title }) => (
+      <div className={styles.tabs} role="tablist" aria-label="Portfolio">
+        {collections.map(({ category, title }) => (
+          <button
+            key={category}
+            id={`portfolio-tab-${category}`}
+            type="button"
+            className={styles.tab}
+            role="tab"
+            aria-controls={`portfolio-panel-${category}`}
+            aria-selected={activeCategory === category}
+            tabIndex={activeCategory === category ? 0 : -1}
+            onClick={() => setActiveCategory(category)}
+            onKeyDown={(event) => handleTabKeyDown(event, category)}
+          >
+            {title}
+          </button>
+        ))}
+      </div>
+
+      {collections.map(({ category }) => (
         <section
           key={category}
-          className={styles.collection}
-          aria-labelledby={`collection-${category}`}
+          id={`portfolio-panel-${category}`}
+          role="tabpanel"
+          aria-labelledby={`portfolio-tab-${category}`}
+          hidden={activeCategory !== category}
         >
-          <h2 id={`collection-${category}`}>{title}</h2>
           <ul className={styles.grid}>
             {soccerBalls.map((ball, index) =>
               ball.category === category ? (
