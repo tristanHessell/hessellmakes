@@ -21,6 +21,7 @@ const SWIPE_THRESHOLD = 50;
 const collections = [
   { category: 'custom', title: 'Custom' },
   { category: 'commission', title: 'Commissions + Collaborations' },
+  { category: 'can-it-ball', title: 'Can it Ball?' },
 ] as const;
 
 export function Portfolio() {
@@ -188,33 +189,38 @@ export function Portfolio() {
           aria-labelledby={`portfolio-tab-${category}`}
           hidden={activeCategory !== category}
         >
-          <ul className={styles.grid}>
-            {soccerBalls.map((ball, index) =>
-              ball.category === category ? (
-                <li key={ball.id}>
-                  <button
-                    type="button"
-                    className={styles.card}
-                    aria-label={ball.name}
-                    onClick={() => openBall(index)}
-                  >
-                    <img
-                      className={styles.cardImage}
-                      src={ball.imageSrc}
-                      alt=""
-                    />
-                  </button>
-                </li>
-              ) : null,
-            )}
-          </ul>
+          {category === 'can-it-ball' ? (
+            <section
+              className={styles.collection}
+              aria-labelledby="can-it-ball"
+            >
+              <h2 id="can-it-ball">Can it Ball?</h2>
+              <p>A series testing out unique materials. Coming Soon!</p>
+            </section>
+          ) : (
+            <ul className={styles.grid}>
+              {soccerBalls.map((ball, index) =>
+                ball.category === category ? (
+                  <li key={ball.id}>
+                    <button
+                      type="button"
+                      className={styles.card}
+                      aria-label={ball.name}
+                      onClick={() => openBall(index)}
+                    >
+                      <img
+                        className={styles.cardImage}
+                        src={ball.imageSrc}
+                        alt=""
+                      />
+                    </button>
+                  </li>
+                ) : null,
+              )}
+            </ul>
+          )}
         </section>
       ))}
-
-      <section className={styles.collection} aria-labelledby="can-it-ball">
-        <h2 id="can-it-ball">Can it Ball?</h2>
-        <p>A series testing out unique materials. Coming Soon!</p>
-      </section>
 
       <dialog
         ref={dialogRef}

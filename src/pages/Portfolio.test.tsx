@@ -27,9 +27,12 @@ function swipe(
   });
 }
 
-function selectCollection(category: 'custom' | 'commission') {
-  const name =
-    category === 'custom' ? 'Custom' : 'Commissions + Collaborations';
+function selectCollection(category: 'custom' | 'commission' | 'can-it-ball') {
+  const name = {
+    custom: 'Custom',
+    commission: 'Commissions + Collaborations',
+    'can-it-ball': 'Can it Ball?',
+  }[category];
   fireEvent.click(screen.getByRole('tab', { name }));
 }
 
@@ -44,6 +47,7 @@ describe('Portfolio', () => {
     expect(screen.getAllByRole('tab').map((tab) => tab.textContent)).toEqual([
       'Custom',
       'Commissions + Collaborations',
+      'Can it Ball?',
     ]);
     expect(screen.getByRole('tab', { name: 'Custom' })).toHaveAttribute(
       'aria-selected',
@@ -85,6 +89,11 @@ describe('Portfolio', () => {
     expect(
       screen.queryByRole('button', { name: 'Triple Truchet Tile' }),
     ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByRole('region', { name: 'Can it Ball?' }),
+    ).not.toBeInTheDocument();
+    selectCollection('can-it-ball');
     const comingSoon = screen.getByRole('region', { name: 'Can it Ball?' });
     expect(
       within(comingSoon).getByText(
@@ -106,7 +115,12 @@ describe('Portfolio', () => {
     expect(commissionTab).toHaveAttribute('aria-selected', 'true');
     expect(commissionTab).toHaveFocus();
 
-    fireEvent.keyDown(commissionTab, { key: 'Home' });
+    fireEvent.keyDown(commissionTab, { key: 'ArrowRight' });
+    const canItBallTab = screen.getByRole('tab', { name: 'Can it Ball?' });
+    expect(canItBallTab).toHaveAttribute('aria-selected', 'true');
+    expect(canItBallTab).toHaveFocus();
+
+    fireEvent.keyDown(canItBallTab, { key: 'Home' });
     expect(customTab).toHaveAttribute('aria-selected', 'true');
     expect(customTab).toHaveFocus();
   });
@@ -374,6 +388,9 @@ describe('Portfolio', () => {
     await expectNoA11yViolations(container);
 
     selectCollection('commission');
+    await expectNoA11yViolations(container);
+
+    selectCollection('can-it-ball');
     await expectNoA11yViolations(container);
 
     openBall(soccerBalls[0]);
